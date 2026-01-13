@@ -1,0 +1,8 @@
+numpy
+pillow
+msgpack
+rdkit
+torch
+torchvision
+torch-geometric
+matplotlib

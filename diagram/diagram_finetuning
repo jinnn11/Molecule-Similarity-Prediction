@@ -1,0 +1,55 @@
+// Fine-Tuning Phase
+digraph {
+	nodesep=0.35 rankdir=TB ranksep=0.45 splines=line
+	node [fontname=Helvetica fontsize=10 shape=rect style="rounded,filled"]
+	edge [fontsize=9]
+	subgraph cluster_mol_a {
+		label="Molecule A Processing" style=bold
+		in_a [label="Inputs A
+(Image, 3D, CSV)" shape=plaintext style=""]
+		enc_a_2d [label="ResNet-18" fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		enc_a_3d [label=SchNet fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		enc_a_1d [label=MLP fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		gate_a [label="Gated Attention
+Fusion" fillcolor="#FFF59D"]
+		vec_a [label="Final Vector A" fillcolor="#FFF59D" shape=box3d]
+		in_a -> enc_a_2d
+		in_a -> enc_a_3d
+		in_a -> enc_a_1d
+		enc_a_2d -> gate_a
+		enc_a_3d -> gate_a
+		enc_a_1d -> gate_a
+		gate_a -> vec_a
+	}
+	subgraph cluster_mol_b {
+		label="Molecule B Processing" style=bold
+		in_b [label="Inputs B
+(Image, 3D, CSV)" shape=plaintext style=""]
+		enc_b_2d [label="ResNet-18" fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		enc_b_3d [label=SchNet fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		enc_b_1d [label=MLP fillcolor="#CFD8DC" fontcolor="#546E7A"]
+		gate_b [label="Gated Attention
+Fusion" fillcolor="#FFF59D"]
+		vec_b [label="Final Vector B" fillcolor="#FFF59D" shape=box3d]
+		in_b -> enc_b_2d
+		in_b -> enc_b_3d
+		in_b -> enc_b_1d
+		enc_b_2d -> gate_b
+		enc_b_3d -> gate_b
+		enc_b_1d -> gate_b
+		gate_b -> vec_b
+	}
+	diff [label="Difference Calculation
+|A - B|" fillcolor="#80CBC4" shape=diamond]
+	mlp_head [label="Prediction MLP
+(Trainable)" fillcolor="#4DB6AC" fontcolor=white]
+	output [label="Similarity Score
+(0.0 - 1.0)" fillcolor="#009688" fontcolor=white shape=ellipse]
+	loss [label="MSE Loss
+vs Human Label" fontcolor=red shape=plaintext]
+	vec_a -> diff
+	vec_b -> diff
+	diff -> mlp_head
+	mlp_head -> output
+	output -> loss [style=dashed]
+}

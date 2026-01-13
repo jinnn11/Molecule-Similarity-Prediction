@@ -1,0 +1,26 @@
+.DS_Store
+
+# Generated 3D viewer outputs
+*.html
+
+# Dataset folder
+dataset_Similarity_Prediction/
+
+# Raw datasets and archives
+*.msgpack
+*.tar.gz
+*.tgz
+
+# Precomputed data and training runs
+pretraining_data/
+pretraining_runs/
+*.npy
+*.npz
+
+# EDA outputs
+eda/raw/
+eda/*.png
+eda/summary.json
+
+# Diagram script (generated manually)
+diagram/diagram.py

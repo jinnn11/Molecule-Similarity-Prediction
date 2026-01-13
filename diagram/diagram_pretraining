@@ -1,0 +1,47 @@
+// Pre-Training Phase
+digraph {
+	rankdir=LR splines=ortho
+	node [fontname=Helvetica shape=rect style="rounded,filled"]
+	subgraph cluster_inputs {
+		color=grey label="Input Batch (Augmented)" style=dashed
+		img [label="2D Image
+(Random Crop)" fillcolor="#E0F7FA"]
+		geo [label="3D Graph
+(Random Rotation)" fillcolor="#E8F5E9"]
+		fp [label="1D Fingerprint
+(Dropout)" fillcolor="#FFF3E0"]
+	}
+	subgraph cluster_encoders {
+		color=white label="Trainable Encoders"
+		resnet [label="Tower A: ResNet-18
+(Visual)" fillcolor="#4FC3F7"]
+		schnet [label="Tower B: SchNet
+(Geometric)" fillcolor="#81C784"]
+		mlp [label="Tower C: MLP
+(Chemical)" fillcolor="#FFB74D"]
+	}
+	subgraph cluster_proj {
+		color=white label="Projection Heads"
+		proj_a [label="Linear Proj
+(256 dim)" fillcolor="#B3E5FC"]
+		proj_b [label="Linear Proj
+(256 dim)" fillcolor="#C8E6C9"]
+		proj_c [label="Linear Proj
+(256 dim)" fillcolor="#FFE0B2"]
+	}
+	latent [label="Shared Latent Space
+(Alignment)" fillcolor="#E1BEE7" shape=doublecircle]
+	loss [label="NT-Xent Loss
+(Contrastive)" fillcolor="#F48FB1" shape=ellipse style=filled]
+	img -> resnet
+	geo -> schnet
+	fp -> mlp
+	resnet -> proj_a
+	schnet -> proj_b
+	mlp -> proj_c
+	proj_a -> latent [label=z_2d]
+	proj_b -> latent [label=z_3d]
+	proj_c -> latent [label=z_1d]
+	latent -> loss [label="Minimize
+Distance"]
+}
