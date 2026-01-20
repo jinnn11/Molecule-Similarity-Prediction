@@ -7,8 +7,8 @@ import tarfile
 import time
 from collections import Counter
 from pathlib import Path
-from statistics import mean
-from typing import Iterable, Optional
+from itertools import islice
+from typing import Iterable, Optional, Sequence
 
 try:
     import msgpack
@@ -74,41 +74,113 @@ class _CountingReader:
 def _iter_msgpack(path: Path, log_seconds: float) -> Iterable[dict]:
     total_bytes = path.stat().st_size
     with path.open("rb") as handle:
-        reader = _CountingReader(handle, total_bytes, log_seconds)
-        unpacker = msgpack.Unpacker(reader, raw=False)
+        if log_seconds:
+            reader = _CountingReader(handle, total_bytes, log_seconds)
+            unpacker = msgpack.Unpacker(reader, raw=False, strict_map_key=False)
+        else:
+            unpacker = msgpack.Unpacker(handle, raw=False, strict_map_key=False)
         for obj in unpacker:
             if isinstance(obj, dict):
-                yield obj
+                if _looks_like_smiles_map(obj):
+                    for smiles, data in obj.items():
+                        if isinstance(data, dict):
+                            entry = dict(data)
+                            entry["smiles"] = smiles
+                            yield entry
+                        elif isinstance(data, list):
+                            yield {"smiles": smiles, "conformers": data}
+                else:
+                    yield obj
             elif isinstance(obj, list):
                 for item in obj:
                     if isinstance(item, dict):
                         yield item
 
 
-def _pick_atoms(entry: dict) -> Optional[list]:
+def _looks_like_smiles_map(obj: dict) -> bool:
+    # Dataset format: top-level dict mapping SMILES -> dict or list of conformers.
+    if not obj:
+        return False
+    sample_items = list(islice(obj.items(), 5))
+    if not all(isinstance(k, str) for k, _ in sample_items):
+        return False
+    if not all(isinstance(v, (list, dict)) for _, v in sample_items):
+        return False
+    return True
+
+
+def _pick_atoms(entry: dict) -> Optional[Sequence[int]]:
     atoms = entry.get("atoms") or entry.get("atom_numbers") or entry.get("atomic_numbers")
+    if atoms is None:
+        conformers = entry.get("conformers") or []
+        if conformers and isinstance(conformers[0], dict):
+            atoms = (
+                conformers[0].get("atoms")
+                or conformers[0].get("atom_numbers")
+                or conformers[0].get("atomic_numbers")
+            )
+    if atoms is None:
+        conformers = entry.get("conformers") or []
+        conf = conformers[0] if conformers else entry
+        xyz = conf.get("xyz") or conf.get("coords") or conf.get("positions")
+        if xyz and isinstance(xyz[0], (list, tuple)) and len(xyz[0]) >= 4:
+            first = xyz[0][0]
+            if isinstance(first, str):
+                return [row[0] for row in xyz]
+            if isinstance(first, (int, float)):
+                return [int(row[0]) for row in xyz]
     if atoms and isinstance(atoms[0], dict):
-        atoms = [a.get("atomic_num") or a.get("atomic_number") or a.get("z") for a in atoms]
+        atoms = [
+            a.get("atomic_num") or a.get("atomic_number") or a.get("z") or a.get("atom_type")
+            for a in atoms
+        ]
     return atoms
 
 
-def _pick_xyz_len(entry: dict) -> Optional[int]:
+def _pick_xyz_len(entry: dict, atoms_len: Optional[int] = None) -> Optional[int]:
     conformers = entry.get("conformers") or []
     if conformers:
         conf = conformers[0]
         xyz = conf.get("xyz") or conf.get("coords") or conf.get("positions")
+        if xyz is None:
+            return atoms_len
     else:
         xyz = entry.get("xyz") or entry.get("coords") or entry.get("positions")
+        if xyz is None:
+            return atoms_len
     if xyz is None:
         return None
     return len(xyz)
 
 
-def _plot_hist(values: list[int], title: str, xlabel: str, out_path: Path) -> None:
-    if not values:
+class _StatCounter:
+    def __init__(self) -> None:
+        self.count = 0
+        self.total = 0
+        self.min: Optional[int] = None
+        self.max: Optional[int] = None
+        self.counter: Counter[int] = Counter()
+
+    def update(self, value: int) -> None:
+        self.count += 1
+        self.total += value
+        if self.min is None or value < self.min:
+            self.min = value
+        if self.max is None or value > self.max:
+            self.max = value
+        self.counter[value] += 1
+
+    def mean(self) -> float:
+        return (self.total / self.count) if self.count else 0.0
+
+
+def _plot_hist_counts(counter: Counter[int], title: str, xlabel: str, out_path: Path) -> None:
+    if not counter:
         return
     plt.figure(figsize=(8, 5))
-    plt.hist(values, bins=50, color="#2a6f97", alpha=0.85)
+    values = list(counter.keys())
+    weights = list(counter.values())
+    plt.hist(values, bins=50, weights=weights, color="#2a6f97", alpha=0.85)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel("Count")
@@ -125,7 +197,7 @@ def _plot_top_elements(counter: Counter, out_path: Path, top_n: int = 20) -> Non
     values = [v for _, v in most_common]
     plt.figure(figsize=(9, 5))
     plt.bar(labels, values, color="#6a4c93")
-    plt.title("Top Elements (Atomic Numbers)")
+    plt.title("Top Elements")
     plt.xlabel("Atomic Number")
     plt.ylabel("Count")
     plt.tight_layout()
@@ -142,11 +214,11 @@ def main() -> int:
     size_mb = msgpack_path.stat().st_size / (1024 * 1024)
     print(f"starting EDA on {msgpack_path} ({size_mb:.1f}MB)")
 
-    atom_counts = []
-    smiles_lengths = []
-    conformer_counts = []
+    atom_stats = _StatCounter()
+    smiles_stats = _StatCounter()
+    conformer_stats = _StatCounter()
     element_counter = Counter()
-    xyz_counts = []
+    xyz_stats = _StatCounter()
     processed = 0
     skipped = 0
     start_time = time.time()
@@ -156,9 +228,11 @@ def main() -> int:
         if args.max_mols and processed >= args.max_mols:
             break
 
-        smiles = entry.get("smiles")
+        smiles = entry.get("smiles") or entry.get("canon_smiles") or entry.get("xyz2mol_smiles")
         atoms = _pick_atoms(entry)
-        xyz_len = _pick_xyz_len(entry)
+        if atoms is not None:
+            atoms = [a for a in atoms if a is not None]
+        xyz_len = _pick_xyz_len(entry, atoms_len=(len(atoms) if atoms else None))
         if smiles is None or atoms is None or xyz_len is None:
             skipped += 1
             continue
@@ -166,11 +240,11 @@ def main() -> int:
             skipped += 1
             continue
 
-        atom_counts.append(len(atoms))
-        smiles_lengths.append(len(smiles))
-        xyz_counts.append(xyz_len)
         conformers = entry.get("conformers") or []
-        conformer_counts.append(len(conformers))
+        atom_stats.update(len(atoms))
+        smiles_stats.update(len(smiles))
+        xyz_stats.update(xyz_len)
+        conformer_stats.update(len(conformers))
         element_counter.update(atoms)
         processed += 1
 
@@ -209,24 +283,29 @@ def main() -> int:
     summary = {
         "processed": processed,
         "skipped": skipped,
-        "atoms_min": int(min(atom_counts)),
-        "atoms_mean": float(mean(atom_counts)),
-        "atoms_max": int(max(atom_counts)),
-        "smiles_len_min": int(min(smiles_lengths)),
-        "smiles_len_mean": float(mean(smiles_lengths)),
-        "smiles_len_max": int(max(smiles_lengths)),
-        "conformers_min": int(min(conformer_counts)),
-        "conformers_mean": float(mean(conformer_counts)),
-        "conformers_max": int(max(conformer_counts)),
+        "atoms_min": int(atom_stats.min),
+        "atoms_mean": float(atom_stats.mean()),
+        "atoms_max": int(atom_stats.max),
+        "smiles_len_min": int(smiles_stats.min),
+        "smiles_len_mean": float(smiles_stats.mean()),
+        "smiles_len_max": int(smiles_stats.max),
+        "conformers_min": int(conformer_stats.min),
+        "conformers_mean": float(conformer_stats.mean()),
+        "conformers_max": int(conformer_stats.max),
     }
 
     with (out_dir / "summary.json").open("w", encoding="utf-8") as handle:
         json.dump(summary, handle, indent=2)
 
-    _plot_hist(atom_counts, "Atoms per Molecule", "Atom Count", out_dir / "atoms_per_molecule.png")
-    _plot_hist(smiles_lengths, "SMILES Length", "SMILES Length", out_dir / "smiles_length.png")
-    _plot_hist(conformer_counts, "Conformers per Molecule", "Conformer Count", out_dir / "conformers_per_molecule.png")
-    _plot_hist(xyz_counts, "XYZ Atoms per Molecule", "Atom Count", out_dir / "xyz_atoms_per_molecule.png")
+    _plot_hist_counts(atom_stats.counter, "Atoms per Molecule", "Atom Count", out_dir / "atoms_per_molecule.png")
+    _plot_hist_counts(smiles_stats.counter, "SMILES Length", "SMILES Length", out_dir / "smiles_length.png")
+    _plot_hist_counts(
+        conformer_stats.counter,
+        "Conformers per Molecule",
+        "Conformer Count",
+        out_dir / "conformers_per_molecule.png",
+    )
+    _plot_hist_counts(xyz_stats.counter, "XYZ Atoms per Molecule", "Atom Count", out_dir / "xyz_atoms_per_molecule.png")
     _plot_top_elements(element_counter, out_dir / "top_elements.png")
 
     elapsed = time.time() - start_time

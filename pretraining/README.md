@@ -9,7 +9,7 @@ aligned with a CLIP-style contrastive loss.
 1) Precompute images, fingerprints, and 3D graphs from the archive:
 
 ```
-python pretraining/precompute_drugs.py --archive /path/to/drugs_crude.msgpack.tar.gz --out pretraining_data/drugs --max-mols 1000
+python pretraining/precompute_drugs.py --archive /path/to/drugs_crude.msgpack.tar.gz --out pretraining_data/drugs --max-mols 1000 --max-atoms 100
 ```
 
 2) Run pretraining:

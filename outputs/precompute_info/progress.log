@@ -1,0 +1,1521 @@
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+read 238.0MB/61466.1MB (  0.4%)
+seen 977 kept 977 skipped 0 rate 128.5/s elapsed 0.1m
+seen 1000 kept 1000 skipped 0 rate 130.8/s elapsed 0.1m
+read 464.0MB/61466.1MB (  0.8%)
+seen 1969 kept 1969 skipped 0 rate 152.9/s elapsed 0.2m
+seen 2000 kept 2000 skipped 0 rate 154.8/s elapsed 0.2m
+read 712.0MB/61466.1MB (  1.2%)
+seen 3000 kept 2999 skipped 1 rate 167.9/s elapsed 0.3m
+read 945.0MB/61466.1MB (  1.5%)
+seen 4000 kept 3999 skipped 1 rate 180.7/s elapsed 0.4m
+read 1200.0MB/61466.1MB (  2.0%)
+seen 4945 kept 4944 skipped 1 rate 180.9/s elapsed 0.5m
+seen 5000 kept 4998 skipped 2 rate 182.0/s elapsed 0.5m
+read 1447.0MB/61466.1MB (  2.4%)
+seen 5929 kept 5925 skipped 4 rate 180.7/s elapsed 0.5m
+seen 6000 kept 5996 skipped 4 rate 182.0/s elapsed 0.5m
+seen 7000 kept 6996 skipped 4 rate 184.9/s elapsed 0.6m
+read 1658.0MB/61466.1MB (  2.7%)
+seen 7913 kept 7908 skipped 5 rate 175.9/s elapsed 0.7m
+seen 8000 kept 7995 skipped 5 rate 176.7/s elapsed 0.8m
+read 1919.0MB/61466.1MB (  3.1%)
+read 2118.0MB/61466.1MB (  3.4%)
+seen 8905 kept 8900 skipped 5 rate 158.3/s elapsed 0.9m
+seen 9000 kept 8995 skipped 5 rate 159.3/s elapsed 0.9m
+read 2189.0MB/61466.1MB (  3.6%)
+seen 9889 kept 9883 skipped 6 rate 159.4/s elapsed 1.0m
+seen 10000 kept 9994 skipped 6 rate 160.5/s elapsed 1.0m
+read 2414.0MB/61466.1MB (  3.9%)
+seen 10889 kept 10882 skipped 7 rate 161.8/s elapsed 1.1m
+seen 11000 kept 10993 skipped 7 rate 162.9/s elapsed 1.1m
+read 2634.0MB/61466.1MB (  4.3%)
+seen 11865 kept 11854 skipped 11 rate 162.9/s elapsed 1.2m
+seen 12000 kept 11989 skipped 11 rate 164.0/s elapsed 1.2m
+read 2856.0MB/61466.1MB (  4.6%)
+seen 12873 kept 12861 skipped 12 rate 164.6/s elapsed 1.3m
+seen 13000 kept 12988 skipped 12 rate 165.6/s elapsed 1.3m
+read 3099.0MB/61466.1MB (  5.0%)
+seen 13841 kept 13827 skipped 14 rate 162.0/s elapsed 1.4m
+seen 14000 kept 13985 skipped 15 rate 162.8/s elapsed 1.4m
+read 3371.0MB/61466.1MB (  5.5%)
+read 3604.0MB/61466.1MB (  5.9%)
+seen 14833 kept 14814 skipped 19 rate 157.0/s elapsed 1.6m
+seen 15000 kept 14981 skipped 19 rate 157.9/s elapsed 1.6m
+read 3686.0MB/61466.1MB (  6.0%)
+seen 15825 kept 15805 skipped 20 rate 152.9/s elapsed 1.7m
+seen 16000 kept 15980 skipped 20 rate 153.8/s elapsed 1.7m
+read 3872.0MB/61466.1MB (  6.3%)
+seen 16809 kept 16789 skipped 20 rate 152.2/s elapsed 1.8m
+seen 17000 kept 16980 skipped 20 rate 153.1/s elapsed 1.9m
+read 4140.0MB/61466.1MB (  6.7%)
+seen 17785 kept 17764 skipped 21 rate 150.7/s elapsed 2.0m
+seen 18000 kept 17979 skipped 21 rate 151.7/s elapsed 2.0m
+read 4394.0MB/61466.1MB (  7.1%)
+seen 18777 kept 18756 skipped 21 rate 151.1/s elapsed 2.1m
+seen 19000 kept 18979 skipped 21 rate 152.2/s elapsed 2.1m
+read 4614.0MB/61466.1MB (  7.5%)
+seen 19993 kept 19968 skipped 25 rate 153.9/s elapsed 2.2m
+seen 20000 kept 19975 skipped 25 rate 154.0/s elapsed 2.2m
+read 4851.0MB/61466.1MB (  7.9%)
+seen 20753 kept 20728 skipped 25 rate 153.6/s elapsed 2.3m
+seen 21000 kept 20975 skipped 25 rate 154.7/s elapsed 2.3m
+read 5080.0MB/61466.1MB (  8.3%)
+seen 21753 kept 21728 skipped 25 rate 153.4/s elapsed 2.4m
+seen 22000 kept 21975 skipped 25 rate 154.4/s elapsed 2.4m
+read 5313.0MB/61466.1MB (  8.6%)
+seen 22737 kept 22712 skipped 25 rate 153.8/s elapsed 2.5m
+seen 23000 kept 22975 skipped 25 rate 154.9/s elapsed 2.5m
+read 5539.0MB/61466.1MB (  9.0%)
+seen 23721 kept 23693 skipped 28 rate 153.4/s elapsed 2.6m
+seen 24000 kept 23970 skipped 30 rate 154.3/s elapsed 2.6m
+read 5799.0MB/61466.1MB (  9.4%)
+seen 24713 kept 24681 skipped 32 rate 152.5/s elapsed 2.7m
+seen 25000 kept 24965 skipped 35 rate 153.4/s elapsed 2.7m
+read 6087.0MB/61466.1MB (  9.9%)
+read 6324.0MB/61466.1MB ( 10.3%)
+seen 25697 kept 25659 skipped 38 rate 150.4/s elapsed 2.8m
+seen 26000 kept 25962 skipped 38 rate 151.5/s elapsed 2.9m
+read 6455.0MB/61466.1MB ( 10.5%)
+seen 26673 kept 26632 skipped 41 rate 150.3/s elapsed 3.0m
+seen 27000 kept 26957 skipped 43 rate 151.3/s elapsed 3.0m
+read 6663.0MB/61466.1MB ( 10.8%)
+seen 27657 kept 27613 skipped 44 rate 149.6/s elapsed 3.1m
+seen 28000 kept 27954 skipped 46 rate 150.6/s elapsed 3.1m
+read 6865.0MB/61466.1MB ( 11.2%)
+seen 28641 kept 28595 skipped 46 rate 148.9/s elapsed 3.2m
+seen 29000 kept 28951 skipped 49 rate 150.0/s elapsed 3.2m
+read 7135.0MB/61466.1MB ( 11.6%)
+seen 29785 kept 29736 skipped 49 rate 150.2/s elapsed 3.3m
+seen 30000 kept 29951 skipped 49 rate 150.9/s elapsed 3.3m
+read 7374.0MB/61466.1MB ( 12.0%)
+seen 30617 kept 30568 skipped 49 rate 148.7/s elapsed 3.4m
+seen 31000 kept 30951 skipped 49 rate 149.9/s elapsed 3.4m
+read 7631.0MB/61466.1MB ( 12.4%)
+seen 31609 kept 31559 skipped 50 rate 149.0/s elapsed 3.5m
+seen 32000 kept 31950 skipped 50 rate 150.1/s elapsed 3.6m
+read 7873.0MB/61466.1MB ( 12.8%)
+seen 32953 kept 32901 skipped 52 rate 151.0/s elapsed 3.6m
+seen 33000 kept 32948 skipped 52 rate 151.2/s elapsed 3.6m
+read 8108.0MB/61466.1MB ( 13.2%)
+seen 33721 kept 33667 skipped 54 rate 151.0/s elapsed 3.7m
+seen 34000 kept 33946 skipped 54 rate 151.8/s elapsed 3.7m
+read 8322.0MB/61466.1MB ( 13.5%)
+seen 34897 kept 34843 skipped 54 rate 152.4/s elapsed 3.8m
+seen 35000 kept 34946 skipped 54 rate 152.7/s elapsed 3.8m
+read 8541.0MB/61466.1MB ( 13.9%)
+seen 35777 kept 35723 skipped 54 rate 152.8/s elapsed 3.9m
+seen 36000 kept 35946 skipped 54 rate 153.4/s elapsed 3.9m
+read 8762.0MB/61466.1MB ( 14.3%)
+seen 36769 kept 36715 skipped 54 rate 153.4/s elapsed 4.0m
+seen 37000 kept 36946 skipped 54 rate 154.0/s elapsed 4.0m
+read 8962.0MB/61466.1MB ( 14.6%)
+seen 37793 kept 37739 skipped 54 rate 154.1/s elapsed 4.1m
+seen 38000 kept 37946 skipped 54 rate 154.6/s elapsed 4.1m
+read 9206.0MB/61466.1MB ( 15.0%)
+seen 38729 kept 38675 skipped 54 rate 154.4/s elapsed 4.2m
+seen 39000 kept 38946 skipped 54 rate 155.1/s elapsed 4.2m
+read 9395.0MB/61466.1MB ( 15.3%)
+seen 39649 kept 39595 skipped 54 rate 154.6/s elapsed 4.3m
+seen 40000 kept 39946 skipped 54 rate 155.3/s elapsed 4.3m
+read 9601.0MB/61466.1MB ( 15.6%)
+seen 40521 kept 40467 skipped 54 rate 153.8/s elapsed 4.4m
+seen 41000 kept 40946 skipped 54 rate 154.9/s elapsed 4.4m
+read 9826.0MB/61466.1MB ( 16.0%)
+seen 42000 kept 41946 skipped 54 rate 155.9/s elapsed 4.5m
+read 10066.0MB/61466.1MB ( 16.4%)
+seen 42673 kept 42619 skipped 54 rate 155.5/s elapsed 4.6m
+seen 43000 kept 42946 skipped 54 rate 156.1/s elapsed 4.6m
+read 10265.0MB/61466.1MB ( 16.7%)
+seen 43497 kept 43443 skipped 54 rate 155.0/s elapsed 4.7m
+seen 44000 kept 43946 skipped 54 rate 156.0/s elapsed 4.7m
+read 10538.0MB/61466.1MB ( 17.1%)
+seen 44489 kept 44434 skipped 55 rate 154.6/s elapsed 4.8m
+seen 45000 kept 44945 skipped 55 rate 155.6/s elapsed 4.8m
+read 10795.0MB/61466.1MB ( 17.6%)
+seen 45609 kept 45554 skipped 55 rate 155.0/s elapsed 4.9m
+seen 46000 kept 45945 skipped 55 rate 155.8/s elapsed 4.9m
+read 11021.0MB/61466.1MB ( 17.9%)
+seen 46473 kept 46418 skipped 55 rate 154.0/s elapsed 5.0m
+seen 47000 kept 46945 skipped 55 rate 154.9/s elapsed 5.1m
+read 11280.0MB/61466.1MB ( 18.4%)
+seen 47633 kept 47577 skipped 56 rate 154.4/s elapsed 5.1m
+seen 48000 kept 47944 skipped 56 rate 155.1/s elapsed 5.2m
+read 11532.0MB/61466.1MB ( 18.8%)
+seen 48457 kept 48401 skipped 56 rate 153.8/s elapsed 5.3m
+seen 49000 kept 48944 skipped 56 rate 154.8/s elapsed 5.3m
+read 11739.0MB/61466.1MB ( 19.1%)
+seen 49953 kept 49897 skipped 56 rate 155.4/s elapsed 5.4m
+seen 50000 kept 49944 skipped 56 rate 155.5/s elapsed 5.4m
+read 11981.0MB/61466.1MB ( 19.5%)
+seen 50457 kept 50401 skipped 56 rate 154.5/s elapsed 5.4m
+seen 51000 kept 50944 skipped 56 rate 155.5/s elapsed 5.5m
+read 12179.0MB/61466.1MB ( 19.8%)
+seen 52000 kept 51944 skipped 56 rate 156.3/s elapsed 5.5m
+read 12441.0MB/61466.1MB ( 20.2%)
+seen 52681 kept 52625 skipped 56 rate 156.0/s elapsed 5.6m
+seen 53000 kept 52944 skipped 56 rate 156.6/s elapsed 5.6m
+read 12638.0MB/61466.1MB ( 20.6%)
+seen 54000 kept 53944 skipped 56 rate 157.3/s elapsed 5.7m
+read 12854.0MB/61466.1MB ( 20.9%)
+seen 54665 kept 54609 skipped 56 rate 156.9/s elapsed 5.8m
+seen 55000 kept 54944 skipped 56 rate 157.5/s elapsed 5.8m
+read 13084.0MB/61466.1MB ( 21.3%)
+seen 55889 kept 55833 skipped 56 rate 157.7/s elapsed 5.9m
+seen 56000 kept 55944 skipped 56 rate 157.9/s elapsed 5.9m
+read 13289.0MB/61466.1MB ( 21.6%)
+seen 56929 kept 56873 skipped 56 rate 158.3/s elapsed 6.0m
+seen 57000 kept 56944 skipped 56 rate 158.5/s elapsed 6.0m
+read 13480.0MB/61466.1MB ( 21.9%)
+seen 57785 kept 57729 skipped 56 rate 158.4/s elapsed 6.1m
+seen 58000 kept 57944 skipped 56 rate 158.8/s elapsed 6.1m
+read 13675.0MB/61466.1MB ( 22.2%)
+seen 58953 kept 58897 skipped 56 rate 159.2/s elapsed 6.2m
+seen 59000 kept 58944 skipped 56 rate 159.3/s elapsed 6.2m
+read 13880.0MB/61466.1MB ( 22.6%)
+seen 59761 kept 59705 skipped 56 rate 159.2/s elapsed 6.3m
+seen 60000 kept 59944 skipped 56 rate 159.6/s elapsed 6.3m
+read 14101.0MB/61466.1MB ( 22.9%)
+seen 60713 kept 60657 skipped 56 rate 159.4/s elapsed 6.3m
+seen 61000 kept 60944 skipped 56 rate 159.9/s elapsed 6.4m
+read 14302.0MB/61466.1MB ( 23.3%)
+seen 61929 kept 61873 skipped 56 rate 160.2/s elapsed 6.4m
+seen 62000 kept 61944 skipped 56 rate 160.3/s elapsed 6.4m
+read 14510.0MB/61466.1MB ( 23.6%)
+seen 62769 kept 62713 skipped 56 rate 160.2/s elapsed 6.5m
+seen 63000 kept 62944 skipped 56 rate 160.6/s elapsed 6.5m
+read 14717.0MB/61466.1MB ( 23.9%)
+seen 63897 kept 63841 skipped 56 rate 160.8/s elapsed 6.6m
+seen 64000 kept 63944 skipped 56 rate 161.0/s elapsed 6.6m
+read 14919.0MB/61466.1MB ( 24.3%)
+seen 65000 kept 64944 skipped 56 rate 161.6/s elapsed 6.7m
+read 15153.0MB/61466.1MB ( 24.7%)
+seen 65737 kept 65681 skipped 56 rate 161.4/s elapsed 6.8m
+seen 66000 kept 65944 skipped 56 rate 161.8/s elapsed 6.8m
+read 15358.0MB/61466.1MB ( 25.0%)
+seen 66809 kept 66753 skipped 56 rate 161.8/s elapsed 6.9m
+seen 67000 kept 66944 skipped 56 rate 162.0/s elapsed 6.9m
+read 15561.0MB/61466.1MB ( 25.3%)
+seen 67793 kept 67737 skipped 56 rate 162.0/s elapsed 7.0m
+seen 68000 kept 67944 skipped 56 rate 162.3/s elapsed 7.0m
+read 15787.0MB/61466.1MB ( 25.7%)
+seen 68593 kept 68537 skipped 56 rate 161.7/s elapsed 7.1m
+seen 69000 kept 68944 skipped 56 rate 162.3/s elapsed 7.1m
+read 16007.0MB/61466.1MB ( 26.0%)
+seen 70000 kept 69944 skipped 56 rate 162.9/s elapsed 7.2m
+read 16243.0MB/61466.1MB ( 26.4%)
+seen 70929 kept 70873 skipped 56 rate 163.1/s elapsed 7.2m
+seen 71000 kept 70944 skipped 56 rate 163.2/s elapsed 7.2m
+read 16469.0MB/61466.1MB ( 26.8%)
+seen 71713 kept 71657 skipped 56 rate 163.0/s elapsed 7.3m
+seen 72000 kept 71944 skipped 56 rate 163.4/s elapsed 7.3m
+read 16669.0MB/61466.1MB ( 27.1%)
+seen 72921 kept 72865 skipped 56 rate 163.6/s elapsed 7.4m
+seen 73000 kept 72944 skipped 56 rate 163.7/s elapsed 7.4m
+read 16865.0MB/61466.1MB ( 27.4%)
+seen 73761 kept 73705 skipped 56 rate 163.6/s elapsed 7.5m
+seen 74000 kept 73944 skipped 56 rate 163.9/s elapsed 7.5m
+read 17080.0MB/61466.1MB ( 27.8%)
+seen 74881 kept 74825 skipped 56 rate 164.0/s elapsed 7.6m
+seen 75000 kept 74944 skipped 56 rate 164.2/s elapsed 7.6m
+read 17298.0MB/61466.1MB ( 28.1%)
+seen 75833 kept 75777 skipped 56 rate 164.2/s elapsed 7.7m
+seen 76000 kept 75944 skipped 56 rate 164.4/s elapsed 7.7m
+read 17519.0MB/61466.1MB ( 28.5%)
+seen 76401 kept 76345 skipped 56 rate 163.3/s elapsed 7.8m
+seen 77000 kept 76944 skipped 56 rate 164.0/s elapsed 7.8m
+read 17743.0MB/61466.1MB ( 28.9%)
+seen 77977 kept 77921 skipped 56 rate 164.4/s elapsed 7.9m
+seen 78000 kept 77944 skipped 56 rate 164.4/s elapsed 7.9m
+read 17982.0MB/61466.1MB ( 29.3%)
+seen 78665 kept 78608 skipped 57 rate 164.1/s elapsed 8.0m
+seen 79000 kept 78943 skipped 57 rate 164.5/s elapsed 8.0m
+read 18193.0MB/61466.1MB ( 29.6%)
+seen 79889 kept 79832 skipped 57 rate 164.6/s elapsed 8.1m
+seen 80000 kept 79943 skipped 57 rate 164.7/s elapsed 8.1m
+read 18406.0MB/61466.1MB ( 29.9%)
+seen 81000 kept 80942 skipped 58 rate 165.2/s elapsed 8.2m
+read 18663.0MB/61466.1MB ( 30.4%)
+seen 81769 kept 81711 skipped 58 rate 165.1/s elapsed 8.3m
+seen 82000 kept 81942 skipped 58 rate 165.4/s elapsed 8.3m
+read 18841.0MB/61466.1MB ( 30.7%)
+seen 82961 kept 82903 skipped 58 rate 165.6/s elapsed 8.3m
+seen 83000 kept 82942 skipped 58 rate 165.7/s elapsed 8.4m
+read 19051.0MB/61466.1MB ( 31.0%)
+seen 83945 kept 83887 skipped 58 rate 165.9/s elapsed 8.4m
+seen 84000 kept 83942 skipped 58 rate 166.0/s elapsed 8.4m
+read 19266.0MB/61466.1MB ( 31.3%)
+seen 85000 kept 84942 skipped 58 rate 166.3/s elapsed 8.5m
+read 19518.0MB/61466.1MB ( 31.8%)
+seen 85929 kept 85871 skipped 58 rate 166.5/s elapsed 8.6m
+seen 86000 kept 85942 skipped 58 rate 166.6/s elapsed 8.6m
+read 19696.0MB/61466.1MB ( 32.0%)
+seen 87000 kept 86942 skipped 58 rate 167.0/s elapsed 8.7m
+read 19961.0MB/61466.1MB ( 32.5%)
+seen 88000 kept 87942 skipped 58 rate 167.4/s elapsed 8.8m
+read 20177.0MB/61466.1MB ( 32.8%)
+seen 88873 kept 88815 skipped 58 rate 167.4/s elapsed 8.8m
+seen 89000 kept 88942 skipped 58 rate 167.6/s elapsed 8.9m
+read 20398.0MB/61466.1MB ( 33.2%)
+seen 89489 kept 89431 skipped 58 rate 166.9/s elapsed 8.9m
+seen 90000 kept 89942 skipped 58 rate 167.4/s elapsed 9.0m
+read 20569.0MB/61466.1MB ( 33.5%)
+seen 91000 kept 90942 skipped 58 rate 168.0/s elapsed 9.0m
+read 20813.0MB/61466.1MB ( 33.9%)
+seen 92000 kept 91942 skipped 58 rate 168.4/s elapsed 9.1m
+read 21062.0MB/61466.1MB ( 34.3%)
+seen 93000 kept 92942 skipped 58 rate 168.8/s elapsed 9.2m
+seen 94000 kept 93942 skipped 58 rate 169.2/s elapsed 9.3m
+read 21314.0MB/61466.1MB ( 34.7%)
+seen 95000 kept 94942 skipped 58 rate 169.4/s elapsed 9.3m
+read 21526.0MB/61466.1MB ( 35.0%)
+seen 95961 kept 95903 skipped 58 rate 169.6/s elapsed 9.4m
+seen 96000 kept 95942 skipped 58 rate 169.7/s elapsed 9.4m
+read 21725.0MB/61466.1MB ( 35.3%)
+seen 96985 kept 96925 skipped 60 rate 169.9/s elapsed 9.5m
+seen 97000 kept 96940 skipped 60 rate 169.9/s elapsed 9.5m
+read 21934.0MB/61466.1MB ( 35.7%)
+seen 98000 kept 97939 skipped 61 rate 170.5/s elapsed 9.6m
+read 22181.0MB/61466.1MB ( 36.1%)
+seen 98601 kept 98540 skipped 61 rate 170.1/s elapsed 9.7m
+seen 99000 kept 98939 skipped 61 rate 170.4/s elapsed 9.7m
+read 22352.0MB/61466.1MB ( 36.4%)
+seen 99265 kept 99202 skipped 63 rate 169.3/s elapsed 9.8m
+seen 100000 kept 99936 skipped 64 rate 170.0/s elapsed 9.8m
+read 22533.0MB/61466.1MB ( 36.7%)
+seen 100689 kept 100623 skipped 66 rate 169.7/s elapsed 9.9m
+seen 101000 kept 100934 skipped 66 rate 170.0/s elapsed 9.9m
+read 22760.0MB/61466.1MB ( 37.0%)
+seen 102000 kept 101934 skipped 66 rate 170.2/s elapsed 10.0m
+read 22980.0MB/61466.1MB ( 37.4%)
+seen 102913 kept 102847 skipped 66 rate 170.3/s elapsed 10.1m
+seen 103000 kept 102934 skipped 66 rate 170.4/s elapsed 10.1m
+read 23190.0MB/61466.1MB ( 37.7%)
+seen 104000 kept 103934 skipped 66 rate 170.8/s elapsed 10.1m
+read 23439.0MB/61466.1MB ( 38.1%)
+seen 105000 kept 104934 skipped 66 rate 171.4/s elapsed 10.2m
+read 23599.0MB/61466.1MB ( 38.4%)
+seen 105521 kept 105455 skipped 66 rate 170.8/s elapsed 10.3m
+seen 106000 kept 105934 skipped 66 rate 171.2/s elapsed 10.3m
+read 23751.0MB/61466.1MB ( 38.6%)
+seen 106681 kept 106615 skipped 66 rate 171.0/s elapsed 10.4m
+seen 107000 kept 106934 skipped 66 rate 171.3/s elapsed 10.4m
+read 23928.0MB/61466.1MB ( 38.9%)
+seen 108000 kept 107934 skipped 66 rate 171.6/s elapsed 10.5m
+read 24145.0MB/61466.1MB ( 39.3%)
+seen 109000 kept 108933 skipped 67 rate 171.9/s elapsed 10.6m
+read 24379.0MB/61466.1MB ( 39.7%)
+seen 109937 kept 109870 skipped 67 rate 172.0/s elapsed 10.7m
+seen 110000 kept 109933 skipped 67 rate 172.1/s elapsed 10.7m
+read 24534.0MB/61466.1MB ( 39.9%)
+seen 111000 kept 110933 skipped 67 rate 172.5/s elapsed 10.7m
+seen 112000 kept 111933 skipped 67 rate 172.7/s elapsed 10.8m
+read 24785.0MB/61466.1MB ( 40.3%)
+seen 112857 kept 112790 skipped 67 rate 172.7/s elapsed 10.9m
+seen 113000 kept 112933 skipped 67 rate 172.8/s elapsed 10.9m
+read 25005.0MB/61466.1MB ( 40.7%)
+seen 113641 kept 113574 skipped 67 rate 172.5/s elapsed 11.0m
+seen 114000 kept 113933 skipped 67 rate 172.8/s elapsed 11.0m
+read 25238.0MB/61466.1MB ( 41.1%)
+seen 114401 kept 114334 skipped 67 rate 172.1/s elapsed 11.1m
+seen 115000 kept 114933 skipped 67 rate 172.6/s elapsed 11.1m
+read 25444.0MB/61466.1MB ( 41.4%)
+seen 115697 kept 115630 skipped 67 rate 172.3/s elapsed 11.2m
+seen 116000 kept 115933 skipped 67 rate 172.5/s elapsed 11.2m
+read 25647.0MB/61466.1MB ( 41.7%)
+seen 116585 kept 116518 skipped 67 rate 172.1/s elapsed 11.3m
+seen 117000 kept 116933 skipped 67 rate 172.5/s elapsed 11.3m
+read 25836.0MB/61466.1MB ( 42.0%)
+seen 118000 kept 117931 skipped 69 rate 172.7/s elapsed 11.4m
+read 26053.0MB/61466.1MB ( 42.4%)
+seen 118769 kept 118700 skipped 69 rate 172.6/s elapsed 11.5m
+seen 119000 kept 118931 skipped 69 rate 172.8/s elapsed 11.5m
+read 26263.0MB/61466.1MB ( 42.7%)
+seen 119953 kept 119884 skipped 69 rate 172.9/s elapsed 11.6m
+seen 120000 kept 119931 skipped 69 rate 172.9/s elapsed 11.6m
+read 26465.0MB/61466.1MB ( 43.1%)
+seen 120681 kept 120612 skipped 69 rate 172.7/s elapsed 11.6m
+seen 121000 kept 120931 skipped 69 rate 172.9/s elapsed 11.7m
+read 26679.0MB/61466.1MB ( 43.4%)
+seen 121201 kept 121132 skipped 69 rate 172.0/s elapsed 11.7m
+seen 122000 kept 121931 skipped 69 rate 172.6/s elapsed 11.8m
+read 26894.0MB/61466.1MB ( 43.8%)
+seen 122561 kept 122492 skipped 69 rate 172.1/s elapsed 11.9m
+seen 123000 kept 122931 skipped 69 rate 172.5/s elapsed 11.9m
+read 27085.0MB/61466.1MB ( 44.1%)
+seen 123121 kept 123052 skipped 69 rate 171.3/s elapsed 12.0m
+seen 124000 kept 123928 skipped 72 rate 171.9/s elapsed 12.0m
+read 27319.0MB/61466.1MB ( 44.4%)
+seen 124313 kept 124240 skipped 73 rate 171.1/s elapsed 12.1m
+seen 125000 kept 124921 skipped 79 rate 171.6/s elapsed 12.1m
+read 27552.0MB/61466.1MB ( 44.8%)
+read 27764.0MB/61466.1MB ( 45.2%)
+seen 125105 kept 125026 skipped 79 rate 169.6/s elapsed 12.3m
+seen 126000 kept 125911 skipped 89 rate 170.2/s elapsed 12.3m
+read 27820.0MB/61466.1MB ( 45.3%)
+seen 126209 kept 126120 skipped 89 rate 169.3/s elapsed 12.4m
+seen 127000 kept 126901 skipped 99 rate 169.7/s elapsed 12.5m
+read 28103.0MB/61466.1MB ( 45.7%)
+read 28316.0MB/61466.1MB ( 46.1%)
+seen 127089 kept 126990 skipped 99 rate 168.5/s elapsed 12.6m
+seen 128000 kept 127888 skipped 112 rate 169.1/s elapsed 12.6m
+read 28511.0MB/61466.1MB ( 46.4%)
+seen 128721 kept 128609 skipped 112 rate 169.0/s elapsed 12.7m
+seen 129000 kept 128880 skipped 120 rate 169.1/s elapsed 12.7m
+read 28631.0MB/61466.1MB ( 46.6%)
+seen 129337 kept 129217 skipped 120 rate 168.4/s elapsed 12.8m
+seen 130000 kept 129877 skipped 123 rate 168.9/s elapsed 12.8m
+read 28831.0MB/61466.1MB ( 46.9%)
+seen 130841 kept 130716 skipped 125 rate 168.8/s elapsed 12.9m
+seen 131000 kept 130875 skipped 125 rate 169.0/s elapsed 12.9m
+read 28993.0MB/61466.1MB ( 47.2%)
+seen 132000 kept 131872 skipped 128 rate 169.3/s elapsed 13.0m
+read 29219.0MB/61466.1MB ( 47.5%)
+seen 133000 kept 132870 skipped 130 rate 169.6/s elapsed 13.1m
+read 29419.0MB/61466.1MB ( 47.9%)
+seen 133601 kept 133471 skipped 130 rate 169.3/s elapsed 13.2m
+seen 134000 kept 133868 skipped 132 rate 169.6/s elapsed 13.2m
+read 29626.0MB/61466.1MB ( 48.2%)
+seen 135000 kept 134867 skipped 133 rate 169.9/s elapsed 13.2m
+seen 136000 kept 135866 skipped 134 rate 170.4/s elapsed 13.3m
+read 29833.0MB/61466.1MB ( 48.5%)
+seen 137000 kept 136866 skipped 134 rate 170.7/s elapsed 13.4m
+read 30032.0MB/61466.1MB ( 48.9%)
+seen 138000 kept 137866 skipped 134 rate 171.1/s elapsed 13.4m
+read 30237.0MB/61466.1MB ( 49.2%)
+seen 138457 kept 138323 skipped 134 rate 170.6/s elapsed 13.5m
+seen 139000 kept 138866 skipped 134 rate 170.9/s elapsed 13.6m
+read 30414.0MB/61466.1MB ( 49.5%)
+seen 139665 kept 139531 skipped 134 rate 170.7/s elapsed 13.6m
+read 30624.0MB/61466.1MB ( 49.8%)
+seen 140000 kept 139866 skipped 134 rate 170.9/s elapsed 13.7m
+seen 140545 kept 140411 skipped 134 rate 170.5/s elapsed 13.7m
+read 30848.0MB/61466.1MB ( 50.2%)
+seen 141000 kept 140866 skipped 134 rate 170.8/s elapsed 13.8m
+seen 141489 kept 141355 skipped 134 rate 170.4/s elapsed 13.8m
+read 31086.0MB/61466.1MB ( 50.6%)
+seen 142000 kept 141866 skipped 134 rate 170.7/s elapsed 13.9m
+seen 142313 kept 142179 skipped 134 rate 170.0/s elapsed 13.9m
+read 31296.0MB/61466.1MB ( 50.9%)
+seen 143000 kept 142866 skipped 134 rate 170.1/s elapsed 14.0m
+read 31500.0MB/61466.1MB ( 51.2%)
+seen 144000 kept 143866 skipped 134 rate 170.4/s elapsed 14.1m
+read 31724.0MB/61466.1MB ( 51.6%)
+seen 145000 kept 144865 skipped 135 rate 170.8/s elapsed 14.1m
+seen 146000 kept 145864 skipped 136 rate 171.2/s elapsed 14.2m
+read 31886.0MB/61466.1MB ( 51.9%)
+seen 147000 kept 146862 skipped 138 rate 171.5/s elapsed 14.3m
+read 32096.0MB/61466.1MB ( 52.2%)
+seen 148000 kept 147862 skipped 138 rate 171.8/s elapsed 14.4m
+seen 149000 kept 148862 skipped 138 rate 172.2/s elapsed 14.4m
+read 32286.0MB/61466.1MB ( 52.5%)
+seen 150000 kept 149862 skipped 138 rate 172.5/s elapsed 14.5m
+read 32517.0MB/61466.1MB ( 52.9%)
+seen 151000 kept 150861 skipped 139 rate 172.9/s elapsed 14.6m
+read 32712.0MB/61466.1MB ( 53.2%)
+seen 152000 kept 151861 skipped 139 rate 173.2/s elapsed 14.6m
+seen 153000 kept 152860 skipped 140 rate 173.6/s elapsed 14.7m
+read 32857.0MB/61466.1MB ( 53.5%)
+seen 154000 kept 153859 skipped 141 rate 173.9/s elapsed 14.8m
+read 33113.0MB/61466.1MB ( 53.9%)
+seen 155000 kept 154857 skipped 143 rate 174.3/s elapsed 14.8m
+seen 156000 kept 155857 skipped 143 rate 174.7/s elapsed 14.9m
+read 33269.0MB/61466.1MB ( 54.1%)
+seen 157000 kept 156856 skipped 144 rate 175.0/s elapsed 14.9m
+read 33458.0MB/61466.1MB ( 54.4%)
+seen 158000 kept 157856 skipped 144 rate 175.3/s elapsed 15.0m
+read 33661.0MB/61466.1MB ( 54.8%)
+seen 159000 kept 158856 skipped 144 rate 175.6/s elapsed 15.1m
+seen 160000 kept 159855 skipped 145 rate 175.9/s elapsed 15.2m
+read 33807.0MB/61466.1MB ( 55.0%)
+seen 161000 kept 160851 skipped 149 rate 176.2/s elapsed 15.2m
+read 34043.0MB/61466.1MB ( 55.4%)
+seen 162000 kept 161849 skipped 151 rate 176.4/s elapsed 15.3m
+seen 163000 kept 162842 skipped 158 rate 176.7/s elapsed 15.4m
+read 34266.0MB/61466.1MB ( 55.7%)
+seen 164000 kept 163840 skipped 160 rate 177.0/s elapsed 15.4m
+read 34483.0MB/61466.1MB ( 56.1%)
+seen 164921 kept 164761 skipped 160 rate 177.0/s elapsed 15.5m
+seen 165000 kept 164840 skipped 160 rate 177.1/s elapsed 15.5m
+read 34691.0MB/61466.1MB ( 56.4%)
+seen 165673 kept 165512 skipped 161 rate 176.8/s elapsed 15.6m
+seen 166000 kept 165839 skipped 161 rate 177.0/s elapsed 15.6m
+read 34868.0MB/61466.1MB ( 56.7%)
+seen 166769 kept 166608 skipped 161 rate 176.9/s elapsed 15.7m
+seen 167000 kept 166839 skipped 161 rate 177.0/s elapsed 15.7m
+read 35065.0MB/61466.1MB ( 57.0%)
+seen 167665 kept 167504 skipped 161 rate 176.7/s elapsed 15.8m
+seen 168000 kept 167839 skipped 161 rate 176.9/s elapsed 15.8m
+read 35295.0MB/61466.1MB ( 57.4%)
+seen 168665 kept 168504 skipped 161 rate 176.6/s elapsed 15.9m
+seen 169000 kept 168839 skipped 161 rate 176.8/s elapsed 15.9m
+read 35503.0MB/61466.1MB ( 57.8%)
+seen 169897 kept 169736 skipped 161 rate 176.8/s elapsed 16.0m
+seen 170000 kept 169839 skipped 161 rate 176.8/s elapsed 16.0m
+read 35681.0MB/61466.1MB ( 58.0%)
+seen 170657 kept 170496 skipped 161 rate 176.6/s elapsed 16.1m
+seen 171000 kept 170839 skipped 161 rate 176.8/s elapsed 16.1m
+read 35874.0MB/61466.1MB ( 58.4%)
+seen 171697 kept 171536 skipped 161 rate 176.6/s elapsed 16.2m
+seen 172000 kept 171839 skipped 161 rate 176.7/s elapsed 16.2m
+read 36082.0MB/61466.1MB ( 58.7%)
+seen 172849 kept 172688 skipped 161 rate 176.7/s elapsed 16.3m
+seen 173000 kept 172839 skipped 161 rate 176.8/s elapsed 16.3m
+read 36279.0MB/61466.1MB ( 59.0%)
+seen 173657 kept 173496 skipped 161 rate 176.6/s elapsed 16.4m
+seen 174000 kept 173839 skipped 161 rate 176.7/s elapsed 16.4m
+read 36492.0MB/61466.1MB ( 59.4%)
+seen 174881 kept 174720 skipped 161 rate 176.7/s elapsed 16.5m
+seen 175000 kept 174839 skipped 161 rate 176.8/s elapsed 16.5m
+read 36701.0MB/61466.1MB ( 59.7%)
+seen 175721 kept 175560 skipped 161 rate 176.6/s elapsed 16.6m
+seen 176000 kept 175839 skipped 161 rate 176.8/s elapsed 16.6m
+read 36900.0MB/61466.1MB ( 60.0%)
+seen 176657 kept 176495 skipped 162 rate 176.5/s elapsed 16.7m
+seen 177000 kept 176835 skipped 165 rate 176.7/s elapsed 16.7m
+read 37105.0MB/61466.1MB ( 60.4%)
+seen 177657 kept 177491 skipped 166 rate 176.5/s elapsed 16.8m
+seen 178000 kept 177825 skipped 175 rate 176.7/s elapsed 16.8m
+read 37346.0MB/61466.1MB ( 60.8%)
+read 37595.0MB/61466.1MB ( 61.2%)
+seen 178633 kept 178458 skipped 175 rate 175.8/s elapsed 16.9m
+seen 179000 kept 178823 skipped 177 rate 176.0/s elapsed 17.0m
+read 37718.0MB/61466.1MB ( 61.4%)
+seen 179633 kept 179456 skipped 177 rate 175.5/s elapsed 17.1m
+seen 180000 kept 179821 skipped 179 rate 175.7/s elapsed 17.1m
+read 37836.0MB/61466.1MB ( 61.6%)
+seen 180617 kept 180438 skipped 179 rate 175.3/s elapsed 17.2m
+seen 181000 kept 180820 skipped 180 rate 175.5/s elapsed 17.2m
+read 38062.0MB/61466.1MB ( 61.9%)
+seen 181609 kept 181428 skipped 181 rate 175.2/s elapsed 17.3m
+seen 182000 kept 181819 skipped 181 rate 175.3/s elapsed 17.3m
+read 38280.0MB/61466.1MB ( 62.3%)
+seen 182737 kept 182556 skipped 181 rate 175.2/s elapsed 17.4m
+seen 183000 kept 182819 skipped 181 rate 175.3/s elapsed 17.4m
+read 38485.0MB/61466.1MB ( 62.6%)
+seen 184000 kept 183819 skipped 181 rate 175.7/s elapsed 17.5m
+seen 185000 kept 184819 skipped 181 rate 176.0/s elapsed 17.5m
+read 38695.0MB/61466.1MB ( 63.0%)
+seen 186000 kept 185819 skipped 181 rate 176.3/s elapsed 17.6m
+read 38918.0MB/61466.1MB ( 63.3%)
+seen 186937 kept 186756 skipped 181 rate 176.4/s elapsed 17.7m
+seen 187000 kept 186819 skipped 181 rate 176.4/s elapsed 17.7m
+read 39102.0MB/61466.1MB ( 63.6%)
+seen 188000 kept 187818 skipped 182 rate 176.5/s elapsed 17.7m
+read 39323.0MB/61466.1MB ( 64.0%)
+seen 189000 kept 188818 skipped 182 rate 176.8/s elapsed 17.8m
+seen 189985 kept 189803 skipped 182 rate 176.9/s elapsed 17.9m
+seen 190000 kept 189818 skipped 182 rate 176.9/s elapsed 17.9m
+read 39545.0MB/61466.1MB ( 64.3%)
+seen 191000 kept 190818 skipped 182 rate 177.0/s elapsed 18.0m
+read 39731.0MB/61466.1MB ( 64.6%)
+seen 191665 kept 191483 skipped 182 rate 176.8/s elapsed 18.1m
+seen 192000 kept 191818 skipped 182 rate 176.9/s elapsed 18.1m
+read 39914.0MB/61466.1MB ( 64.9%)
+seen 193000 kept 192818 skipped 182 rate 177.3/s elapsed 18.1m
+read 40163.0MB/61466.1MB ( 65.3%)
+seen 194000 kept 193818 skipped 182 rate 177.4/s elapsed 18.2m
+read 40362.0MB/61466.1MB ( 65.7%)
+seen 194633 kept 194451 skipped 182 rate 177.2/s elapsed 18.3m
+seen 195000 kept 194818 skipped 182 rate 177.3/s elapsed 18.3m
+read 40527.0MB/61466.1MB ( 65.9%)
+seen 195577 kept 195395 skipped 182 rate 177.0/s elapsed 18.4m
+seen 196000 kept 195818 skipped 182 rate 177.2/s elapsed 18.4m
+read 40736.0MB/61466.1MB ( 66.3%)
+seen 196577 kept 196395 skipped 182 rate 176.9/s elapsed 18.5m
+seen 197000 kept 196818 skipped 182 rate 177.1/s elapsed 18.5m
+read 40946.0MB/61466.1MB ( 66.6%)
+seen 197801 kept 197619 skipped 182 rate 177.0/s elapsed 18.6m
+seen 198000 kept 197818 skipped 182 rate 177.1/s elapsed 18.6m
+read 41127.0MB/61466.1MB ( 66.9%)
+seen 199000 kept 198818 skipped 182 rate 177.4/s elapsed 18.7m
+seen 200000 kept 199818 skipped 182 rate 177.8/s elapsed 18.8m
+read 41346.0MB/61466.1MB ( 67.3%)
+seen 201000 kept 200818 skipped 182 rate 178.1/s elapsed 18.8m
+read 41535.0MB/61466.1MB ( 67.6%)
+seen 201945 kept 201763 skipped 182 rate 178.1/s elapsed 18.9m
+seen 202000 kept 201818 skipped 182 rate 178.1/s elapsed 18.9m
+read 41715.0MB/61466.1MB ( 67.9%)
+seen 203000 kept 202818 skipped 182 rate 178.3/s elapsed 19.0m
+read 41923.0MB/61466.1MB ( 68.2%)
+seen 204000 kept 203818 skipped 182 rate 178.5/s elapsed 19.0m
+read 42139.0MB/61466.1MB ( 68.6%)
+seen 204785 kept 204603 skipped 182 rate 178.5/s elapsed 19.1m
+seen 205000 kept 204818 skipped 182 rate 178.6/s elapsed 19.1m
+seen 206000 kept 205817 skipped 183 rate 178.8/s elapsed 19.2m
+read 42288.0MB/61466.1MB ( 68.8%)
+seen 207000 kept 206817 skipped 183 rate 178.9/s elapsed 19.3m
+read 42443.0MB/61466.1MB ( 69.1%)
+seen 208000 kept 207817 skipped 183 rate 179.3/s elapsed 19.3m
+read 42701.0MB/61466.1MB ( 69.5%)
+seen 208641 kept 208458 skipped 183 rate 179.0/s elapsed 19.4m
+seen 209000 kept 208817 skipped 183 rate 179.2/s elapsed 19.4m
+read 42847.0MB/61466.1MB ( 69.7%)
+seen 209529 kept 209346 skipped 183 rate 178.9/s elapsed 19.5m
+seen 210000 kept 209817 skipped 183 rate 179.1/s elapsed 19.5m
+read 43040.0MB/61466.1MB ( 70.0%)
+seen 210529 kept 210346 skipped 183 rate 178.6/s elapsed 19.6m
+seen 211000 kept 210815 skipped 185 rate 178.8/s elapsed 19.7m
+read 43287.0MB/61466.1MB ( 70.4%)
+seen 211521 kept 211336 skipped 185 rate 178.5/s elapsed 19.8m
+seen 212000 kept 211811 skipped 189 rate 178.6/s elapsed 19.8m
+read 43515.0MB/61466.1MB ( 70.8%)
+seen 212513 kept 212324 skipped 189 rate 178.3/s elapsed 19.9m
+seen 213000 kept 212811 skipped 189 rate 178.5/s elapsed 19.9m
+read 43760.0MB/61466.1MB ( 71.2%)
+seen 213497 kept 213308 skipped 189 rate 178.2/s elapsed 20.0m
+seen 214000 kept 213810 skipped 190 rate 178.4/s elapsed 20.0m
+read 43985.0MB/61466.1MB ( 71.6%)
+seen 214489 kept 214299 skipped 190 rate 177.9/s elapsed 20.1m
+seen 215000 kept 214806 skipped 194 rate 178.2/s elapsed 20.1m
+read 44196.0MB/61466.1MB ( 71.9%)
+seen 215504 kept 215310 skipped 194 rate 177.8/s elapsed 20.2m
+seen 216000 kept 215806 skipped 194 rate 178.1/s elapsed 20.2m
+read 44431.0MB/61466.1MB ( 72.3%)
+seen 216641 kept 216447 skipped 194 rate 177.8/s elapsed 20.3m
+seen 217000 kept 216805 skipped 195 rate 178.0/s elapsed 20.3m
+read 44638.0MB/61466.1MB ( 72.6%)
+seen 217465 kept 217270 skipped 195 rate 177.7/s elapsed 20.4m
+seen 218000 kept 217802 skipped 198 rate 177.9/s elapsed 20.4m
+read 44878.0MB/61466.1MB ( 73.0%)
+seen 218569 kept 218369 skipped 200 rate 177.6/s elapsed 20.5m
+seen 219000 kept 218800 skipped 200 rate 177.8/s elapsed 20.5m
+read 45114.0MB/61466.1MB ( 73.4%)
+seen 219441 kept 219241 skipped 200 rate 177.4/s elapsed 20.6m
+seen 220000 kept 219799 skipped 201 rate 177.6/s elapsed 20.6m
+read 45402.0MB/61466.1MB ( 73.9%)
+seen 220433 kept 220232 skipped 201 rate 177.0/s elapsed 20.8m
+seen 221000 kept 220798 skipped 202 rate 177.3/s elapsed 20.8m
+read 45636.0MB/61466.1MB ( 74.2%)
+seen 221425 kept 221223 skipped 202 rate 176.8/s elapsed 20.9m
+seen 222000 kept 221797 skipped 203 rate 177.0/s elapsed 20.9m
+read 45873.0MB/61466.1MB ( 74.6%)
+seen 222449 kept 222245 skipped 204 rate 176.7/s elapsed 21.0m
+seen 223000 kept 222794 skipped 206 rate 176.9/s elapsed 21.0m
+read 46104.0MB/61466.1MB ( 75.0%)
+seen 223457 kept 223247 skipped 210 rate 176.6/s elapsed 21.1m
+seen 224000 kept 223788 skipped 212 rate 176.8/s elapsed 21.1m
+read 46320.0MB/61466.1MB ( 75.4%)
+seen 224729 kept 224513 skipped 216 rate 176.7/s elapsed 21.2m
+seen 225000 kept 224784 skipped 216 rate 176.8/s elapsed 21.2m
+read 46547.0MB/61466.1MB ( 75.7%)
+seen 225497 kept 225277 skipped 220 rate 176.5/s elapsed 21.3m
+seen 226000 kept 225780 skipped 220 rate 176.7/s elapsed 21.3m
+read 46784.0MB/61466.1MB ( 76.1%)
+seen 226329 kept 226109 skipped 220 rate 176.2/s elapsed 21.4m
+seen 227000 kept 226780 skipped 220 rate 176.5/s elapsed 21.4m
+read 47015.0MB/61466.1MB ( 76.5%)
+seen 227313 kept 227093 skipped 220 rate 176.0/s elapsed 21.5m
+seen 228000 kept 227775 skipped 225 rate 176.3/s elapsed 21.6m
+read 47248.0MB/61466.1MB ( 76.9%)
+seen 228593 kept 228365 skipped 228 rate 176.0/s elapsed 21.6m
+seen 229000 kept 228772 skipped 228 rate 176.2/s elapsed 21.7m
+read 47492.0MB/61466.1MB ( 77.3%)
+seen 229737 kept 229506 skipped 231 rate 176.1/s elapsed 21.7m
+seen 230000 kept 229769 skipped 231 rate 176.2/s elapsed 21.8m
+read 47699.0MB/61466.1MB ( 77.6%)
+seen 230785 kept 230551 skipped 234 rate 176.1/s elapsed 21.8m
+seen 231000 kept 230766 skipped 234 rate 176.2/s elapsed 21.8m
+read 47889.0MB/61466.1MB ( 77.9%)
+seen 231593 kept 231358 skipped 235 rate 176.0/s elapsed 21.9m
+seen 232000 kept 231765 skipped 235 rate 176.2/s elapsed 21.9m
+read 48106.0MB/61466.1MB ( 78.3%)
+seen 232353 kept 232118 skipped 235 rate 175.8/s elapsed 22.0m
+seen 233000 kept 232764 skipped 236 rate 176.0/s elapsed 22.1m
+read 48321.0MB/61466.1MB ( 78.6%)
+seen 233617 kept 233381 skipped 236 rate 175.8/s elapsed 22.1m
+seen 234000 kept 233764 skipped 236 rate 175.9/s elapsed 22.2m
+read 48582.0MB/61466.1MB ( 79.0%)
+seen 234417 kept 234180 skipped 237 rate 175.6/s elapsed 22.2m
+seen 235000 kept 234762 skipped 238 rate 175.8/s elapsed 22.3m
+read 48779.0MB/61466.1MB ( 79.4%)
+seen 235945 kept 235705 skipped 240 rate 175.9/s elapsed 22.4m
+seen 236000 kept 235760 skipped 240 rate 175.9/s elapsed 22.4m
+read 48968.0MB/61466.1MB ( 79.7%)
+seen 236537 kept 236296 skipped 241 rate 175.6/s elapsed 22.4m
+seen 237000 kept 236759 skipped 241 rate 175.8/s elapsed 22.5m
+read 49203.0MB/61466.1MB ( 80.0%)
+seen 237865 kept 237623 skipped 242 rate 175.8/s elapsed 22.5m
+seen 238000 kept 237758 skipped 242 rate 175.9/s elapsed 22.6m
+read 49398.0MB/61466.1MB ( 80.4%)
+seen 238441 kept 238199 skipped 242 rate 175.5/s elapsed 22.6m
+seen 239000 kept 238756 skipped 244 rate 175.8/s elapsed 22.7m
+read 49622.0MB/61466.1MB ( 80.7%)
+seen 239841 kept 239596 skipped 245 rate 175.7/s elapsed 22.7m
+seen 240000 kept 239754 skipped 246 rate 175.8/s elapsed 22.8m
+read 49819.0MB/61466.1MB ( 81.1%)
+seen 240537 kept 240291 skipped 246 rate 175.5/s elapsed 22.8m
+seen 241000 kept 240753 skipped 247 rate 175.7/s elapsed 22.9m
+read 50034.0MB/61466.1MB ( 81.4%)
+seen 241705 kept 241458 skipped 247 rate 175.6/s elapsed 22.9m
+seen 242000 kept 241753 skipped 247 rate 175.7/s elapsed 23.0m
+read 50245.0MB/61466.1MB ( 81.7%)
+seen 242137 kept 241890 skipped 247 rate 175.0/s elapsed 23.1m
+seen 243000 kept 242753 skipped 247 rate 175.4/s elapsed 23.1m
+read 50435.0MB/61466.1MB ( 82.1%)
+seen 243369 kept 243122 skipped 247 rate 175.0/s elapsed 23.2m
+seen 244000 kept 243753 skipped 247 rate 175.2/s elapsed 23.2m
+read 50655.0MB/61466.1MB ( 82.4%)
+seen 244849 kept 244601 skipped 248 rate 175.2/s elapsed 23.3m
+seen 245000 kept 244751 skipped 249 rate 175.3/s elapsed 23.3m
+read 50860.0MB/61466.1MB ( 82.7%)
+seen 245809 kept 245560 skipped 249 rate 175.2/s elapsed 23.4m
+seen 246000 kept 245751 skipped 249 rate 175.3/s elapsed 23.4m
+read 51062.0MB/61466.1MB ( 83.1%)
+seen 246281 kept 246032 skipped 249 rate 174.9/s elapsed 23.5m
+seen 247000 kept 246750 skipped 250 rate 175.1/s elapsed 23.5m
+read 51289.0MB/61466.1MB ( 83.4%)
+seen 247985 kept 247735 skipped 250 rate 175.2/s elapsed 23.6m
+seen 248000 kept 247750 skipped 250 rate 175.2/s elapsed 23.6m
+read 51448.0MB/61466.1MB ( 83.7%)
+seen 249000 kept 248750 skipped 250 rate 175.4/s elapsed 23.7m
+read 51657.0MB/61466.1MB ( 84.0%)
+seen 249745 kept 249495 skipped 250 rate 175.3/s elapsed 23.7m
+seen 250000 kept 249750 skipped 250 rate 175.4/s elapsed 23.8m
+read 51861.0MB/61466.1MB ( 84.4%)
+seen 251000 kept 250748 skipped 252 rate 175.5/s elapsed 23.8m
+read 52052.0MB/61466.1MB ( 84.7%)
+seen 251617 kept 251365 skipped 252 rate 175.3/s elapsed 23.9m
+seen 252000 kept 251748 skipped 252 rate 175.4/s elapsed 23.9m
+read 52226.0MB/61466.1MB ( 85.0%)
+seen 252897 kept 252644 skipped 253 rate 175.4/s elapsed 24.0m
+seen 253000 kept 252747 skipped 253 rate 175.5/s elapsed 24.0m
+read 52385.0MB/61466.1MB ( 85.2%)
+seen 253729 kept 253473 skipped 256 rate 175.4/s elapsed 24.1m
+seen 254000 kept 253744 skipped 256 rate 175.5/s elapsed 24.1m
+read 52599.0MB/61466.1MB ( 85.6%)
+seen 254745 kept 254489 skipped 256 rate 175.4/s elapsed 24.2m
+seen 255000 kept 254744 skipped 256 rate 175.5/s elapsed 24.2m
+read 52775.0MB/61466.1MB ( 85.9%)
+seen 255249 kept 254992 skipped 257 rate 175.0/s elapsed 24.3m
+seen 256000 kept 255742 skipped 258 rate 175.3/s elapsed 24.3m
+read 53011.0MB/61466.1MB ( 86.2%)
+seen 256785 kept 256526 skipped 259 rate 175.2/s elapsed 24.4m
+read 53231.0MB/61466.1MB ( 86.6%)
+seen 257000 kept 256741 skipped 259 rate 175.2/s elapsed 24.4m
+seen 257905 kept 257642 skipped 263 rate 175.2/s elapsed 24.5m
+read 53423.0MB/61466.1MB ( 86.9%)
+seen 258000 kept 257737 skipped 263 rate 174.9/s elapsed 24.6m
+read 53643.0MB/61466.1MB ( 87.3%)
+seen 258969 kept 258706 skipped 263 rate 174.7/s elapsed 24.7m
+seen 259000 kept 258737 skipped 263 rate 174.7/s elapsed 24.7m
+read 53896.0MB/61466.1MB ( 87.7%)
+read 54094.0MB/61466.1MB ( 88.0%)
+seen 259953 kept 259689 skipped 264 rate 174.2/s elapsed 24.9m
+seen 260000 kept 259736 skipped 264 rate 174.2/s elapsed 24.9m
+read 54238.0MB/61466.1MB ( 88.2%)
+seen 260945 kept 260681 skipped 264 rate 174.1/s elapsed 25.0m
+seen 261000 kept 260736 skipped 264 rate 174.1/s elapsed 25.0m
+read 54364.0MB/61466.1MB ( 88.4%)
+seen 261937 kept 261673 skipped 264 rate 174.0/s elapsed 25.1m
+seen 262000 kept 261736 skipped 264 rate 174.0/s elapsed 25.1m
+read 54632.0MB/61466.1MB ( 88.9%)
+seen 262921 kept 262657 skipped 264 rate 173.9/s elapsed 25.2m
+seen 263000 kept 262736 skipped 264 rate 174.0/s elapsed 25.2m
+read 54827.0MB/61466.1MB ( 89.2%)
+seen 263913 kept 263648 skipped 265 rate 173.9/s elapsed 25.3m
+seen 264000 kept 263735 skipped 265 rate 174.0/s elapsed 25.3m
+read 55084.0MB/61466.1MB ( 89.6%)
+seen 264905 kept 264640 skipped 265 rate 174.0/s elapsed 25.4m
+seen 265000 kept 264735 skipped 265 rate 174.0/s elapsed 25.4m
+read 55300.0MB/61466.1MB ( 90.0%)
+seen 265889 kept 265624 skipped 265 rate 173.9/s elapsed 25.5m
+seen 266000 kept 265735 skipped 265 rate 173.9/s elapsed 25.5m
+read 55578.0MB/61466.1MB ( 90.4%)
+seen 266881 kept 266616 skipped 265 rate 173.8/s elapsed 25.6m
+seen 267000 kept 266735 skipped 265 rate 173.8/s elapsed 25.6m
+read 55790.0MB/61466.1MB ( 90.8%)
+seen 267865 kept 267600 skipped 265 rate 173.7/s elapsed 25.7m
+seen 268000 kept 267735 skipped 265 rate 173.8/s elapsed 25.7m
+read 56058.0MB/61466.1MB ( 91.2%)
+seen 268857 kept 268592 skipped 265 rate 173.7/s elapsed 25.8m
+seen 269000 kept 268734 skipped 266 rate 173.7/s elapsed 25.8m
+read 56302.0MB/61466.1MB ( 91.6%)
+seen 269841 kept 269575 skipped 266 rate 173.6/s elapsed 25.9m
+seen 270000 kept 269734 skipped 266 rate 173.7/s elapsed 25.9m
+read 56545.0MB/61466.1MB ( 92.0%)
+seen 270833 kept 270565 skipped 268 rate 173.6/s elapsed 26.0m
+seen 271000 kept 270732 skipped 268 rate 173.6/s elapsed 26.0m
+read 56766.0MB/61466.1MB ( 92.4%)
+seen 271833 kept 271564 skipped 269 rate 173.6/s elapsed 26.1m
+seen 272000 kept 271731 skipped 269 rate 173.6/s elapsed 26.1m
+read 56987.0MB/61466.1MB ( 92.7%)
+seen 272889 kept 272619 skipped 270 rate 173.6/s elapsed 26.2m
+seen 273000 kept 272730 skipped 270 rate 173.7/s elapsed 26.2m
+read 57233.0MB/61466.1MB ( 93.1%)
+seen 273809 kept 273539 skipped 270 rate 173.5/s elapsed 26.3m
+seen 274000 kept 273729 skipped 271 rate 173.6/s elapsed 26.3m
+read 57474.0MB/61466.1MB ( 93.5%)
+seen 274793 kept 274522 skipped 271 rate 173.5/s elapsed 26.4m
+seen 275000 kept 274729 skipped 271 rate 173.5/s elapsed 26.4m
+read 57722.0MB/61466.1MB ( 93.9%)
+seen 275777 kept 275506 skipped 271 rate 173.4/s elapsed 26.5m
+seen 276000 kept 275728 skipped 272 rate 173.5/s elapsed 26.5m
+read 57920.0MB/61466.1MB ( 94.2%)
+seen 277000 kept 276727 skipped 273 rate 173.6/s elapsed 26.6m
+read 58148.0MB/61466.1MB ( 94.6%)
+seen 277769 kept 277494 skipped 275 rate 173.4/s elapsed 26.7m
+seen 278000 kept 277725 skipped 275 rate 173.5/s elapsed 26.7m
+read 58396.0MB/61466.1MB ( 95.0%)
+seen 278777 kept 278501 skipped 276 rate 173.4/s elapsed 26.8m
+seen 279000 kept 278724 skipped 276 rate 173.5/s elapsed 26.8m
+read 58601.0MB/61466.1MB ( 95.3%)
+seen 279849 kept 279571 skipped 278 rate 173.5/s elapsed 26.9m
+seen 280000 kept 279722 skipped 278 rate 173.5/s elapsed 26.9m
+read 58861.0MB/61466.1MB ( 95.8%)
+seen 280729 kept 280451 skipped 278 rate 173.4/s elapsed 27.0m
+seen 281000 kept 280716 skipped 284 rate 173.5/s elapsed 27.0m
+read 59087.0MB/61466.1MB ( 96.1%)
+seen 281713 kept 281429 skipped 284 rate 173.3/s elapsed 27.1m
+seen 282000 kept 281716 skipped 284 rate 173.4/s elapsed 27.1m
+read 59338.0MB/61466.1MB ( 96.5%)
+seen 282697 kept 282412 skipped 285 rate 173.3/s elapsed 27.2m
+seen 283000 kept 282715 skipped 285 rate 173.4/s elapsed 27.2m
+read 59571.0MB/61466.1MB ( 96.9%)
+seen 283689 kept 283403 skipped 286 rate 173.2/s elapsed 27.3m
+seen 284000 kept 283714 skipped 286 rate 173.3/s elapsed 27.3m
+read 59808.0MB/61466.1MB ( 97.3%)
+seen 284681 kept 284395 skipped 286 rate 173.0/s elapsed 27.4m
+seen 285000 kept 284714 skipped 286 rate 173.1/s elapsed 27.4m
+read 60076.0MB/61466.1MB ( 97.7%)
+seen 285665 kept 285379 skipped 286 rate 172.9/s elapsed 27.5m
+seen 286000 kept 285714 skipped 286 rate 173.0/s elapsed 27.5m
+read 60302.0MB/61466.1MB ( 98.1%)
+seen 286993 kept 286706 skipped 287 rate 173.1/s elapsed 27.6m
+seen 287000 kept 286713 skipped 287 rate 173.1/s elapsed 27.6m
+read 60516.0MB/61466.1MB ( 98.5%)
+seen 287633 kept 287346 skipped 287 rate 173.0/s elapsed 27.7m
+seen 288000 kept 287712 skipped 288 rate 173.1/s elapsed 27.7m
+read 60732.0MB/61466.1MB ( 98.8%)
+seen 288817 kept 288527 skipped 290 rate 173.1/s elapsed 27.8m
+seen 289000 kept 288710 skipped 290 rate 173.1/s elapsed 27.8m
+read 60955.0MB/61466.1MB ( 99.2%)
+seen 289753 kept 289462 skipped 291 rate 173.0/s elapsed 27.9m
+seen 290000 kept 289709 skipped 291 rate 173.1/s elapsed 27.9m
+read 61162.0MB/61466.1MB ( 99.5%)
+seen 290713 kept 290421 skipped 292 rate 173.0/s elapsed 28.0m
+seen 291000 kept 290708 skipped 292 rate 173.1/s elapsed 28.0m
+read 61386.0MB/61466.1MB ( 99.9%)
+seen 292000 kept 291707 skipped 293 rate 173.3/s elapsed 28.1m
+wrote 291742 molecules to pretraining_data/drugs (rate 173.3/s, elapsed 28.1m)
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+starting precompute on /Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack (61466.1MB)
+seen 641 kept 641 skipped 0 rate 128.0/s elapsed 0.1m
+read 205.0MB/61466.1MB (  0.3%)
+seen 1000 kept 1000 skipped 0 rate 109.0/s elapsed 0.2m
+read 411.0MB/61466.1MB (  0.7%)
+seen 1969 kept 1969 skipped 0 rate 137.8/s elapsed 0.2m
+seen 2000 kept 2000 skipped 0 rate 139.7/s elapsed 0.2m
+read 638.0MB/61466.1MB (  1.0%)
+seen 3000 kept 2999 skipped 1 rate 157.3/s elapsed 0.3m
+read 887.0MB/61466.1MB (  1.4%)
+seen 4000 kept 3999 skipped 1 rate 172.3/s elapsed 0.4m
+read 1138.0MB/61466.1MB (  1.9%)
+seen 4977 kept 4975 skipped 2 rate 176.3/s elapsed 0.5m
+seen 5000 kept 4998 skipped 2 rate 177.0/s elapsed 0.5m
+read 1382.0MB/61466.1MB (  2.2%)
+seen 6000 kept 5996 skipped 4 rate 185.4/s elapsed 0.5m
+seen 7000 kept 6996 skipped 4 rate 190.8/s elapsed 0.6m
+read 1658.0MB/61466.1MB (  2.7%)
+seen 7905 kept 7900 skipped 5 rate 187.3/s elapsed 0.7m
+seen 8000 kept 7995 skipped 5 rate 188.4/s elapsed 0.7m
+read 1919.0MB/61466.1MB (  3.1%)
+seen 9000 kept 8995 skipped 5 rate 190.1/s elapsed 0.8m
+read 2189.0MB/61466.1MB (  3.6%)
+seen 9889 kept 9883 skipped 6 rate 187.5/s elapsed 0.9m
+seen 10000 kept 9994 skipped 6 rate 189.1/s elapsed 0.9m
+read 2414.0MB/61466.1MB (  3.9%)
+seen 11000 kept 10993 skipped 7 rate 191.4/s elapsed 1.0m
+read 2695.0MB/61466.1MB (  4.4%)
+seen 11857 kept 11846 skipped 11 rate 188.2/s elapsed 1.0m
+seen 12000 kept 11989 skipped 11 rate 189.8/s elapsed 1.1m
+read 2856.0MB/61466.1MB (  4.6%)
+seen 13000 kept 12988 skipped 12 rate 191.7/s elapsed 1.1m
+read 3150.0MB/61466.1MB (  5.1%)
+seen 13841 kept 13827 skipped 14 rate 188.5/s elapsed 1.2m
+seen 14000 kept 13985 skipped 15 rate 189.6/s elapsed 1.2m
+read 3371.0MB/61466.1MB (  5.5%)
+seen 14833 kept 14814 skipped 19 rate 184.4/s elapsed 1.3m
+seen 15000 kept 14981 skipped 19 rate 185.6/s elapsed 1.3m
+read 3619.0MB/61466.1MB (  5.9%)
+read 3834.0MB/61466.1MB (  6.2%)
+seen 15825 kept 15805 skipped 20 rate 172.9/s elapsed 1.5m
+seen 16000 kept 15980 skipped 20 rate 173.7/s elapsed 1.5m
+read 3872.0MB/61466.1MB (  6.3%)
+seen 16801 kept 16781 skipped 20 rate 169.6/s elapsed 1.7m
+seen 17000 kept 16980 skipped 20 rate 170.8/s elapsed 1.7m
+read 4140.0MB/61466.1MB (  6.7%)
+read 4371.0MB/61466.1MB (  7.1%)
+seen 17777 kept 17756 skipped 21 rate 163.0/s elapsed 1.8m
+seen 18000 kept 17979 skipped 21 rate 164.5/s elapsed 1.8m
+read 4598.0MB/61466.1MB (  7.5%)
+seen 19000 kept 18979 skipped 21 rate 166.2/s elapsed 1.9m
+seen 20000 kept 19975 skipped 25 rate 168.4/s elapsed 2.0m
+read 4851.0MB/61466.1MB (  7.9%)
+seen 20753 kept 20728 skipped 25 rate 167.5/s elapsed 2.1m
+seen 21000 kept 20975 skipped 25 rate 168.8/s elapsed 2.1m
+read 5080.0MB/61466.1MB (  8.3%)
+seen 21745 kept 21720 skipped 25 rate 167.2/s elapsed 2.2m
+seen 22000 kept 21975 skipped 25 rate 168.6/s elapsed 2.2m
+read 5313.0MB/61466.1MB (  8.6%)
+seen 23000 kept 22975 skipped 25 rate 170.4/s elapsed 2.2m
+read 5579.0MB/61466.1MB (  9.1%)
+seen 23713 kept 23685 skipped 28 rate 168.9/s elapsed 2.3m
+seen 24000 kept 23970 skipped 30 rate 170.2/s elapsed 2.4m
+read 5799.0MB/61466.1MB (  9.4%)
+seen 24705 kept 24673 skipped 32 rate 167.9/s elapsed 2.5m
+seen 25000 kept 24965 skipped 35 rate 169.1/s elapsed 2.5m
+read 6087.0MB/61466.1MB (  9.9%)
+seen 25697 kept 25659 skipped 38 rate 166.4/s elapsed 2.6m
+seen 26000 kept 25962 skipped 38 rate 167.7/s elapsed 2.6m
+read 6335.0MB/61466.1MB ( 10.3%)
+seen 26689 kept 26648 skipped 41 rate 166.7/s elapsed 2.7m
+seen 27000 kept 26957 skipped 43 rate 168.1/s elapsed 2.7m
+read 6595.0MB/61466.1MB ( 10.7%)
+seen 27891 kept 27845 skipped 46 rate 168.4/s elapsed 2.8m
+seen 28000 kept 27954 skipped 46 rate 168.9/s elapsed 2.8m
+read 6865.0MB/61466.1MB ( 11.2%)
+seen 28641 kept 28595 skipped 46 rate 167.4/s elapsed 2.9m
+seen 29000 kept 28951 skipped 49 rate 168.8/s elapsed 2.9m
+read 7135.0MB/61466.1MB ( 11.6%)
+seen 29953 kept 29904 skipped 49 rate 169.4/s elapsed 2.9m
+seen 30000 kept 29951 skipped 49 rate 169.6/s elapsed 2.9m
+read 7374.0MB/61466.1MB ( 12.0%)
+seen 31000 kept 30951 skipped 49 rate 170.8/s elapsed 3.0m
+read 7637.0MB/61466.1MB ( 12.4%)
+seen 31601 kept 31551 skipped 50 rate 169.4/s elapsed 3.1m
+seen 32000 kept 31950 skipped 50 rate 170.9/s elapsed 3.1m
+read 7877.0MB/61466.1MB ( 12.8%)
+seen 32593 kept 32541 skipped 52 rate 169.1/s elapsed 3.2m
+seen 33000 kept 32948 skipped 52 rate 170.6/s elapsed 3.2m
+read 8108.0MB/61466.1MB ( 13.2%)
+seen 33681 kept 33627 skipped 54 rate 169.7/s elapsed 3.3m
+seen 34000 kept 33946 skipped 54 rate 170.9/s elapsed 3.3m
+read 8322.0MB/61466.1MB ( 13.5%)
+seen 35000 kept 34946 skipped 54 rate 172.3/s elapsed 3.4m
+read 8609.0MB/61466.1MB ( 14.0%)
+seen 36000 kept 35946 skipped 54 rate 173.1/s elapsed 3.5m
+read 8868.0MB/61466.1MB ( 14.4%)
+seen 37000 kept 36946 skipped 54 rate 174.0/s elapsed 3.5m
+read 9106.0MB/61466.1MB ( 14.8%)
+seen 37969 kept 37915 skipped 54 rate 174.5/s elapsed 3.6m
+seen 38000 kept 37946 skipped 54 rate 174.6/s elapsed 3.6m
+read 9321.0MB/61466.1MB ( 15.2%)
+seen 38929 kept 38875 skipped 54 rate 174.8/s elapsed 3.7m
+seen 39000 kept 38946 skipped 54 rate 175.0/s elapsed 3.7m
+read 9600.0MB/61466.1MB ( 15.6%)
+seen 40000 kept 39946 skipped 54 rate 175.9/s elapsed 3.8m
+seen 41000 kept 40946 skipped 54 rate 176.8/s elapsed 3.9m
+read 9826.0MB/61466.1MB ( 16.0%)
+seen 42000 kept 41946 skipped 54 rate 178.2/s elapsed 3.9m
+read 10134.0MB/61466.1MB ( 16.5%)
+seen 42881 kept 42827 skipped 54 rate 178.2/s elapsed 4.0m
+seen 43000 kept 42946 skipped 54 rate 178.5/s elapsed 4.0m
+read 10381.0MB/61466.1MB ( 16.9%)
+seen 43745 kept 43691 skipped 54 rate 177.9/s elapsed 4.1m
+seen 44000 kept 43946 skipped 54 rate 178.6/s elapsed 4.1m
+read 10588.0MB/61466.1MB ( 17.2%)
+seen 44481 kept 44426 skipped 55 rate 176.5/s elapsed 4.2m
+seen 45000 kept 44945 skipped 55 rate 177.9/s elapsed 4.2m
+read 10795.0MB/61466.1MB ( 17.6%)
+seen 46000 kept 45945 skipped 55 rate 178.4/s elapsed 4.3m
+read 11093.0MB/61466.1MB ( 18.0%)
+seen 46465 kept 46410 skipped 55 rate 176.5/s elapsed 4.4m
+seen 47000 kept 46945 skipped 55 rate 177.8/s elapsed 4.4m
+read 11280.0MB/61466.1MB ( 18.4%)
+seen 47457 kept 47401 skipped 56 rate 175.7/s elapsed 4.5m
+seen 48000 kept 47944 skipped 56 rate 177.1/s elapsed 4.5m
+read 11532.0MB/61466.1MB ( 18.8%)
+seen 48849 kept 48793 skipped 56 rate 176.9/s elapsed 4.6m
+seen 49000 kept 48944 skipped 56 rate 177.2/s elapsed 4.6m
+read 11739.0MB/61466.1MB ( 19.1%)
+seen 49969 kept 49913 skipped 56 rate 177.5/s elapsed 4.7m
+seen 50000 kept 49944 skipped 56 rate 177.6/s elapsed 4.7m
+read 11981.0MB/61466.1MB ( 19.5%)
+seen 51000 kept 50944 skipped 56 rate 178.4/s elapsed 4.8m
+read 12256.0MB/61466.1MB ( 19.9%)
+seen 52000 kept 51944 skipped 56 rate 179.3/s elapsed 4.8m
+read 12545.0MB/61466.1MB ( 20.4%)
+seen 53000 kept 52944 skipped 56 rate 179.7/s elapsed 4.9m
+read 12793.0MB/61466.1MB ( 20.8%)
+seen 54000 kept 53944 skipped 56 rate 180.2/s elapsed 5.0m
+seen 55000 kept 54944 skipped 56 rate 180.7/s elapsed 5.1m
+read 13084.0MB/61466.1MB ( 21.3%)
+seen 56000 kept 55944 skipped 56 rate 181.3/s elapsed 5.1m
+read 13325.0MB/61466.1MB ( 21.7%)
+seen 57000 kept 56944 skipped 56 rate 181.9/s elapsed 5.2m
+read 13580.0MB/61466.1MB ( 22.1%)
+seen 58000 kept 57944 skipped 56 rate 182.7/s elapsed 5.3m
+read 13837.0MB/61466.1MB ( 22.5%)
+seen 59000 kept 58944 skipped 56 rate 183.3/s elapsed 5.4m
+seen 60000 kept 59944 skipped 56 rate 183.6/s elapsed 5.4m
+read 14101.0MB/61466.1MB ( 22.9%)
+seen 61000 kept 60944 skipped 56 rate 184.4/s elapsed 5.5m
+read 14390.0MB/61466.1MB ( 23.4%)
+seen 62000 kept 61944 skipped 56 rate 184.8/s elapsed 5.6m
+read 14616.0MB/61466.1MB ( 23.8%)
+seen 62545 kept 62489 skipped 56 rate 183.7/s elapsed 5.7m
+seen 63000 kept 62944 skipped 56 rate 184.6/s elapsed 5.7m
+read 14801.0MB/61466.1MB ( 24.1%)
+seen 64000 kept 63944 skipped 56 rate 185.0/s elapsed 5.8m
+read 15059.0MB/61466.1MB ( 24.5%)
+seen 65000 kept 64944 skipped 56 rate 185.3/s elapsed 5.8m
+read 15245.0MB/61466.1MB ( 24.8%)
+seen 65809 kept 65753 skipped 56 rate 184.9/s elapsed 5.9m
+seen 66000 kept 65944 skipped 56 rate 185.3/s elapsed 5.9m
+read 15500.0MB/61466.1MB ( 25.2%)
+seen 67000 kept 66944 skipped 56 rate 185.9/s elapsed 6.0m
+seen 68000 kept 67944 skipped 56 rate 186.2/s elapsed 6.1m
+read 15787.0MB/61466.1MB ( 25.7%)
+seen 69000 kept 68944 skipped 56 rate 186.5/s elapsed 6.2m
+read 16044.0MB/61466.1MB ( 26.1%)
+seen 70000 kept 69944 skipped 56 rate 186.8/s elapsed 6.2m
+read 16298.0MB/61466.1MB ( 26.5%)
+seen 71000 kept 70944 skipped 56 rate 187.5/s elapsed 6.3m
+read 16594.0MB/61466.1MB ( 27.0%)
+seen 72000 kept 71944 skipped 56 rate 187.7/s elapsed 6.4m
+read 16792.0MB/61466.1MB ( 27.3%)
+seen 73000 kept 72944 skipped 56 rate 187.9/s elapsed 6.5m
+seen 74000 kept 73944 skipped 56 rate 188.7/s elapsed 6.5m
+read 17080.0MB/61466.1MB ( 27.8%)
+seen 75000 kept 74944 skipped 56 rate 188.9/s elapsed 6.6m
+read 17343.0MB/61466.1MB ( 28.2%)
+seen 76000 kept 75944 skipped 56 rate 189.1/s elapsed 6.7m
+read 17596.0MB/61466.1MB ( 28.6%)
+seen 77000 kept 76944 skipped 56 rate 189.4/s elapsed 6.8m
+read 17826.0MB/61466.1MB ( 29.0%)
+seen 77938 kept 77882 skipped 56 rate 189.4/s elapsed 6.9m
+seen 78000 kept 77944 skipped 56 rate 189.5/s elapsed 6.9m
+read 18065.0MB/61466.1MB ( 29.4%)
+seen 78833 kept 78776 skipped 57 rate 189.2/s elapsed 6.9m
+seen 79000 kept 78943 skipped 57 rate 189.5/s elapsed 6.9m
+read 18318.0MB/61466.1MB ( 29.8%)
+seen 80000 kept 79943 skipped 57 rate 189.8/s elapsed 7.0m
+read 18616.0MB/61466.1MB ( 30.3%)
+seen 80833 kept 80775 skipped 58 rate 189.5/s elapsed 7.1m
+seen 81000 kept 80942 skipped 58 rate 189.8/s elapsed 7.1m
+seen 82000 kept 81942 skipped 58 rate 190.0/s elapsed 7.2m
+read 18841.0MB/61466.1MB ( 30.7%)
+seen 83000 kept 82942 skipped 58 rate 190.4/s elapsed 7.3m
+read 19096.0MB/61466.1MB ( 31.1%)
+seen 84000 kept 83942 skipped 58 rate 190.7/s elapsed 7.3m
+read 19326.0MB/61466.1MB ( 31.4%)
+seen 85000 kept 84942 skipped 58 rate 191.0/s elapsed 7.4m
+read 19584.0MB/61466.1MB ( 31.9%)
+seen 86000 kept 85942 skipped 58 rate 191.2/s elapsed 7.5m
+read 19818.0MB/61466.1MB ( 32.2%)
+seen 87000 kept 86942 skipped 58 rate 191.4/s elapsed 7.6m
+seen 88000 kept 87942 skipped 58 rate 191.7/s elapsed 7.7m
+read 20109.0MB/61466.1MB ( 32.7%)
+seen 89000 kept 88942 skipped 58 rate 191.8/s elapsed 7.7m
+read 20351.0MB/61466.1MB ( 33.1%)
+seen 89905 kept 89847 skipped 58 rate 191.7/s elapsed 7.8m
+seen 90000 kept 89942 skipped 58 rate 191.8/s elapsed 7.8m
+read 20585.0MB/61466.1MB ( 33.5%)
+seen 91000 kept 90942 skipped 58 rate 192.1/s elapsed 7.9m
+read 20900.0MB/61466.1MB ( 34.0%)
+seen 92000 kept 91942 skipped 58 rate 192.7/s elapsed 8.0m
+seen 93000 kept 92942 skipped 58 rate 193.1/s elapsed 8.0m
+read 21132.0MB/61466.1MB ( 34.4%)
+seen 94000 kept 93942 skipped 58 rate 193.7/s elapsed 8.1m
+read 21387.0MB/61466.1MB ( 34.8%)
+seen 94625 kept 94567 skipped 58 rate 193.0/s elapsed 8.2m
+seen 95000 kept 94942 skipped 58 rate 193.4/s elapsed 8.2m
+read 21570.0MB/61466.1MB ( 35.1%)
+seen 95761 kept 95703 skipped 58 rate 193.0/s elapsed 8.3m
+seen 96000 kept 95942 skipped 58 rate 193.3/s elapsed 8.3m
+read 21816.0MB/61466.1MB ( 35.5%)
+seen 97000 kept 96940 skipped 60 rate 194.0/s elapsed 8.3m
+seen 98000 kept 97939 skipped 61 rate 194.2/s elapsed 8.4m
+read 22061.0MB/61466.1MB ( 35.9%)
+seen 98593 kept 98532 skipped 61 rate 193.4/s elapsed 8.5m
+seen 99000 kept 98939 skipped 61 rate 193.8/s elapsed 8.5m
+read 22302.0MB/61466.1MB ( 36.3%)
+seen 99569 kept 99506 skipped 63 rate 193.0/s elapsed 8.6m
+seen 100000 kept 99936 skipped 64 rate 193.5/s elapsed 8.6m
+read 22533.0MB/61466.1MB ( 36.7%)
+seen 100513 kept 100448 skipped 65 rate 192.6/s elapsed 8.7m
+seen 101000 kept 100934 skipped 66 rate 193.2/s elapsed 8.7m
+read 22760.0MB/61466.1MB ( 37.0%)
+seen 101873 kept 101807 skipped 66 rate 193.0/s elapsed 8.8m
+seen 102000 kept 101934 skipped 66 rate 193.2/s elapsed 8.8m
+read 22942.0MB/61466.1MB ( 37.3%)
+seen 102705 kept 102639 skipped 66 rate 192.7/s elapsed 8.9m
+seen 103000 kept 102934 skipped 66 rate 192.9/s elapsed 8.9m
+read 23120.0MB/61466.1MB ( 37.6%)
+seen 103857 kept 103791 skipped 66 rate 192.7/s elapsed 9.0m
+seen 104000 kept 103934 skipped 66 rate 192.7/s elapsed 9.0m
+read 23307.0MB/61466.1MB ( 37.9%)
+seen 104881 kept 104815 skipped 66 rate 192.6/s elapsed 9.1m
+seen 105000 kept 104934 skipped 66 rate 192.7/s elapsed 9.1m
+read 23440.0MB/61466.1MB ( 38.1%)
+seen 105857 kept 105791 skipped 66 rate 192.5/s elapsed 9.2m
+seen 106000 kept 105934 skipped 66 rate 192.7/s elapsed 9.2m
+read 23677.0MB/61466.1MB ( 38.5%)
+seen 106721 kept 106655 skipped 66 rate 192.3/s elapsed 9.3m
+seen 107000 kept 106934 skipped 66 rate 192.6/s elapsed 9.3m
+read 23864.0MB/61466.1MB ( 38.8%)
+seen 107921 kept 107855 skipped 66 rate 192.5/s elapsed 9.3m
+seen 108000 kept 107934 skipped 66 rate 192.6/s elapsed 9.3m
+read 24057.0MB/61466.1MB ( 39.1%)
+seen 109000 kept 108933 skipped 67 rate 192.9/s elapsed 9.4m
+read 24270.0MB/61466.1MB ( 39.5%)
+seen 109825 kept 109758 skipped 67 rate 192.6/s elapsed 9.5m
+seen 110000 kept 109933 skipped 67 rate 192.8/s elapsed 9.5m
+read 24474.0MB/61466.1MB ( 39.8%)
+seen 110945 kept 110878 skipped 67 rate 192.8/s elapsed 9.6m
+seen 111000 kept 110933 skipped 67 rate 192.8/s elapsed 9.6m
+read 24655.0MB/61466.1MB ( 40.1%)
+seen 111793 kept 111726 skipped 67 rate 192.5/s elapsed 9.7m
+seen 112000 kept 111933 skipped 67 rate 192.8/s elapsed 9.7m
+read 24822.0MB/61466.1MB ( 40.4%)
+seen 112609 kept 112542 skipped 67 rate 192.2/s elapsed 9.8m
+seen 113000 kept 112933 skipped 67 rate 192.6/s elapsed 9.8m
+read 25005.0MB/61466.1MB ( 40.7%)
+seen 113265 kept 113198 skipped 67 rate 191.4/s elapsed 9.9m
+seen 114000 kept 113933 skipped 67 rate 192.1/s elapsed 9.9m
+read 25238.0MB/61466.1MB ( 41.1%)
+seen 114993 kept 114926 skipped 67 rate 192.1/s elapsed 10.0m
+seen 115000 kept 114933 skipped 67 rate 192.1/s elapsed 10.0m
+read 25444.0MB/61466.1MB ( 41.4%)
+seen 115825 kept 115758 skipped 67 rate 191.9/s elapsed 10.1m
+seen 116000 kept 115933 skipped 67 rate 192.1/s elapsed 10.1m
+read 25647.0MB/61466.1MB ( 41.7%)
+seen 116897 kept 116830 skipped 67 rate 192.0/s elapsed 10.1m
+seen 117000 kept 116933 skipped 67 rate 192.2/s elapsed 10.1m
+read 25836.0MB/61466.1MB ( 42.0%)
+seen 117601 kept 117532 skipped 69 rate 191.6/s elapsed 10.2m
+seen 118000 kept 117931 skipped 69 rate 192.0/s elapsed 10.2m
+read 26053.0MB/61466.1MB ( 42.4%)
+seen 118529 kept 118460 skipped 69 rate 191.3/s elapsed 10.3m
+seen 119000 kept 118931 skipped 69 rate 191.7/s elapsed 10.3m
+read 26263.0MB/61466.1MB ( 42.7%)
+seen 119921 kept 119852 skipped 69 rate 191.6/s elapsed 10.4m
+seen 120000 kept 119931 skipped 69 rate 191.7/s elapsed 10.4m
+read 26465.0MB/61466.1MB ( 43.1%)
+seen 120417 kept 120348 skipped 69 rate 190.9/s elapsed 10.5m
+seen 121000 kept 120931 skipped 69 rate 191.4/s elapsed 10.5m
+read 26679.0MB/61466.1MB ( 43.4%)
+seen 122000 kept 121931 skipped 69 rate 191.5/s elapsed 10.6m
+read 26911.0MB/61466.1MB ( 43.8%)
+seen 122833 kept 122764 skipped 69 rate 191.3/s elapsed 10.7m
+seen 123000 kept 122931 skipped 69 rate 191.5/s elapsed 10.7m
+read 27085.0MB/61466.1MB ( 44.1%)
+seen 123841 kept 123769 skipped 72 rate 191.3/s elapsed 10.8m
+seen 124000 kept 123928 skipped 72 rate 191.5/s elapsed 10.8m
+read 27319.0MB/61466.1MB ( 44.4%)
+seen 124929 kept 124850 skipped 79 rate 191.4/s elapsed 10.9m
+seen 125000 kept 124921 skipped 79 rate 191.5/s elapsed 10.9m
+read 27552.0MB/61466.1MB ( 44.8%)
+seen 125745 kept 125663 skipped 82 rate 191.2/s elapsed 11.0m
+seen 126000 kept 125911 skipped 89 rate 191.4/s elapsed 11.0m
+read 27820.0MB/61466.1MB ( 45.3%)
+read 28094.0MB/61466.1MB ( 45.7%)
+seen 126097 kept 126008 skipped 89 rate 189.4/s elapsed 11.1m
+seen 127000 kept 126901 skipped 99 rate 190.1/s elapsed 11.1m
+read 28230.0MB/61466.1MB ( 45.9%)
+seen 127089 kept 126990 skipped 99 rate 188.7/s elapsed 11.2m
+seen 128000 kept 127888 skipped 112 rate 189.6/s elapsed 11.3m
+read 28364.0MB/61466.1MB ( 46.1%)
+seen 128865 kept 128750 skipped 115 rate 189.4/s elapsed 11.3m
+seen 129000 kept 128883 skipped 117 rate 189.5/s elapsed 11.3m
+read 28592.0MB/61466.1MB ( 46.5%)
+seen 130000 kept 129877 skipped 123 rate 189.6/s elapsed 11.4m
+read 28841.0MB/61466.1MB ( 46.9%)
+seen 131000 kept 130875 skipped 125 rate 189.8/s elapsed 11.5m
+read 29144.0MB/61466.1MB ( 47.4%)
+seen 132000 kept 131872 skipped 128 rate 190.2/s elapsed 11.6m
+read 29344.0MB/61466.1MB ( 47.7%)
+seen 133000 kept 132870 skipped 130 rate 190.5/s elapsed 11.6m
+seen 133873 kept 133743 skipped 130 rate 190.4/s elapsed 11.7m
+seen 134000 kept 133868 skipped 132 rate 190.5/s elapsed 11.7m
+read 29579.0MB/61466.1MB ( 48.1%)
+seen 135000 kept 134867 skipped 133 rate 191.0/s elapsed 11.8m
+read 29833.0MB/61466.1MB ( 48.5%)
+seen 136000 kept 135866 skipped 134 rate 191.6/s elapsed 11.8m
+seen 137000 kept 136866 skipped 134 rate 192.1/s elapsed 11.9m
+read 30094.0MB/61466.1MB ( 49.0%)
+seen 138000 kept 137866 skipped 134 rate 192.5/s elapsed 11.9m
+read 30320.0MB/61466.1MB ( 49.3%)
+seen 138769 kept 138635 skipped 134 rate 192.2/s elapsed 12.0m
+read 30552.0MB/61466.1MB ( 49.7%)
+seen 139000 kept 138866 skipped 134 rate 191.5/s elapsed 12.1m
+seen 140000 kept 139866 skipped 134 rate 192.3/s elapsed 12.1m
+read 30724.0MB/61466.1MB ( 50.0%)
+seen 140337 kept 140203 skipped 134 rate 191.4/s elapsed 12.2m
+read 30913.0MB/61466.1MB ( 50.3%)
+seen 140993 kept 140859 skipped 134 rate 190.8/s elapsed 12.3m
+seen 141000 kept 140866 skipped 134 rate 190.8/s elapsed 12.3m
+read 31086.0MB/61466.1MB ( 50.6%)
+seen 142000 kept 141866 skipped 134 rate 191.6/s elapsed 12.4m
+read 31296.0MB/61466.1MB ( 50.9%)
+seen 142954 kept 142820 skipped 134 rate 191.6/s elapsed 12.4m
+seen 143000 kept 142866 skipped 134 rate 191.0/s elapsed 12.5m
+read 31554.0MB/61466.1MB ( 51.3%)
+seen 144000 kept 143866 skipped 134 rate 191.5/s elapsed 12.5m
+seen 145000 kept 144865 skipped 135 rate 192.0/s elapsed 12.6m
+read 31742.0MB/61466.1MB ( 51.6%)
+seen 146000 kept 145864 skipped 136 rate 192.4/s elapsed 12.6m
+read 31989.0MB/61466.1MB ( 52.0%)
+seen 147000 kept 146862 skipped 138 rate 192.9/s elapsed 12.7m
+seen 148000 kept 147862 skipped 138 rate 193.3/s elapsed 12.8m
+read 32151.0MB/61466.1MB ( 52.3%)
+seen 149000 kept 148862 skipped 138 rate 193.8/s elapsed 12.8m
+seen 150000 kept 149862 skipped 138 rate 194.2/s elapsed 12.9m
+read 32438.0MB/61466.1MB ( 52.8%)
+seen 151000 kept 150861 skipped 139 rate 194.7/s elapsed 12.9m
+seen 152000 kept 151861 skipped 139 rate 195.2/s elapsed 13.0m
+read 32719.0MB/61466.1MB ( 53.2%)
+seen 153000 kept 152860 skipped 140 rate 195.7/s elapsed 13.0m
+read 32996.0MB/61466.1MB ( 53.7%)
+seen 154000 kept 153859 skipped 141 rate 196.0/s elapsed 13.1m
+seen 155000 kept 154857 skipped 143 rate 196.4/s elapsed 13.2m
+read 33131.0MB/61466.1MB ( 53.9%)
+seen 156000 kept 155857 skipped 143 rate 196.6/s elapsed 13.2m
+read 33330.0MB/61466.1MB ( 54.2%)
+seen 157000 kept 156856 skipped 144 rate 196.9/s elapsed 13.3m
+seen 158000 kept 157856 skipped 144 rate 197.2/s elapsed 13.4m
+read 33535.0MB/61466.1MB ( 54.6%)
+seen 159000 kept 158856 skipped 144 rate 197.5/s elapsed 13.4m
+read 33742.0MB/61466.1MB ( 54.9%)
+seen 160000 kept 159855 skipped 145 rate 197.8/s elapsed 13.5m
+seen 161000 kept 160851 skipped 149 rate 198.1/s elapsed 13.5m
+read 33955.0MB/61466.1MB ( 55.2%)
+seen 162000 kept 161849 skipped 151 rate 198.2/s elapsed 13.6m
+read 34185.0MB/61466.1MB ( 55.6%)
+seen 163000 kept 162842 skipped 158 rate 198.5/s elapsed 13.7m
+read 34395.0MB/61466.1MB ( 56.0%)
+seen 164000 kept 163840 skipped 160 rate 198.7/s elapsed 13.8m
+seen 165000 kept 164840 skipped 160 rate 198.7/s elapsed 13.8m
+read 34624.0MB/61466.1MB ( 56.3%)
+seen 165665 kept 165504 skipped 161 rate 198.1/s elapsed 13.9m
+seen 166000 kept 165839 skipped 161 rate 198.4/s elapsed 13.9m
+read 34868.0MB/61466.1MB ( 56.7%)
+seen 166657 kept 166496 skipped 161 rate 197.9/s elapsed 14.0m
+seen 167000 kept 166839 skipped 161 rate 198.0/s elapsed 14.1m
+read 35065.0MB/61466.1MB ( 57.0%)
+seen 167665 kept 167504 skipped 161 rate 197.5/s elapsed 14.1m
+seen 168000 kept 167839 skipped 161 rate 197.7/s elapsed 14.2m
+read 35295.0MB/61466.1MB ( 57.4%)
+seen 168657 kept 168496 skipped 161 rate 197.3/s elapsed 14.2m
+seen 169000 kept 168839 skipped 161 rate 197.6/s elapsed 14.3m
+read 35503.0MB/61466.1MB ( 57.8%)
+seen 169985 kept 169824 skipped 161 rate 197.6/s elapsed 14.3m
+seen 170000 kept 169839 skipped 161 rate 197.6/s elapsed 14.3m
+read 35713.0MB/61466.1MB ( 58.1%)
+seen 171000 kept 170839 skipped 161 rate 197.8/s elapsed 14.4m
+read 35973.0MB/61466.1MB ( 58.5%)
+seen 172000 kept 171839 skipped 161 rate 197.9/s elapsed 14.5m
+read 36205.0MB/61466.1MB ( 58.9%)
+seen 173000 kept 172839 skipped 161 rate 198.0/s elapsed 14.6m
+read 36486.0MB/61466.1MB ( 59.4%)
+seen 173841 kept 173680 skipped 161 rate 197.9/s elapsed 14.6m
+seen 174000 kept 173839 skipped 161 rate 198.0/s elapsed 14.6m
+read 36677.0MB/61466.1MB ( 59.7%)
+seen 174913 kept 174752 skipped 161 rate 197.9/s elapsed 14.7m
+seen 175000 kept 174839 skipped 161 rate 198.0/s elapsed 14.7m
+read 36897.0MB/61466.1MB ( 60.0%)
+seen 175921 kept 175760 skipped 161 rate 197.9/s elapsed 14.8m
+seen 176000 kept 175839 skipped 161 rate 197.9/s elapsed 14.8m
+read 36974.0MB/61466.1MB ( 60.2%)
+seen 176657 kept 176496 skipped 161 rate 197.3/s elapsed 14.9m
+seen 177000 kept 176835 skipped 165 rate 197.5/s elapsed 14.9m
+read 37165.0MB/61466.1MB ( 60.5%)
+seen 177649 kept 177484 skipped 165 rate 196.7/s elapsed 15.1m
+seen 178000 kept 177825 skipped 175 rate 196.9/s elapsed 15.1m
+read 37346.0MB/61466.1MB ( 60.8%)
+seen 178625 kept 178450 skipped 175 rate 196.3/s elapsed 15.2m
+seen 179000 kept 178823 skipped 177 rate 196.5/s elapsed 15.2m
+read 37597.0MB/61466.1MB ( 61.2%)
+seen 179633 kept 179456 skipped 177 rate 196.0/s elapsed 15.3m
+seen 180000 kept 179821 skipped 179 rate 196.3/s elapsed 15.3m
+read 37836.0MB/61466.1MB ( 61.6%)
+seen 180849 kept 180669 skipped 180 rate 196.1/s elapsed 15.4m
+seen 181000 kept 180820 skipped 180 rate 196.2/s elapsed 15.4m
+read 38062.0MB/61466.1MB ( 61.9%)
+seen 181651 kept 181470 skipped 181 rate 195.8/s elapsed 15.5m
+seen 182000 kept 181819 skipped 181 rate 196.1/s elapsed 15.5m
+read 38280.0MB/61466.1MB ( 62.3%)
+seen 182881 kept 182700 skipped 181 rate 196.0/s elapsed 15.6m
+seen 183000 kept 182819 skipped 181 rate 196.0/s elapsed 15.6m
+read 38485.0MB/61466.1MB ( 62.6%)
+seen 184000 kept 183819 skipped 181 rate 196.3/s elapsed 15.6m
+seen 185000 kept 184819 skipped 181 rate 196.8/s elapsed 15.7m
+read 38695.0MB/61466.1MB ( 63.0%)
+seen 186000 kept 185819 skipped 181 rate 197.1/s elapsed 15.7m
+read 38940.0MB/61466.1MB ( 63.4%)
+seen 187000 kept 186819 skipped 181 rate 197.3/s elapsed 15.8m
+seen 188000 kept 187818 skipped 182 rate 197.5/s elapsed 15.9m
+read 39188.0MB/61466.1MB ( 63.8%)
+seen 189000 kept 188818 skipped 182 rate 197.8/s elapsed 15.9m
+read 39477.0MB/61466.1MB ( 64.2%)
+seen 190000 kept 189818 skipped 182 rate 198.1/s elapsed 16.0m
+seen 191000 kept 190818 skipped 182 rate 198.3/s elapsed 16.1m
+read 39720.0MB/61466.1MB ( 64.6%)
+seen 191937 kept 191755 skipped 182 rate 198.2/s elapsed 16.1m
+seen 192000 kept 191818 skipped 182 rate 198.3/s elapsed 16.1m
+read 39914.0MB/61466.1MB ( 64.9%)
+seen 193000 kept 192818 skipped 182 rate 198.6/s elapsed 16.2m
+read 40199.0MB/61466.1MB ( 65.4%)
+seen 194000 kept 193818 skipped 182 rate 198.7/s elapsed 16.3m
+read 40376.0MB/61466.1MB ( 65.7%)
+seen 194577 kept 194395 skipped 182 rate 198.2/s elapsed 16.4m
+seen 195000 kept 194818 skipped 182 rate 198.4/s elapsed 16.4m
+read 40548.0MB/61466.1MB ( 66.0%)
+seen 195569 kept 195387 skipped 182 rate 197.7/s elapsed 16.5m
+seen 196000 kept 195818 skipped 182 rate 198.0/s elapsed 16.5m
+read 40736.0MB/61466.1MB ( 66.3%)
+seen 197000 kept 196818 skipped 182 rate 198.0/s elapsed 16.6m
+read 41001.0MB/61466.1MB ( 66.7%)
+seen 198000 kept 197818 skipped 182 rate 198.2/s elapsed 16.6m
+seen 199000 kept 198818 skipped 182 rate 198.6/s elapsed 16.7m
+read 41248.0MB/61466.1MB ( 67.1%)
+seen 200000 kept 199818 skipped 182 rate 199.0/s elapsed 16.7m
+seen 201000 kept 200818 skipped 182 rate 199.4/s elapsed 16.8m
+read 41468.0MB/61466.1MB ( 67.5%)
+seen 202000 kept 201818 skipped 182 rate 199.6/s elapsed 16.9m
+read 41711.0MB/61466.1MB ( 67.9%)
+seen 203000 kept 202818 skipped 182 rate 199.8/s elapsed 16.9m
+read 41937.0MB/61466.1MB ( 68.2%)
+seen 204000 kept 203818 skipped 182 rate 200.0/s elapsed 17.0m
+read 42122.0MB/61466.1MB ( 68.5%)
+seen 204718 kept 204536 skipped 182 rate 199.7/s elapsed 17.1m
+seen 205000 kept 204818 skipped 182 rate 199.8/s elapsed 17.1m
+seen 206000 kept 205817 skipped 183 rate 200.0/s elapsed 17.2m
+read 42288.0MB/61466.1MB ( 68.8%)
+seen 207000 kept 206817 skipped 183 rate 200.2/s elapsed 17.2m
+read 42509.0MB/61466.1MB ( 69.2%)
+seen 208000 kept 207817 skipped 183 rate 200.4/s elapsed 17.3m
+read 42743.0MB/61466.1MB ( 69.5%)
+seen 208529 kept 208346 skipped 183 rate 199.9/s elapsed 17.4m
+seen 209000 kept 208817 skipped 183 rate 200.1/s elapsed 17.4m
+read 42912.0MB/61466.1MB ( 69.8%)
+seen 209521 kept 209338 skipped 183 rate 199.5/s elapsed 17.5m
+seen 210000 kept 209817 skipped 183 rate 199.8/s elapsed 17.5m
+read 43105.0MB/61466.1MB ( 70.1%)
+seen 210529 kept 210346 skipped 183 rate 199.3/s elapsed 17.6m
+seen 211000 kept 210815 skipped 185 rate 199.6/s elapsed 17.6m
+read 43287.0MB/61466.1MB ( 70.4%)
+seen 211697 kept 211509 skipped 188 rate 199.3/s elapsed 17.7m
+seen 212000 kept 211811 skipped 189 rate 199.5/s elapsed 17.7m
+read 43515.0MB/61466.1MB ( 70.8%)
+seen 212513 kept 212324 skipped 189 rate 198.9/s elapsed 17.8m
+seen 213000 kept 212811 skipped 189 rate 199.2/s elapsed 17.8m
+read 43760.0MB/61466.1MB ( 71.2%)
+seen 213953 kept 213763 skipped 190 rate 199.2/s elapsed 17.9m
+seen 214000 kept 213810 skipped 190 rate 199.2/s elapsed 17.9m
+read 43985.0MB/61466.1MB ( 71.6%)
+seen 214817 kept 214623 skipped 194 rate 199.0/s elapsed 18.0m
+seen 215000 kept 214806 skipped 194 rate 199.1/s elapsed 18.0m
+read 44196.0MB/61466.1MB ( 71.9%)
+seen 216000 kept 215806 skipped 194 rate 199.2/s elapsed 18.1m
+read 44469.0MB/61466.1MB ( 72.3%)
+seen 216465 kept 216271 skipped 194 rate 198.7/s elapsed 18.2m
+seen 217000 kept 216805 skipped 195 rate 199.0/s elapsed 18.2m
+read 44638.0MB/61466.1MB ( 72.6%)
+seen 218000 kept 217802 skipped 198 rate 199.1/s elapsed 18.3m
+read 44902.0MB/61466.1MB ( 73.1%)
+seen 218625 kept 218425 skipped 200 rate 198.7/s elapsed 18.3m
+seen 219000 kept 218800 skipped 200 rate 198.9/s elapsed 18.3m
+read 45154.0MB/61466.1MB ( 73.5%)
+seen 219457 kept 219257 skipped 200 rate 198.4/s elapsed 18.4m
+seen 220000 kept 219799 skipped 201 rate 198.7/s elapsed 18.5m
+read 45402.0MB/61466.1MB ( 73.9%)
+seen 220433 kept 220232 skipped 201 rate 198.0/s elapsed 18.6m
+seen 221000 kept 220798 skipped 202 rate 198.3/s elapsed 18.6m
+read 45636.0MB/61466.1MB ( 74.2%)
+seen 221937 kept 221734 skipped 203 rate 198.3/s elapsed 18.7m
+seen 222000 kept 221797 skipped 203 rate 198.3/s elapsed 18.7m
+read 45873.0MB/61466.1MB ( 74.6%)
+seen 222833 kept 222627 skipped 206 rate 198.2/s elapsed 18.7m
+seen 223000 kept 222794 skipped 206 rate 198.3/s elapsed 18.7m
+read 46104.0MB/61466.1MB ( 75.0%)
+seen 223793 kept 223581 skipped 212 rate 198.1/s elapsed 18.8m
+seen 224000 kept 223788 skipped 212 rate 198.2/s elapsed 18.8m
+read 46320.0MB/61466.1MB ( 75.4%)
+seen 224721 kept 224505 skipped 216 rate 198.0/s elapsed 18.9m
+seen 225000 kept 224784 skipped 216 rate 198.1/s elapsed 18.9m
+read 46547.0MB/61466.1MB ( 75.7%)
+seen 226000 kept 225780 skipped 220 rate 198.2/s elapsed 19.0m
+read 46791.0MB/61466.1MB ( 76.1%)
+seen 226529 kept 226309 skipped 220 rate 197.8/s elapsed 19.1m
+seen 227000 kept 226780 skipped 220 rate 198.0/s elapsed 19.1m
+read 47026.0MB/61466.1MB ( 76.5%)
+seen 227569 kept 227347 skipped 222 rate 197.7/s elapsed 19.2m
+seen 228000 kept 227775 skipped 225 rate 197.9/s elapsed 19.2m
+read 47248.0MB/61466.1MB ( 76.9%)
+read 47490.0MB/61466.1MB ( 77.3%)
+seen 228305 kept 228080 skipped 225 rate 197.1/s elapsed 19.3m
+seen 229000 kept 228772 skipped 228 rate 197.4/s elapsed 19.3m
+seen 230000 kept 229769 skipped 231 rate 197.5/s elapsed 19.4m
+read 47699.0MB/61466.1MB ( 77.6%)
+seen 231000 kept 230766 skipped 234 rate 197.5/s elapsed 19.5m
+read 47900.0MB/61466.1MB ( 77.9%)
+seen 231345 kept 231111 skipped 234 rate 197.0/s elapsed 19.6m
+seen 232000 kept 231765 skipped 235 rate 197.3/s elapsed 19.6m
+read 48106.0MB/61466.1MB ( 78.3%)
+seen 232369 kept 232134 skipped 235 rate 196.8/s elapsed 19.7m
+seen 233000 kept 232764 skipped 236 rate 197.1/s elapsed 19.7m
+read 48321.0MB/61466.1MB ( 78.6%)
+seen 233409 kept 233173 skipped 236 rate 196.6/s elapsed 19.8m
+seen 234000 kept 233764 skipped 236 rate 196.9/s elapsed 19.8m
+read 48582.0MB/61466.1MB ( 79.0%)
+seen 234209 kept 233973 skipped 236 rate 196.2/s elapsed 19.9m
+seen 235000 kept 234762 skipped 238 rate 196.6/s elapsed 19.9m
+read 48779.0MB/61466.1MB ( 79.4%)
+seen 236000 kept 235760 skipped 240 rate 196.6/s elapsed 20.0m
+read 48978.0MB/61466.1MB ( 79.7%)
+seen 236795 kept 236554 skipped 241 rate 196.5/s elapsed 20.1m
+seen 237000 kept 236759 skipped 241 rate 196.6/s elapsed 20.1m
+read 49203.0MB/61466.1MB ( 80.0%)
+seen 237489 kept 237248 skipped 241 rate 196.2/s elapsed 20.2m
+seen 238000 kept 237758 skipped 242 rate 196.4/s elapsed 20.2m
+read 49398.0MB/61466.1MB ( 80.4%)
+seen 238369 kept 238127 skipped 242 rate 195.9/s elapsed 20.3m
+seen 239000 kept 238756 skipped 244 rate 196.2/s elapsed 20.3m
+read 49622.0MB/61466.1MB ( 80.7%)
+seen 239953 kept 239707 skipped 246 rate 196.2/s elapsed 20.4m
+seen 240000 kept 239754 skipped 246 rate 196.2/s elapsed 20.4m
+read 49819.0MB/61466.1MB ( 81.1%)
+seen 240689 kept 240442 skipped 247 rate 195.9/s elapsed 20.5m
+seen 241000 kept 240753 skipped 247 rate 196.1/s elapsed 20.5m
+read 50034.0MB/61466.1MB ( 81.4%)
+seen 242000 kept 241753 skipped 247 rate 196.1/s elapsed 20.6m
+read 50257.0MB/61466.1MB ( 81.8%)
+seen 242801 kept 242554 skipped 247 rate 196.0/s elapsed 20.6m
+seen 243000 kept 242753 skipped 247 rate 196.1/s elapsed 20.7m
+read 50470.0MB/61466.1MB ( 82.1%)
+seen 243425 kept 243178 skipped 247 rate 195.6/s elapsed 20.7m
+seen 244000 kept 243753 skipped 247 rate 195.9/s elapsed 20.8m
+read 50655.0MB/61466.1MB ( 82.4%)
+seen 244561 kept 244314 skipped 247 rate 195.5/s elapsed 20.8m
+seen 245000 kept 244751 skipped 249 rate 195.7/s elapsed 20.9m
+read 50860.0MB/61466.1MB ( 82.7%)
+seen 246000 kept 245751 skipped 249 rate 195.8/s elapsed 20.9m
+read 51083.0MB/61466.1MB ( 83.1%)
+seen 247000 kept 246750 skipped 250 rate 195.8/s elapsed 21.0m
+read 51357.0MB/61466.1MB ( 83.6%)
+seen 248000 kept 247750 skipped 250 rate 195.9/s elapsed 21.1m
+read 51583.0MB/61466.1MB ( 83.9%)
+seen 249000 kept 248750 skipped 250 rate 196.1/s elapsed 21.2m
+seen 250000 kept 249750 skipped 250 rate 196.2/s elapsed 21.2m
+read 51828.0MB/61466.1MB ( 84.3%)
+seen 251000 kept 250748 skipped 252 rate 196.2/s elapsed 21.3m
+read 52052.0MB/61466.1MB ( 84.7%)
+seen 252000 kept 251748 skipped 252 rate 196.2/s elapsed 21.4m
+read 52291.0MB/61466.1MB ( 85.1%)
+seen 253000 kept 252747 skipped 253 rate 196.4/s elapsed 21.5m
+read 52536.0MB/61466.1MB ( 85.5%)
+seen 253988 kept 253732 skipped 256 rate 196.4/s elapsed 21.6m
+seen 254000 kept 253744 skipped 256 rate 196.4/s elapsed 21.6m
+read 52775.0MB/61466.1MB ( 85.9%)
+seen 255000 kept 254744 skipped 256 rate 196.6/s elapsed 21.6m
+seen 255889 kept 255631 skipped 258 rate 196.5/s elapsed 21.7m
+read 53011.0MB/61466.1MB ( 86.2%)
+seen 256000 kept 255742 skipped 258 rate 196.5/s elapsed 21.7m
+read 53233.0MB/61466.1MB ( 86.6%)
+seen 256957 kept 256698 skipped 259 rate 196.4/s elapsed 21.8m
+seen 257000 kept 256741 skipped 259 rate 196.1/s elapsed 21.8m
+read 53423.0MB/61466.1MB ( 86.9%)
+seen 257985 kept 257722 skipped 263 rate 196.0/s elapsed 21.9m
+seen 258000 kept 257737 skipped 263 rate 196.1/s elapsed 21.9m
+read 53643.0MB/61466.1MB ( 87.3%)
+seen 258961 kept 258698 skipped 263 rate 195.9/s elapsed 22.0m
+seen 259000 kept 258736 skipped 264 rate 196.0/s elapsed 22.0m
+read 53896.0MB/61466.1MB ( 87.7%)
+seen 259953 kept 259689 skipped 264 rate 195.9/s elapsed 22.1m
+seen 260000 kept 259736 skipped 264 rate 195.9/s elapsed 22.1m
+read 54116.0MB/61466.1MB ( 88.0%)
+seen 260945 kept 260681 skipped 264 rate 195.8/s elapsed 22.2m
+seen 261000 kept 260736 skipped 264 rate 195.9/s elapsed 22.2m
+read 54364.0MB/61466.1MB ( 88.4%)
+seen 261937 kept 261673 skipped 264 rate 195.7/s elapsed 22.3m
+seen 262000 kept 261736 skipped 264 rate 195.7/s elapsed 22.3m
+read 54632.0MB/61466.1MB ( 88.9%)
+seen 262913 kept 262649 skipped 264 rate 195.5/s elapsed 22.4m
+seen 263000 kept 262736 skipped 264 rate 195.6/s elapsed 22.4m
+read 54827.0MB/61466.1MB ( 89.2%)
+seen 263905 kept 263640 skipped 265 rate 195.4/s elapsed 22.5m
+seen 264000 kept 263735 skipped 265 rate 195.5/s elapsed 22.5m
+read 55084.0MB/61466.1MB ( 89.6%)
+seen 264897 kept 264632 skipped 265 rate 195.4/s elapsed 22.6m
+seen 265000 kept 264735 skipped 265 rate 195.5/s elapsed 22.6m
+read 55300.0MB/61466.1MB ( 90.0%)
+seen 265889 kept 265624 skipped 265 rate 195.1/s elapsed 22.7m
+seen 266000 kept 265735 skipped 265 rate 195.2/s elapsed 22.7m
+read 55578.0MB/61466.1MB ( 90.4%)
+seen 266881 kept 266616 skipped 265 rate 195.0/s elapsed 22.8m
+seen 267000 kept 266735 skipped 265 rate 195.1/s elapsed 22.8m
+read 55790.0MB/61466.1MB ( 90.8%)
+seen 267857 kept 267592 skipped 265 rate 194.8/s elapsed 22.9m
+seen 268000 kept 267735 skipped 265 rate 194.9/s elapsed 22.9m
+read 56058.0MB/61466.1MB ( 91.2%)
+seen 268849 kept 268584 skipped 265 rate 194.6/s elapsed 23.0m
+seen 269000 kept 268734 skipped 266 rate 194.7/s elapsed 23.0m
+read 56302.0MB/61466.1MB ( 91.6%)
+seen 269965 kept 269699 skipped 266 rate 194.7/s elapsed 23.1m
+seen 270000 kept 269734 skipped 266 rate 194.7/s elapsed 23.1m
+read 56545.0MB/61466.1MB ( 92.0%)
+seen 270833 kept 270565 skipped 268 rate 194.5/s elapsed 23.2m
+seen 271000 kept 270732 skipped 268 rate 194.6/s elapsed 23.2m
+read 56766.0MB/61466.1MB ( 92.4%)
+seen 272000 kept 271731 skipped 269 rate 194.6/s elapsed 23.3m
+read 57004.0MB/61466.1MB ( 92.7%)
+seen 272817 kept 272547 skipped 270 rate 194.5/s elapsed 23.4m
+seen 273000 kept 272730 skipped 270 rate 194.6/s elapsed 23.4m
+read 57233.0MB/61466.1MB ( 93.1%)
+seen 273809 kept 273539 skipped 270 rate 194.3/s elapsed 23.5m
+seen 274000 kept 273729 skipped 271 rate 194.4/s elapsed 23.5m
+read 57474.0MB/61466.1MB ( 93.5%)
+seen 274817 kept 274546 skipped 271 rate 194.3/s elapsed 23.6m
+seen 275000 kept 274729 skipped 271 rate 194.4/s elapsed 23.6m
+read 57722.0MB/61466.1MB ( 93.9%)
+seen 275777 kept 275506 skipped 271 rate 194.2/s elapsed 23.7m
+seen 276000 kept 275728 skipped 272 rate 194.3/s elapsed 23.7m
+read 57920.0MB/61466.1MB ( 94.2%)
+seen 277000 kept 276727 skipped 273 rate 194.3/s elapsed 23.8m
+read 58180.0MB/61466.1MB ( 94.7%)
+seen 277761 kept 277486 skipped 275 rate 194.1/s elapsed 23.8m
+seen 278000 kept 277725 skipped 275 rate 194.2/s elapsed 23.9m
+read 58396.0MB/61466.1MB ( 95.0%)
+seen 278990 kept 278714 skipped 276 rate 194.2/s elapsed 23.9m
+seen 279000 kept 278724 skipped 276 rate 194.2/s elapsed 23.9m
+read 58621.0MB/61466.1MB ( 95.4%)
+seen 279745 kept 279469 skipped 276 rate 194.0/s elapsed 24.0m
+seen 280000 kept 279722 skipped 278 rate 194.1/s elapsed 24.0m
+read 58861.0MB/61466.1MB ( 95.8%)
+seen 280721 kept 280443 skipped 278 rate 193.8/s elapsed 24.1m
+seen 281000 kept 280716 skipped 284 rate 193.9/s elapsed 24.1m
+read 59087.0MB/61466.1MB ( 96.1%)
+seen 281713 kept 281429 skipped 284 rate 193.7/s elapsed 24.2m
+seen 282000 kept 281716 skipped 284 rate 193.8/s elapsed 24.2m
+read 59338.0MB/61466.1MB ( 96.5%)
+seen 282865 kept 282580 skipped 285 rate 193.8/s elapsed 24.3m
+seen 283000 kept 282715 skipped 285 rate 193.8/s elapsed 24.3m
+read 59571.0MB/61466.1MB ( 96.9%)
+seen 283857 kept 283571 skipped 286 rate 193.7/s elapsed 24.4m
+seen 284000 kept 283714 skipped 286 rate 193.8/s elapsed 24.4m
+read 59808.0MB/61466.1MB ( 97.3%)
+seen 284673 kept 284387 skipped 286 rate 193.6/s elapsed 24.5m
+seen 285000 kept 284714 skipped 286 rate 193.7/s elapsed 24.5m
+read 60076.0MB/61466.1MB ( 97.7%)
+seen 285665 kept 285379 skipped 286 rate 193.4/s elapsed 24.6m
+seen 286000 kept 285714 skipped 286 rate 193.6/s elapsed 24.6m
+read 60302.0MB/61466.1MB ( 98.1%)
+seen 287000 kept 286713 skipped 287 rate 193.7/s elapsed 24.7m
+read 60541.0MB/61466.1MB ( 98.5%)
+seen 287697 kept 287410 skipped 287 rate 193.5/s elapsed 24.8m
+seen 288000 kept 287712 skipped 288 rate 193.6/s elapsed 24.8m
+read 60759.0MB/61466.1MB ( 98.8%)
+seen 289000 kept 288710 skipped 290 rate 193.7/s elapsed 24.9m
+read 60988.0MB/61466.1MB ( 99.2%)
+seen 289809 kept 289518 skipped 291 rate 193.5/s elapsed 25.0m
+seen 290000 kept 289709 skipped 291 rate 193.6/s elapsed 25.0m
+read 61162.0MB/61466.1MB ( 99.5%)
+seen 291000 kept 290708 skipped 292 rate 193.7/s elapsed 25.0m
+read 61399.0MB/61466.1MB ( 99.9%)
+seen 292000 kept 291707 skipped 293 rate 193.9/s elapsed 25.1m
+wrote 291742 molecules to pretraining_data/drugs (rate 193.8/s, elapsed 25.1m)

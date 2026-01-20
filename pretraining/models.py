@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import torch
+import inspect
+
 from torch import nn
 from torchvision import models
 
@@ -38,17 +40,30 @@ class FingerprintMLP(nn.Module):
 class GraphTower(nn.Module):
     def __init__(self, out_dim: int = 128):
         super().__init__()
-        self.model = SchNet(
-            hidden_channels=128,
-            num_filters=128,
-            num_interactions=6,
-            num_gaussians=50,
-            cutoff=10.0,
-            out_channels=out_dim,
-        )
+        sig = inspect.signature(SchNet.__init__)
+        if "out_channels" in sig.parameters:
+            self.model = SchNet(
+                hidden_channels=128,
+                num_filters=128,
+                num_interactions=6,
+                num_gaussians=50,
+                cutoff=10.0,
+                out_channels=out_dim,
+            )
+        else:
+            self.model = SchNet(
+                hidden_channels=128,
+                num_filters=128,
+                num_interactions=6,
+                num_gaussians=50,
+                cutoff=10.0,
+            )
+            if hasattr(self.model, "lin2") and isinstance(self.model.lin2, nn.Linear):
+                self.model.lin2 = nn.Linear(self.model.lin2.in_features, out_dim)
+        self.proj = nn.Identity()
 
     def forward(self, z: torch.Tensor, pos: torch.Tensor, batch: torch.Tensor) -> torch.Tensor:
-        return self.model(z, pos, batch)
+        return self.proj(self.model(z, pos, batch))
 
 
 class ProjectionHead(nn.Module):

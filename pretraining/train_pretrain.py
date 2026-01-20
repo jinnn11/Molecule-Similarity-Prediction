@@ -47,6 +47,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--no-channels-last", action="store_true", help="Disable channels_last for images.")
     parser.add_argument("--log-interval", type=int, default=50, help="Steps between progress logs.")
     parser.add_argument("--device", default=_default_device())
+    parser.add_argument(
+        "--graph-device",
+        default=None,
+        help="Device for 3D graph tower (default: cpu on mps, else same as --device)",
+    )
     return parser.parse_args()
 
 
@@ -66,6 +71,12 @@ def main() -> int:
     dataset = PrecomputedMultiModalDataset(cfg)
     print(f"Loaded dataset with {len(dataset)} molecules from {args.data_dir}")
     device = torch.device(args.device)
+    if args.graph_device:
+        graph_device = torch.device(args.graph_device)
+    else:
+        graph_device = torch.device("cpu") if device.type == "mps" else device
+    if graph_device != device:
+        print(f"Using graph device {graph_device} (main device {device})")
     pin_memory = device.type == "cuda"
     loader = DataLoader(
         dataset,
@@ -79,11 +90,11 @@ def main() -> int:
     )
 
     img_encoder = build_resnet18().to(device)
-    graph_encoder = GraphTower(out_dim=128).to(device)
+    graph_encoder = GraphTower(out_dim=128).to(graph_device)
     fp_encoder = FingerprintMLP(in_dim=2048, hidden_dim=1024, out_dim=512).to(device)
 
     proj_2d = ProjectionHead(512, 256).to(device)
-    proj_3d = ProjectionHead(128, 256).to(device)
+    proj_3d = ProjectionHead(128, 256).to(graph_device)
     proj_1d = ProjectionHead(512, 256).to(device)
 
     params = list(img_encoder.parameters()) + list(graph_encoder.parameters())
@@ -127,7 +138,7 @@ def main() -> int:
             if channels_last:
                 images = images.contiguous(memory_format=torch.channels_last)
             fps = fps.to(device, non_blocking=True)
-            graphs = graphs.to(device)
+            graphs = graphs.to(graph_device)
 
             if args.amp:
                 if device.type == "cuda":
@@ -139,6 +150,8 @@ def main() -> int:
                 with torch.autocast(device.type, dtype=autocast_dtype):
                     z2d = proj_2d(img_encoder(images))
                     z3d = proj_3d(graph_encoder(graphs.z, graphs.pos, graphs.batch))
+                    if graph_device != device:
+                        z3d = z3d.to(device)
                     z1d = proj_1d(fp_encoder(fps))
 
                     loss = clip_loss(z2d, z3d, args.temperature)
@@ -147,6 +160,8 @@ def main() -> int:
             else:
                 z2d = proj_2d(img_encoder(images))
                 z3d = proj_3d(graph_encoder(graphs.z, graphs.pos, graphs.batch))
+                if graph_device != device:
+                    z3d = z3d.to(device)
                 z1d = proj_1d(fp_encoder(fps))
 
                 loss = clip_loss(z2d, z3d, args.temperature)

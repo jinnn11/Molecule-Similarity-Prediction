@@ -1,0 +1,39 @@
+{
+  "archive": "/Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack",
+  "archive_size_mb": 61466.05,
+  "output_dir": "pretraining_data/drugs",
+  "args": {
+    "archive": "/Users/Swaminathan/Desktop/all_code_base/similarity_prediction/drugs_crude.msgpack",
+    "out": "pretraining_data/drugs",
+    "image_size": 384,
+    "png_compress_level": 1,
+    "kekulize": false,
+    "bond_line_width": 2.0,
+    "fingerprint_bits": 2048,
+    "max_mols": 0,
+    "max_atoms": 100,
+    "num_workers": 4,
+    "chunksize": 16,
+    "log_interval": 1000,
+    "log_seconds": 5.0
+  },
+  "counts": {
+    "seen": 292035,
+    "kept": 291742,
+    "skipped": 293
+  },
+  "skip_reasons": {
+    "too_many_atoms": 293
+  },
+  "timing": {
+    "start_time": "2026-01-20T00:24:27",
+    "end_time": "2026-01-20T00:49:34",
+    "elapsed_seconds": 1506.74,
+    "rate_per_sec": 193.82
+  },
+  "env": {
+    "python": "3.10.15",
+    "platform": "macOS-15.6.1-arm64-arm-64bit",
+    "machine": "arm64"
+  }
+}
