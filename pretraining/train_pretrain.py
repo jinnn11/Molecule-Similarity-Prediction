@@ -2,12 +2,22 @@
 from __future__ import annotations
 
 import argparse
+import json
 import math
 import os
+import platform
 import sys
 import time
+from pathlib import Path
 
 import torch
+
+try:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+except ImportError:  # pragma: no cover - optional
+    plt = None
 from torch.utils.data import DataLoader
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -57,7 +67,24 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    os.makedirs(args.save_dir, exist_ok=True)
+    repo_root = Path(__file__).resolve().parent.parent
+    run_id = time.strftime("run_%Y%m%d_%H%M%S")
+    if args.save_dir == "pretraining_runs":
+        run_dir = repo_root / "outputs" / "pretrain_runs" / run_id
+    else:
+        run_dir = Path(args.save_dir)
+        if not run_dir.is_absolute():
+            run_dir = repo_root / run_dir
+    run_dir.mkdir(parents=True, exist_ok=True)
+    args.save_dir = str(run_dir)
+
+    log_path = run_dir / "train.log"
+    log_handle = log_path.open("a", encoding="utf-8")
+
+    def log(msg: str) -> None:
+        print(msg, flush=True)
+        log_handle.write(msg + "\n")
+        log_handle.flush()
 
     if hasattr(torch, "set_float32_matmul_precision"):
         torch.set_float32_matmul_precision("medium")
@@ -69,14 +96,14 @@ def main() -> int:
         augment=not args.no_augment,
     )
     dataset = PrecomputedMultiModalDataset(cfg)
-    print(f"Loaded dataset with {len(dataset)} molecules from {args.data_dir}")
+    log(f"Loaded dataset with {len(dataset)} molecules from {args.data_dir}")
     device = torch.device(args.device)
     if args.graph_device:
         graph_device = torch.device(args.graph_device)
     else:
         graph_device = torch.device("cpu") if device.type == "mps" else device
     if graph_device != device:
-        print(f"Using graph device {graph_device} (main device {device})")
+        log(f"Using graph device {graph_device} (main device {device})")
     pin_memory = device.type == "cuda"
     loader = DataLoader(
         dataset,
@@ -118,6 +145,22 @@ def main() -> int:
 
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_scale)
 
+    run_info = {
+        "args": vars(args),
+        "devices": {
+            "main": str(device),
+            "graph": str(graph_device),
+        },
+        "dataset_size": len(dataset),
+        "versions": {
+            "python": sys.version.split()[0],
+            "platform": platform.platform(),
+            "torch": torch.__version__,
+        },
+    }
+    with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
+        json.dump(run_info, handle, indent=2)
+
     img_encoder.train()
     graph_encoder.train()
     fp_encoder.train()
@@ -129,6 +172,7 @@ def main() -> int:
     if channels_last:
         img_encoder = img_encoder.to(memory_format=torch.channels_last)
 
+    metrics_history = []
     for epoch in range(1, args.epochs + 1):
         epoch_loss = 0.0
         optimizer.zero_grad()
@@ -180,19 +224,64 @@ def main() -> int:
             if args.log_interval and (step % args.log_interval == 0 or step == len(loader)):
                 percent = 100.0 * step / max(len(loader), 1)
                 current_lr = scheduler.get_last_lr()[0]
-                print(
+                log(
                     f"epoch {epoch:03d} step {step:05d}/{len(loader)} "
                     f"({percent:5.1f}%) lr {current_lr:.6g}"
                 )
 
         elapsed = time.time() - start
         avg_loss = epoch_loss / max(len(loader), 1)
-        print(f"epoch {epoch:03d} loss {avg_loss:.4f} time {elapsed:.1f}s")
+        log(f"epoch {epoch:03d} loss {avg_loss:.4f} time {elapsed:.1f}s")
 
-    torch.save(img_encoder.state_dict(), os.path.join(args.save_dir, "resnet18.pt"))
-    torch.save(graph_encoder.state_dict(), os.path.join(args.save_dir, "schnet.pt"))
-    torch.save(fp_encoder.state_dict(), os.path.join(args.save_dir, "fingerprint_mlp.pt"))
-    print(f"saved encoders to {args.save_dir}")
+        metrics = {
+            "epoch": epoch,
+            "avg_loss": avg_loss,
+            "time_sec": round(elapsed, 2),
+            "lr": scheduler.get_last_lr()[0],
+        }
+        metrics_history.append(metrics)
+        with (run_dir / "metrics.jsonl").open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(metrics) + "\n")
+
+        checkpoint = {
+            "epoch": epoch,
+            "img_encoder": img_encoder.state_dict(),
+            "graph_encoder": graph_encoder.state_dict(),
+            "fp_encoder": fp_encoder.state_dict(),
+            "proj_2d": proj_2d.state_dict(),
+            "proj_3d": proj_3d.state_dict(),
+            "proj_1d": proj_1d.state_dict(),
+            "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict(),
+            "args": vars(args),
+        }
+        torch.save(checkpoint, run_dir / "checkpoint_last.pt")
+
+    torch.save(img_encoder.state_dict(), run_dir / "resnet18.pt")
+    torch.save(graph_encoder.state_dict(), run_dir / "schnet.pt")
+    torch.save(fp_encoder.state_dict(), run_dir / "fingerprint_mlp.pt")
+    if plt and metrics_history:
+        epochs = [m["epoch"] for m in metrics_history]
+        losses = [m["avg_loss"] for m in metrics_history]
+        lrs = [m["lr"] for m in metrics_history]
+        times = [m["time_sec"] for m in metrics_history]
+
+        def save_plot(path: Path, y, title: str, ylabel: str) -> None:
+            plt.figure(figsize=(7, 4))
+            plt.plot(epochs, y, marker="o", linewidth=1.5)
+            plt.title(title)
+            plt.xlabel("Epoch")
+            plt.ylabel(ylabel)
+            plt.tight_layout()
+            plt.savefig(path, dpi=150)
+            plt.close()
+
+        save_plot(run_dir / "loss_curve.png", losses, "Pretrain Loss", "Loss")
+        save_plot(run_dir / "lr_curve.png", lrs, "Learning Rate", "LR")
+        save_plot(run_dir / "epoch_time.png", times, "Epoch Time", "Seconds")
+        log("saved plots: loss_curve.png, lr_curve.png, epoch_time.png")
+    log(f"saved encoders to {run_dir}")
+    log_handle.close()
     return 0
 
 
