@@ -27,3 +27,6 @@ diagram/diagram.py
 
 # model weights
 outputs/pretrain_runs/**/*.pt
+
+# model weights
+outputs/pretrain_runs/**/*.pt
