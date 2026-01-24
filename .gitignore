@@ -24,3 +24,6 @@ eda/summary.json
 
 # Diagram script (generated manually)
 diagram/diagram.py
+
+# model weights
+outputs/pretrain_runs/**/*.pt
