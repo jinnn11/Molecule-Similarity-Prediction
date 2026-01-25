@@ -33,6 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fusion-dim", type=int, default=256)
     parser.add_argument("--hidden-dim", type=int, default=128)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--log-interval", type=int, default=5)
     return parser.parse_args()
 
 
@@ -108,6 +109,8 @@ def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
 def main() -> int:
     args = parse_args()
     device = torch.device(args.device)
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
 
     data = np.load(args.features, allow_pickle=True)
     a_2d = data["a_2d"]
@@ -122,14 +125,40 @@ def main() -> int:
 
     run_dir = Path("outputs") / "finetune_runs" / time.strftime("run_%Y%m%d_%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=True)
+    log_path = run_dir / "train.log"
+    log_handle = log_path.open("w", encoding="utf-8")
+
+    def log(msg: str) -> None:
+        print(msg, flush=True)
+        log_handle.write(msg + "\n")
+        log_handle.flush()
+
+    history_path = run_dir / "training_history.jsonl"
+    history_handle = history_path.open("w", encoding="utf-8")
+
+    start_time = time.time()
     with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
-        json.dump(vars(args), handle, indent=2)
+        run_config = vars(args)
+        run_config.update(
+            {
+                "features_path": str(args.features),
+                "num_samples": int(len(y)),
+                "feature_shapes": {
+                    "a_2d": list(a_2d.shape),
+                    "a_3d": list(a_3d.shape),
+                    "a_1d": list(a_1d.shape),
+                },
+            }
+        )
+        json.dump(run_config, handle, indent=2)
 
     folds = _make_folds(len(y), args.folds, args.seed)
     metrics = []
     all_preds = np.zeros_like(y)
 
     for fold_idx in range(args.folds):
+        fold_start = time.time()
+        log(f"starting fold {fold_idx + 1}/{args.folds}")
         test_idx = folds[fold_idx]
         train_idx = np.hstack([folds[i] for i in range(args.folds) if i != fold_idx])
 
@@ -159,6 +188,7 @@ def main() -> int:
         for epoch in range(1, args.epochs + 1):
             model.train()
             epoch_loss = 0.0
+            epoch_start = time.time()
             for batch in train_loader:
                 batch = [b.to(device) for b in batch]
                 pred = model(*batch[:-1])
@@ -167,7 +197,29 @@ def main() -> int:
                 loss.backward()
                 optimizer.step()
                 epoch_loss += loss.item()
-            history.append(epoch_loss / max(len(train_loader), 1))
+            epoch_loss = epoch_loss / max(len(train_loader), 1)
+            history.append(epoch_loss)
+
+            history_handle.write(
+                json.dumps(
+                    {
+                        "fold": fold_idx + 1,
+                        "epoch": epoch,
+                        "loss": round(float(epoch_loss), 6),
+                        "elapsed_sec": round(time.time() - epoch_start, 3),
+                    }
+                )
+                + "\n"
+            )
+            history_handle.flush()
+            if epoch % args.log_interval == 0 or epoch == 1 or epoch == args.epochs:
+                elapsed = time.time() - fold_start
+                rate = epoch / max(elapsed, 1e-6)
+                eta = (args.epochs - epoch) / max(rate, 1e-6)
+                log(
+                    f"fold {fold_idx + 1} epoch {epoch}/{args.epochs} "
+                    f"loss {epoch_loss:.6f} elapsed {elapsed/60:.2f}m eta {eta/60:.2f}m"
+                )
 
         model.eval()
         with torch.no_grad():
@@ -183,7 +235,15 @@ def main() -> int:
 
         fold_rmse = _rmse(preds, y[test_idx])
         fold_pearson = _pearson(preds, y[test_idx])
-        metrics.append({"fold": fold_idx + 1, "rmse": fold_rmse, "pearson": fold_pearson})
+        metrics.append(
+            {
+                "fold": fold_idx + 1,
+                "rmse": fold_rmse,
+                "pearson": fold_pearson,
+                "train_time_sec": round(time.time() - fold_start, 2),
+            }
+        )
+        torch.save(model.state_dict(), run_dir / f"head_fold_{fold_idx + 1}.pt")
 
         if plt:
             plt.figure(figsize=(7, 4))
@@ -200,6 +260,7 @@ def main() -> int:
         "rmse_std": float(np.std([m["rmse"] for m in metrics])),
         "pearson_mean": float(np.mean([m["pearson"] for m in metrics])),
         "pearson_std": float(np.std([m["pearson"] for m in metrics])),
+        "runtime_sec": round(time.time() - start_time, 2),
     }
     if tanimoto is not None:
         mask = np.isfinite(tanimoto)
@@ -223,6 +284,8 @@ def main() -> int:
                 handle.write(f"{i},{pred:.6f},{y[i]:.6f}\n")
 
     print(f"wrote results to {run_dir}")
+    history_handle.close()
+    log_handle.close()
     return 0
 
 

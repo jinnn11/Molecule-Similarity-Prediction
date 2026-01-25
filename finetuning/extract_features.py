@@ -55,6 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", default="outputs/finetune_features/features.npz")
     parser.add_argument("--no-pdb", action="store_true", help="Do not use PDB; use RDKit 3D.")
     parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument("--log-interval", type=int, default=25)
     return parser.parse_args()
 
 
@@ -176,69 +177,147 @@ def main() -> int:
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path = out_path.parent / "extract.log"
+    log_handle = log_path.open("w", encoding="utf-8")
+
+    def log(msg: str) -> None:
+        print(msg, flush=True)
+        log_handle.write(msg + "\n")
+        log_handle.flush()
 
     a_2d, a_3d, a_1d = [], [], []
     b_2d, b_3d, b_1d = [], [], []
     labels = []
     tanimoto = []
     pair_ids = []
+    skipped = []
+    stats = {
+        "seen": 0,
+        "kept": 0,
+        "skipped": 0,
+        "pdb_used": 0,
+        "pdb_missing": 0,
+        "pdb_failed": 0,
+        "embed_used": 0,
+        "embed_failed": 0,
+        "invalid_smiles": 0,
+    }
+    total = len(pairs)
 
     start = time.time()
-    with torch.no_grad():
-        for row in pairs:
-            id_pair = int(row.get("id_pair", "0"))
-            csv_path = Path(row["__csv_path"])
-            pair_key = f"{csv_path.stem}:{id_pair:03d}"
-            smiles_a = row["curated_smiles_molecule_a"]
-            smiles_b = row["curated_smiles_molecule_b"]
-            label = float(row["frac_similar"])
-            tan = float(row.get("TanimotoCombo", "nan")) if "TanimotoCombo" in row else float("nan")
+    log(
+        "starting extraction: "
+        f"pairs={total} device={device.type} graph_device={graph_device.type}"
+    )
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
+    try:
+        with torch.no_grad():
+            for idx, row in enumerate(pairs, start=1):
+                stats["seen"] += 1
+                try:
+                    id_pair = int(row.get("id_pair", "0"))
+                    csv_path = Path(row["__csv_path"])
+                    pair_key = f"{csv_path.stem}:{id_pair:03d}"
+                    smiles_a = row["curated_smiles_molecule_a"]
+                    smiles_b = row["curated_smiles_molecule_b"]
+                    label = float(row["frac_similar"])
+                    tan = float(row.get("TanimotoCombo", "nan")) if "TanimotoCombo" in row else float("nan")
 
-            mol_a = Chem.MolFromSmiles(smiles_a)
-            mol_b = Chem.MolFromSmiles(smiles_b)
-            if mol_a is None or mol_b is None:
-                continue
+                    mol_a = Chem.MolFromSmiles(smiles_a)
+                    mol_b = Chem.MolFromSmiles(smiles_b)
+                    if mol_a is None or mol_b is None:
+                        stats["invalid_smiles"] += 1
+                        stats["skipped"] += 1
+                        skipped.append({"pair_id": pair_key, "reason": "invalid_smiles"})
+                        continue
 
-            img_a = _render_image(mol_a, args.image_size).unsqueeze(0).to(device)
-            img_b = _render_image(mol_b, args.image_size).unsqueeze(0).to(device)
+                    img_a = _render_image(mol_a, args.image_size).unsqueeze(0).to(device)
+                    img_b = _render_image(mol_b, args.image_size).unsqueeze(0).to(device)
 
-            fp_a = _fingerprint(mol_a).unsqueeze(0).to(device)
-            fp_b = _fingerprint(mol_b).unsqueeze(0).to(device)
+                    fp_a = _fingerprint(mol_a).unsqueeze(0).to(device)
+                    fp_b = _fingerprint(mol_b).unsqueeze(0).to(device)
 
-            if args.no_pdb:
-                graph_a = _embed_3d(smiles_a)
-                graph_b = _embed_3d(smiles_b)
-            else:
-                graph_a = _load_pdb(_get_pdb_path(csv_path, id_pair, "a"))
-                graph_b = _load_pdb(_get_pdb_path(csv_path, id_pair, "b"))
-                if graph_a is None:
-                    graph_a = _embed_3d(smiles_a)
-                if graph_b is None:
-                    graph_b = _embed_3d(smiles_b)
+                    graph_a = None
+                    graph_b = None
+                    if args.no_pdb:
+                        graph_a = _embed_3d(smiles_a)
+                        graph_b = _embed_3d(smiles_b)
+                        if graph_a is not None and graph_b is not None:
+                            stats["embed_used"] += 2
+                    else:
+                        pdb_a = _get_pdb_path(csv_path, id_pair, "a")
+                        pdb_b = _get_pdb_path(csv_path, id_pair, "b")
+                        graph_a = _load_pdb(pdb_a)
+                        graph_b = _load_pdb(pdb_b)
+                        if graph_a is None:
+                            if pdb_a.exists():
+                                stats["pdb_failed"] += 1
+                            else:
+                                stats["pdb_missing"] += 1
+                            graph_a = _embed_3d(smiles_a)
+                            if graph_a is not None:
+                                stats["embed_used"] += 1
+                            else:
+                                stats["embed_failed"] += 1
+                        else:
+                            stats["pdb_used"] += 1
+                        if graph_b is None:
+                            if pdb_b.exists():
+                                stats["pdb_failed"] += 1
+                            else:
+                                stats["pdb_missing"] += 1
+                            graph_b = _embed_3d(smiles_b)
+                            if graph_b is not None:
+                                stats["embed_used"] += 1
+                            else:
+                                stats["embed_failed"] += 1
+                        else:
+                            stats["pdb_used"] += 1
 
-            if graph_a is None or graph_b is None:
-                continue
+                    if graph_a is None or graph_b is None:
+                        stats["skipped"] += 1
+                        skipped.append({"pair_id": pair_key, "reason": "missing_3d"})
+                        continue
 
-            graph_a = graph_a.to(graph_device)
-            graph_b = graph_b.to(graph_device)
+                    graph_a = graph_a.to(graph_device)
+                    graph_b = graph_b.to(graph_device)
 
-            feat_a_2d = img_encoder(img_a).cpu().numpy().squeeze(0)
-            feat_b_2d = img_encoder(img_b).cpu().numpy().squeeze(0)
-            feat_a_1d = fp_encoder(fp_a).cpu().numpy().squeeze(0)
-            feat_b_1d = fp_encoder(fp_b).cpu().numpy().squeeze(0)
+                    feat_a_2d = img_encoder(img_a).cpu().numpy().squeeze(0)
+                    feat_b_2d = img_encoder(img_b).cpu().numpy().squeeze(0)
+                    feat_a_1d = fp_encoder(fp_a).cpu().numpy().squeeze(0)
+                    feat_b_1d = fp_encoder(fp_b).cpu().numpy().squeeze(0)
 
-            feat_a_3d = graph_encoder(graph_a.z, graph_a.pos, None).cpu().numpy().squeeze(0)
-            feat_b_3d = graph_encoder(graph_b.z, graph_b.pos, None).cpu().numpy().squeeze(0)
+                    feat_a_3d = graph_encoder(graph_a.z, graph_a.pos, None).cpu().numpy().squeeze(0)
+                    feat_b_3d = graph_encoder(graph_b.z, graph_b.pos, None).cpu().numpy().squeeze(0)
 
-            a_2d.append(feat_a_2d)
-            b_2d.append(feat_b_2d)
-            a_1d.append(feat_a_1d)
-            b_1d.append(feat_b_1d)
-            a_3d.append(feat_a_3d)
-            b_3d.append(feat_b_3d)
-            labels.append(label)
-            tanimoto.append(tan)
-            pair_ids.append(pair_key)
+                    a_2d.append(feat_a_2d)
+                    b_2d.append(feat_b_2d)
+                    a_1d.append(feat_a_1d)
+                    b_1d.append(feat_b_1d)
+                    a_3d.append(feat_a_3d)
+                    b_3d.append(feat_b_3d)
+                    labels.append(label)
+                    tanimoto.append(tan)
+                    pair_ids.append(pair_key)
+                    stats["kept"] += 1
+                except Exception as exc:  # pragma: no cover
+                    stats["skipped"] += 1
+                    skipped.append({"pair_id": row.get("id_pair", "unknown"), "reason": str(exc)})
+
+                if idx % args.log_interval == 0 or idx == total:
+                    elapsed = time.time() - start
+                    rate = stats["seen"] / max(elapsed, 1e-6)
+                    remaining = total - stats["seen"]
+                    eta = remaining / max(rate, 1e-6)
+                    log(
+                        f"progress {stats['seen']}/{total} "
+                        f"({stats['seen'] / max(total, 1) * 100:.1f}%) "
+                        f"kept {stats['kept']} skipped {stats['skipped']} "
+                        f"rate {rate:.2f}/s elapsed {elapsed/60:.1f}m eta {eta/60:.1f}m"
+                    )
+    finally:
+        log_handle.close()
 
     np.savez_compressed(
         out_path,
@@ -255,13 +334,35 @@ def main() -> int:
     )
 
     meta = {
-        "pairs": len(labels),
+        "pairs_total": total,
+        "pairs_kept": len(labels),
+        "pairs_skipped": stats["skipped"],
         "csv_files": args.csv,
         "weights_dir": str(weights_dir),
+        "device": str(device),
+        "graph_device": str(graph_device),
+        "stats": stats,
+        "versions": {
+            "torch": torch.__version__,
+            "numpy": np.__version__,
+            "rdkit": Chem.rdchem._GetRDKitVersion() if hasattr(Chem, "rdchem") else "unknown",
+        },
+        "feature_shapes": {
+            "a_2d": list(np.asarray(a_2d).shape),
+            "b_2d": list(np.asarray(b_2d).shape),
+            "a_3d": list(np.asarray(a_3d).shape),
+            "b_3d": list(np.asarray(b_3d).shape),
+            "a_1d": list(np.asarray(a_1d).shape),
+            "b_1d": list(np.asarray(b_1d).shape),
+        },
         "elapsed_sec": round(time.time() - start, 2),
     }
     with (out_path.parent / "extract_meta.json").open("w", encoding="utf-8") as handle:
         json.dump(meta, handle, indent=2)
+    if skipped:
+        with (out_path.parent / "skipped_pairs.jsonl").open("w", encoding="utf-8") as handle:
+            for item in skipped:
+                handle.write(json.dumps(item) + "\n")
 
     print(f"wrote features to {out_path}")
     return 0
