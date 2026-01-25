@@ -18,7 +18,20 @@ python finetuning/train_siamese.py \
   --features outputs/finetune_features/features.npz \
   --epochs 75 \
   --batch-size 32 \
-  --val-split 0.2
+  --val-split 0.2 \
+  --experiment-name baseline
 ```
 
-Outputs land in `outputs/finetune_runs/run_*/`.
+### Drop 2D branch (3D + 1D only)
+
+```
+python finetuning/train_siamese.py \
+  --features outputs/finetune_features/features.npz \
+  --epochs 75 \
+  --batch-size 32 \
+  --val-split 0.2 \
+  --experiment-name drop_2d \
+  --drop-2d
+```
+
+Outputs land in `outputs/finetune_runs/<experiment_name>/run_*/`.

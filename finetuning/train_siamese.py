@@ -33,36 +33,54 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fusion-dim", type=int, default=256)
     parser.add_argument("--hidden-dim", type=int, default=128)
     parser.add_argument("--val-split", type=float, default=0.2)
+    parser.add_argument("--drop-2d", action="store_true", help="Ignore 2D image features.")
+    parser.add_argument("--experiment-name", default="baseline")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--log-interval", type=int, default=5)
     return parser.parse_args()
 
 
 class GatedFusion(nn.Module):
-    def __init__(self, dim_2d: int, dim_3d: int, dim_1d: int, fusion_dim: int):
+    def __init__(self, dims: List[int], fusion_dim: int):
         super().__init__()
-        self.proj_2d = nn.Linear(dim_2d, fusion_dim)
-        self.proj_3d = nn.Linear(dim_3d, fusion_dim)
-        self.proj_1d = nn.Linear(dim_1d, fusion_dim)
-        self.gate = nn.Linear(fusion_dim * 3, 3)
+        if not dims:
+            raise ValueError("At least one modality is required.")
+        self.projs = nn.ModuleList([nn.Linear(dim, fusion_dim) for dim in dims])
+        self.gate = nn.Linear(fusion_dim * len(dims), len(dims))
 
-    def forward(self, x2d: torch.Tensor, x3d: torch.Tensor, x1d: torch.Tensor) -> torch.Tensor:
-        v2d = self.proj_2d(x2d)
-        v3d = self.proj_3d(x3d)
-        v1d = self.proj_1d(x1d)
-        weights = torch.softmax(self.gate(torch.cat([v2d, v3d, v1d], dim=-1)), dim=-1)
-        fused = (
-            weights[:, 0:1] * v2d
-            + weights[:, 1:2] * v3d
-            + weights[:, 2:3] * v1d
-        )
+    def forward(self, features: List[torch.Tensor]) -> torch.Tensor:
+        vectors = [proj(x) for proj, x in zip(self.projs, features)]
+        weights = torch.softmax(self.gate(torch.cat(vectors, dim=-1)), dim=-1)
+        fused = torch.zeros_like(vectors[0])
+        for i, vec in enumerate(vectors):
+            fused = fused + weights[:, i : i + 1] * vec
         return fused
 
 
 class SiameseHead(nn.Module):
-    def __init__(self, dim_2d: int, dim_3d: int, dim_1d: int, fusion_dim: int, hidden_dim: int):
+    def __init__(
+        self,
+        dim_2d: int,
+        dim_3d: int,
+        dim_1d: int,
+        fusion_dim: int,
+        hidden_dim: int,
+        use_2d: bool = True,
+        use_3d: bool = True,
+        use_1d: bool = True,
+    ):
         super().__init__()
-        self.fusion = GatedFusion(dim_2d, dim_3d, dim_1d, fusion_dim)
+        self.use_2d = use_2d
+        self.use_3d = use_3d
+        self.use_1d = use_1d
+        dims = []
+        if use_2d:
+            dims.append(dim_2d)
+        if use_3d:
+            dims.append(dim_3d)
+        if use_1d:
+            dims.append(dim_1d)
+        self.fusion = GatedFusion(dims, fusion_dim)
         self.mlp = nn.Sequential(
             nn.Linear(fusion_dim, hidden_dim),
             nn.ReLU(inplace=True),
@@ -79,8 +97,19 @@ class SiameseHead(nn.Module):
         b3d: torch.Tensor,
         b1d: torch.Tensor,
     ) -> torch.Tensor:
-        va = self.fusion(a2d, a3d, a1d)
-        vb = self.fusion(b2d, b3d, b1d)
+        feats_a = []
+        feats_b = []
+        if self.use_2d:
+            feats_a.append(a2d)
+            feats_b.append(b2d)
+        if self.use_3d:
+            feats_a.append(a3d)
+            feats_b.append(b3d)
+        if self.use_1d:
+            feats_a.append(a1d)
+            feats_b.append(b1d)
+        va = self.fusion(feats_a)
+        vb = self.fusion(feats_b)
         diff = torch.abs(va - vb)
         return self.mlp(diff).squeeze(-1)
 
@@ -172,7 +201,8 @@ def main() -> int:
     tanimoto = data["tanimoto"] if "tanimoto" in data else None
     pair_ids = data["pair_ids"] if "pair_ids" in data else None
 
-    run_dir = Path("outputs") / "finetune_runs" / time.strftime("run_%Y%m%d_%H%M%S")
+    exp_name = args.experiment_name.strip().replace(" ", "_")
+    run_dir = Path("outputs") / "finetune_runs" / exp_name / time.strftime("run_%Y%m%d_%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=True)
     log_path = run_dir / "train.log"
     log_handle = log_path.open("w", encoding="utf-8")
@@ -186,8 +216,18 @@ def main() -> int:
     history_handle = history_path.open("w", encoding="utf-8")
 
     start_time = time.time()
+    modality_names = []
+    if not args.drop_2d:
+        modality_names.append("2d")
+    modality_names.extend(["3d", "1d"])
+    log(f"modalities: {'+'.join(modality_names)}")
     with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
         run_config = vars(args)
+        run_config["modalities"] = {
+            "use_2d": not args.drop_2d,
+            "use_3d": True,
+            "use_1d": True,
+        }
         run_config.update(
             {
                 "features_path": str(args.features),
@@ -204,6 +244,7 @@ def main() -> int:
     folds = _make_folds(len(y), args.folds, args.seed)
     metrics = []
     all_preds = np.zeros_like(y)
+    use_2d = not args.drop_2d
 
     for fold_idx in range(args.folds):
         fold_start = time.time()
@@ -218,6 +259,7 @@ def main() -> int:
             dim_1d=a_1d.shape[1],
             fusion_dim=args.fusion_dim,
             hidden_dim=args.hidden_dim,
+            use_2d=use_2d,
         ).to(device)
 
         optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
