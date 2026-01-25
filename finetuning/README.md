@@ -48,3 +48,14 @@ python finetuning/train_siamese.py \
 ```
 
 Outputs land in `outputs/finetune_runs/<experiment_name>/run_*/`.
+
+## Cosine baseline (no neural head)
+
+```
+python finetuning/cosine_baseline.py \
+  --features outputs/finetune_features/features.npz \
+  --mode avg \
+  --experiment-name cosine_avg
+```
+
+Use `--mode linear` to fit a tiny linear regressor on `[cos2d, cos3d, cos1d]`.
