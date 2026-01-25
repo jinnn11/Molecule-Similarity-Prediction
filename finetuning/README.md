@@ -17,7 +17,8 @@ python finetuning/extract_features.py \
 python finetuning/train_siamese.py \
   --features outputs/finetune_features/features.npz \
   --epochs 75 \
-  --batch-size 32
+  --batch-size 32 \
+  --val-split 0.2
 ```
 
 Outputs land in `outputs/finetune_runs/run_*/`.

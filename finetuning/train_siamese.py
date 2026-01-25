@@ -32,6 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--fusion-dim", type=int, default=256)
     parser.add_argument("--hidden-dim", type=int, default=128)
+    parser.add_argument("--val-split", type=float, default=0.2)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--log-interval", type=int, default=5)
     return parser.parse_args()
@@ -95,8 +96,43 @@ def _pearson(x: np.ndarray, y: np.ndarray) -> float:
     return float((x * y).sum() / denom)
 
 
+def _rankdata(a: np.ndarray) -> np.ndarray:
+    order = np.argsort(a)
+    ranks = np.empty(len(a), dtype=np.float64)
+    sorted_a = a[order]
+    i = 0
+    while i < len(a):
+        j = i
+        while j + 1 < len(a) and sorted_a[j + 1] == sorted_a[i]:
+            j += 1
+        rank = 0.5 * (i + j) + 1.0
+        ranks[order[i : j + 1]] = rank
+        i = j + 1
+    return ranks
+
+
+def _spearman(x: np.ndarray, y: np.ndarray) -> float:
+    if x.size == 0:
+        return float("nan")
+    return _pearson(_rankdata(x), _rankdata(y))
+
+
 def _rmse(x: np.ndarray, y: np.ndarray) -> float:
     return float(np.sqrt(((x - y) ** 2).mean()))
+
+
+def _mae(x: np.ndarray, y: np.ndarray) -> float:
+    return float(np.mean(np.abs(x - y)))
+
+
+def _r2(x: np.ndarray, y: np.ndarray) -> float:
+    if x.size == 0:
+        return float("nan")
+    ss_res = float(((y - x) ** 2).sum())
+    ss_tot = float(((y - y.mean()) ** 2).sum())
+    if ss_tot == 0:
+        return float("nan")
+    return 1.0 - ss_res / ss_tot
 
 
 def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
@@ -104,6 +140,19 @@ def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
     indices = np.arange(n)
     rng.shuffle(indices)
     return np.array_split(indices, k)
+
+def _split_train_val(indices: np.ndarray, val_split: float, seed: int) -> Tuple[np.ndarray, np.ndarray]:
+    if val_split <= 0 or val_split >= 1:
+        return indices, np.array([], dtype=int)
+    rng = np.random.default_rng(seed)
+    shuffled = indices.copy()
+    rng.shuffle(shuffled)
+    val_size = max(1, int(round(len(shuffled) * val_split)))
+    val_idx = shuffled[:val_size]
+    train_idx = shuffled[val_size:]
+    if train_idx.size == 0:
+        train_idx, val_idx = val_idx, train_idx
+    return train_idx, val_idx
 
 
 def main() -> int:
@@ -161,6 +210,7 @@ def main() -> int:
         log(f"starting fold {fold_idx + 1}/{args.folds}")
         test_idx = folds[fold_idx]
         train_idx = np.hstack([folds[i] for i in range(args.folds) if i != fold_idx])
+        train_idx, val_idx = _split_train_val(train_idx, args.val_split, args.seed + fold_idx + 1)
 
         model = SiameseHead(
             dim_2d=a_2d.shape[1],
@@ -182,9 +232,24 @@ def main() -> int:
             torch.from_numpy(b_1d[train_idx]),
             torch.from_numpy(y[train_idx]),
         )
+        val_loader = None
+        if val_idx.size > 0:
+            val_ds = TensorDataset(
+                torch.from_numpy(a_2d[val_idx]),
+                torch.from_numpy(a_3d[val_idx]),
+                torch.from_numpy(a_1d[val_idx]),
+                torch.from_numpy(b_2d[val_idx]),
+                torch.from_numpy(b_3d[val_idx]),
+                torch.from_numpy(b_1d[val_idx]),
+                torch.from_numpy(y[val_idx]),
+            )
+            val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False)
         train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True)
 
         history = []
+        best_val = float("inf")
+        best_state = None
+        best_epoch = None
         for epoch in range(1, args.epochs + 1):
             model.train()
             epoch_loss = 0.0
@@ -200,12 +265,52 @@ def main() -> int:
             epoch_loss = epoch_loss / max(len(train_loader), 1)
             history.append(epoch_loss)
 
+            val_loss = None
+            val_rmse = None
+            val_mae = None
+            val_pearson = None
+            val_spearman = None
+            val_r2 = None
+            if val_loader is not None:
+                model.eval()
+                with torch.no_grad():
+                    vloss = 0.0
+                    vpreds = []
+                    vtargets = []
+                    for batch in val_loader:
+                        batch = [b.to(device) for b in batch]
+                        pred = model(*batch[:-1])
+                        loss = loss_fn(pred, batch[-1])
+                        vloss += loss.item()
+                        vpreds.append(pred.detach().cpu().numpy())
+                        vtargets.append(batch[-1].detach().cpu().numpy())
+                val_loss = vloss / max(len(val_loader), 1)
+                if vpreds:
+                    vpreds_np = np.concatenate(vpreds).astype(np.float32)
+                    vtargets_np = np.concatenate(vtargets).astype(np.float32)
+                    val_rmse = _rmse(vpreds_np, vtargets_np)
+                    val_mae = _mae(vpreds_np, vtargets_np)
+                    val_pearson = _pearson(vpreds_np, vtargets_np)
+                    val_spearman = _spearman(vpreds_np, vtargets_np)
+                    val_r2 = _r2(vpreds_np, vtargets_np)
+                if val_loss < best_val:
+                    best_val = val_loss
+                    best_epoch = epoch
+                    best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+
             history_handle.write(
                 json.dumps(
                     {
                         "fold": fold_idx + 1,
                         "epoch": epoch,
                         "loss": round(float(epoch_loss), 6),
+                        "train_rmse": round(float(math.sqrt(epoch_loss)), 6),
+                        "val_loss": round(float(val_loss), 6) if val_loss is not None else None,
+                        "val_rmse": round(float(val_rmse), 6) if val_rmse is not None else None,
+                        "val_mae": round(float(val_mae), 6) if val_mae is not None else None,
+                        "val_pearson": round(float(val_pearson), 6) if val_pearson is not None else None,
+                        "val_spearman": round(float(val_spearman), 6) if val_spearman is not None else None,
+                        "val_r2": round(float(val_r2), 6) if val_r2 is not None else None,
                         "elapsed_sec": round(time.time() - epoch_start, 3),
                     }
                 )
@@ -216,12 +321,42 @@ def main() -> int:
                 elapsed = time.time() - fold_start
                 rate = epoch / max(elapsed, 1e-6)
                 eta = (args.epochs - epoch) / max(rate, 1e-6)
-                log(
-                    f"fold {fold_idx + 1} epoch {epoch}/{args.epochs} "
-                    f"loss {epoch_loss:.6f} elapsed {elapsed/60:.2f}m eta {eta/60:.2f}m"
-                )
+                if val_loss is not None:
+                    msg = (
+                        f"fold {fold_idx + 1} epoch {epoch}/{args.epochs} "
+                        f"loss {epoch_loss:.6f} val {val_loss:.6f} "
+                        f"val_rmse {val_rmse:.4f} val_pearson {val_pearson:.3f} "
+                        f"elapsed {elapsed/60:.2f}m eta {eta/60:.2f}m"
+                    )
+                else:
+                    msg = (
+                        f"fold {fold_idx + 1} epoch {epoch}/{args.epochs} "
+                        f"loss {epoch_loss:.6f} "
+                        f"elapsed {elapsed/60:.2f}m eta {eta/60:.2f}m"
+                    )
+                log(msg)
 
+        if best_state is not None:
+            model.load_state_dict(best_state)
         model.eval()
+        val_metrics = None
+        if val_idx.size > 0:
+            with torch.no_grad():
+                val_preds = model(
+                    torch.from_numpy(a_2d[val_idx]).to(device),
+                    torch.from_numpy(a_3d[val_idx]).to(device),
+                    torch.from_numpy(a_1d[val_idx]).to(device),
+                    torch.from_numpy(b_2d[val_idx]).to(device),
+                    torch.from_numpy(b_3d[val_idx]).to(device),
+                    torch.from_numpy(b_1d[val_idx]).to(device),
+                ).cpu().numpy()
+            val_metrics = {
+                "rmse": _rmse(val_preds, y[val_idx]),
+                "mae": _mae(val_preds, y[val_idx]),
+                "pearson": _pearson(val_preds, y[val_idx]),
+                "spearman": _spearman(val_preds, y[val_idx]),
+                "r2": _r2(val_preds, y[val_idx]),
+            }
         with torch.no_grad():
             preds = model(
                 torch.from_numpy(a_2d[test_idx]).to(device),
@@ -234,13 +369,25 @@ def main() -> int:
         all_preds[test_idx] = preds
 
         fold_rmse = _rmse(preds, y[test_idx])
+        fold_mae = _mae(preds, y[test_idx])
         fold_pearson = _pearson(preds, y[test_idx])
+        fold_spearman = _spearman(preds, y[test_idx])
+        fold_r2 = _r2(preds, y[test_idx])
         metrics.append(
             {
                 "fold": fold_idx + 1,
                 "rmse": fold_rmse,
+                "mae": fold_mae,
                 "pearson": fold_pearson,
+                "spearman": fold_spearman,
+                "r2": fold_r2,
+                "val_best": float(best_val) if best_state is not None else None,
+                "val_best_epoch": int(best_epoch) if best_epoch is not None else None,
+                "val_metrics": val_metrics,
                 "train_time_sec": round(time.time() - fold_start, 2),
+                "train_size": int(train_idx.size),
+                "val_size": int(val_idx.size),
+                "test_size": int(test_idx.size),
             }
         )
         torch.save(model.state_dict(), run_dir / f"head_fold_{fold_idx + 1}.pt")
@@ -258,14 +405,26 @@ def main() -> int:
     summary = {
         "rmse_mean": float(np.mean([m["rmse"] for m in metrics])),
         "rmse_std": float(np.std([m["rmse"] for m in metrics])),
+        "mae_mean": float(np.mean([m["mae"] for m in metrics])),
+        "mae_std": float(np.std([m["mae"] for m in metrics])),
         "pearson_mean": float(np.mean([m["pearson"] for m in metrics])),
         "pearson_std": float(np.std([m["pearson"] for m in metrics])),
+        "spearman_mean": float(np.mean([m["spearman"] for m in metrics])),
+        "spearman_std": float(np.std([m["spearman"] for m in metrics])),
+        "r2_mean": float(np.mean([m["r2"] for m in metrics])),
+        "r2_std": float(np.std([m["r2"] for m in metrics])),
+        "overall_rmse": _rmse(all_preds, y),
+        "overall_mae": _mae(all_preds, y),
+        "overall_pearson": _pearson(all_preds, y),
+        "overall_spearman": _spearman(all_preds, y),
+        "overall_r2": _r2(all_preds, y),
         "runtime_sec": round(time.time() - start_time, 2),
     }
     if tanimoto is not None:
         mask = np.isfinite(tanimoto)
         if mask.any():
             summary["tanimoto_pearson"] = _pearson(tanimoto[mask], y[mask])
+            summary["tanimoto_spearman"] = _spearman(tanimoto[mask], y[mask])
 
     with (run_dir / "fold_metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2)
