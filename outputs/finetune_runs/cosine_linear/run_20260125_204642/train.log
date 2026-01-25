@@ -1,0 +1,7 @@
+mode=linear folds=5 samples=200
+fold 1/5 rmse 0.1545 pearson 0.9064
+fold 2/5 rmse 0.1606 pearson 0.8863
+fold 3/5 rmse 0.1517 pearson 0.9209
+fold 4/5 rmse 0.1606 pearson 0.8916
+fold 5/5 rmse 0.1435 pearson 0.9140
+wrote results to outputs/finetune_runs/cosine_linear/run_20260125_204642

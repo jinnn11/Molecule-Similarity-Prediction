@@ -1,0 +1,17 @@
+starting light finetuning
+fold 1 epoch 1/10 loss 0.126206 val 0.140333
+fold 1 epoch 5/10 loss 0.123397 val 0.137001
+fold 1 epoch 10/10 loss 0.119773 val 0.134079
+fold 2 epoch 1/10 loss 0.585304 val 0.655980
+fold 2 epoch 5/10 loss 0.576834 val 0.657525
+fold 2 epoch 10/10 loss 0.566855 val 0.648019
+fold 3 epoch 1/10 loss 1.308733 val 1.307530
+fold 3 epoch 5/10 loss 1.282304 val 1.273923
+fold 3 epoch 10/10 loss 1.250150 val 1.247377
+fold 4 epoch 1/10 loss 1.061438 val 0.979769
+fold 4 epoch 5/10 loss 1.050122 val 0.957733
+fold 4 epoch 10/10 loss 1.038883 val 0.946268
+fold 5 epoch 1/10 loss 0.117399 val 0.103820
+fold 5 epoch 5/10 loss 0.112292 val 0.099222
+fold 5 epoch 10/10 loss 0.106222 val 0.094500
+wrote results to outputs/finetune_runs/light_finetune/run_20260125_210533

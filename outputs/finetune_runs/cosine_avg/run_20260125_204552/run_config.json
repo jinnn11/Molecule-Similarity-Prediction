@@ -1,0 +1,7 @@
+{
+  "features": "outputs/finetune_features/features.npz",
+  "folds": 5,
+  "seed": 7,
+  "mode": "avg",
+  "experiment_name": "cosine_avg"
+}

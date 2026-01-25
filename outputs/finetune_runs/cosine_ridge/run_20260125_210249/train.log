@@ -1,0 +1,7 @@
+mode=ridge folds=5 samples=200
+fold 1/5 rmse 0.1603 pearson 0.9020
+fold 2/5 rmse 0.1590 pearson 0.8854
+fold 3/5 rmse 0.1510 pearson 0.9260
+fold 4/5 rmse 0.1623 pearson 0.8833
+fold 5/5 rmse 0.1468 pearson 0.9127
+wrote results to outputs/finetune_runs/cosine_ridge/run_20260125_210249

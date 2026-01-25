@@ -1,0 +1,7 @@
+mode=xgb folds=5 samples=200
+fold 1/5 rmse 0.1802 pearson 0.8597
+fold 2/5 rmse 0.1609 pearson 0.8824
+fold 3/5 rmse 0.1726 pearson 0.8966
+fold 4/5 rmse 0.1371 pearson 0.9282
+fold 5/5 rmse 0.1411 pearson 0.9041
+wrote results to outputs/finetune_runs/cosine_xgb/run_20260125_210430

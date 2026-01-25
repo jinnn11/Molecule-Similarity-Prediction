@@ -1,0 +1,7 @@
+mode=avg folds=5 samples=200
+fold 1/5 rmse 0.2016 pearson 0.9012
+fold 2/5 rmse 0.2394 pearson 0.8866
+fold 3/5 rmse 0.2165 pearson 0.9285
+fold 4/5 rmse 0.2303 pearson 0.8839
+fold 5/5 rmse 0.2536 pearson 0.9117
+wrote results to outputs/finetune_runs/cosine_avg/run_20260125_204552

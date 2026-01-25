@@ -1,0 +1,19 @@
+{
+  "features": "outputs/finetune_features/features.npz",
+  "folds": 5,
+  "seed": 7,
+  "mode": "ridge",
+  "include_tanimoto": false,
+  "zscore": true,
+  "ridge_alpha": 1.0,
+  "mlp_hidden": 16,
+  "mlp_epochs": 200,
+  "mlp_lr": 0.01,
+  "mlp_weight_decay": 0.0001,
+  "xgb_n_estimators": 300,
+  "xgb_max_depth": 3,
+  "xgb_learning_rate": 0.05,
+  "xgb_subsample": 0.9,
+  "xgb_colsample_bytree": 0.9,
+  "experiment_name": "cosine_ridge_z"
+}
