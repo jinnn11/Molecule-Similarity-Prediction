@@ -345,7 +345,7 @@ def main() -> int:
         "versions": {
             "torch": torch.__version__,
             "numpy": np.__version__,
-            "rdkit": Chem.rdchem._GetRDKitVersion() if hasattr(Chem, "rdchem") else "unknown",
+            "rdkit": getattr(getattr(Chem, "rdBase", None), "rdkitVersion", "unknown"),
         },
         "feature_shapes": {
             "a_2d": list(np.asarray(a_2d).shape),
