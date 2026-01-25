@@ -1,0 +1,55 @@
+{
+  "pairs_total": 200,
+  "pairs_kept": 200,
+  "pairs_skipped": 0,
+  "csv_files": [
+    "dataset_Similarity_Prediction/original_training_set/original_training_set.csv",
+    "dataset_Similarity_Prediction/new_dataset/new_dataset.csv"
+  ],
+  "weights_dir": "outputs/pretrain_runs/run_20260122_211530",
+  "device": "cuda",
+  "graph_device": "cuda",
+  "stats": {
+    "seen": 200,
+    "kept": 200,
+    "skipped": 0,
+    "pdb_used": 400,
+    "pdb_missing": 0,
+    "pdb_failed": 0,
+    "embed_used": 0,
+    "embed_failed": 0,
+    "invalid_smiles": 0
+  },
+  "versions": {
+    "torch": "2.2.2+cu121",
+    "numpy": "1.26.4",
+    "rdkit": "2025.09.4"
+  },
+  "feature_shapes": {
+    "a_2d": [
+      200,
+      512
+    ],
+    "b_2d": [
+      200,
+      512
+    ],
+    "a_3d": [
+      200,
+      128
+    ],
+    "b_3d": [
+      200,
+      128
+    ],
+    "a_1d": [
+      200,
+      512
+    ],
+    "b_1d": [
+      200,
+      512
+    ]
+  },
+  "elapsed_sec": 15.21
+}

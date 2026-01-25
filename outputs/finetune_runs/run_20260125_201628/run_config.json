@@ -1,0 +1,30 @@
+{
+  "features": "outputs/finetune_features/features.npz",
+  "epochs": 75,
+  "batch_size": 32,
+  "lr": 0.0001,
+  "weight_decay": 0.0001,
+  "folds": 5,
+  "seed": 7,
+  "fusion_dim": 256,
+  "hidden_dim": 128,
+  "val_split": 0.2,
+  "device": "cuda",
+  "log_interval": 5,
+  "features_path": "outputs/finetune_features/features.npz",
+  "num_samples": 200,
+  "feature_shapes": {
+    "a_2d": [
+      200,
+      512
+    ],
+    "a_3d": [
+      200,
+      128
+    ],
+    "a_1d": [
+      200,
+      512
+    ]
+  }
+}
