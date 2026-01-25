@@ -34,4 +34,17 @@ python finetuning/train_siamese.py \
   --drop-2d
 ```
 
+### Drop gating (concat 1D + 3D)
+
+```
+python finetuning/train_siamese.py \
+  --features outputs/finetune_features/features.npz \
+  --epochs 75 \
+  --batch-size 32 \
+  --val-split 0.2 \
+  --experiment-name concat_1d3d \
+  --drop-2d \
+  --fusion-mode concat
+```
+
 Outputs land in `outputs/finetune_runs/<experiment_name>/run_*/`.

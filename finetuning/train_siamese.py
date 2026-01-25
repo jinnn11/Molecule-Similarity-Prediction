@@ -34,6 +34,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hidden-dim", type=int, default=128)
     parser.add_argument("--val-split", type=float, default=0.2)
     parser.add_argument("--drop-2d", action="store_true", help="Ignore 2D image features.")
+    parser.add_argument(
+        "--fusion-mode",
+        choices=["gate", "concat"],
+        default="gate",
+        help="Fuse modalities with gating or simple concatenation.",
+    )
     parser.add_argument("--experiment-name", default="baseline")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--log-interval", type=int, default=5)
@@ -57,6 +63,14 @@ class GatedFusion(nn.Module):
         return fused
 
 
+class ConcatFusion(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def forward(self, features: List[torch.Tensor]) -> torch.Tensor:
+        return torch.cat(features, dim=-1)
+
+
 class SiameseHead(nn.Module):
     def __init__(
         self,
@@ -68,6 +82,7 @@ class SiameseHead(nn.Module):
         use_2d: bool = True,
         use_3d: bool = True,
         use_1d: bool = True,
+        fusion_mode: str = "gate",
     ):
         super().__init__()
         self.use_2d = use_2d
@@ -80,9 +95,15 @@ class SiameseHead(nn.Module):
             dims.append(dim_3d)
         if use_1d:
             dims.append(dim_1d)
-        self.fusion = GatedFusion(dims, fusion_dim)
+        if fusion_mode == "gate":
+            self.fusion = GatedFusion(dims, fusion_dim)
+            fusion_out = fusion_dim
+        else:
+            self.fusion = ConcatFusion()
+            fusion_out = int(sum(dims))
+        self.fusion_mode = fusion_mode
         self.mlp = nn.Sequential(
-            nn.Linear(fusion_dim, hidden_dim),
+            nn.Linear(fusion_out, hidden_dim),
             nn.ReLU(inplace=True),
             nn.Linear(hidden_dim, 1),
             nn.Sigmoid(),
@@ -220,7 +241,7 @@ def main() -> int:
     if not args.drop_2d:
         modality_names.append("2d")
     modality_names.extend(["3d", "1d"])
-    log(f"modalities: {'+'.join(modality_names)}")
+    log(f"modalities: {'+'.join(modality_names)} fusion={args.fusion_mode}")
     with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
         run_config = vars(args)
         run_config["modalities"] = {
@@ -260,6 +281,7 @@ def main() -> int:
             fusion_dim=args.fusion_dim,
             hidden_dim=args.hidden_dim,
             use_2d=use_2d,
+            fusion_mode=args.fusion_mode,
         ).to(device)
 
         optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
