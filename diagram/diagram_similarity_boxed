@@ -1,0 +1,65 @@
+// Boxed Cosine Architecture
+digraph {
+	dpi=300
+	nodesep=0.5 rankdir=TB ranksep=0.6 splines=ortho
+	node [fontname=Helvetica fontsize=11]
+	edge [fontname=Helvetica fontsize=10]
+	graph [fontname=Helvetica fontsize=12]
+	subgraph cluster_A {
+		color=black label="Molecule A Processing" penwidth=1.5 style=bold
+		input_a [label="Inputs A
+(Image, 3D, CSV)" shape=plaintext]
+		res_a [label="ResNet-18
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		sch_a [label="SchNet
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		mlp_a [label="MLP
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		input_a -> res_a
+		input_a -> sch_a
+		input_a -> mlp_a
+	}
+	subgraph cluster_B {
+		color=black label="Molecule B Processing" penwidth=1.5 style=bold
+		input_b [label="Inputs B
+(Image, 3D, CSV)" shape=plaintext]
+		res_b [label="ResNet-18
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		sch_b [label="SchNet
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		mlp_b [label="MLP
+(Frozen)" fillcolor="#CFD8DC" shape=rect style="rounded,filled"]
+		input_b -> res_b
+		input_b -> sch_b
+		input_b -> mlp_b
+	}
+	{
+		rank=same
+		cos_2d [label="Cosine Sim
+2D" fillcolor="#FFF59D" shape=component style=filled]
+		cos_3d [label="Cosine Sim
+3D" fillcolor="#FFF59D" shape=component style=filled]
+		cos_1d [label="Cosine Sim
+1D" fillcolor="#FFF59D" shape=component style=filled]
+	}
+	concat [label="Concatenate
+[s2d, s3d, s1d]" fillcolor="#80CBC4" shape=hexagon style=filled]
+	pred_head [label="Prediction MLP
+(Trainable)" fillcolor="#26A69A" fontcolor=white shape=rect style="rounded,filled"]
+	score [label="Similarity Score
+(0.0 - 1.0)" fillcolor="#009688" fontcolor=white shape=ellipse style=filled]
+	loss [label="MSE Loss
+vs Human Label" fontcolor=red shape=plaintext]
+	res_a -> cos_2d
+	res_b -> cos_2d
+	sch_a -> cos_3d
+	sch_b -> cos_3d
+	mlp_a -> cos_1d
+	mlp_b -> cos_1d
+	cos_2d -> concat
+	cos_3d -> concat
+	cos_1d -> concat
+	concat -> pred_head
+	pred_head -> score
+	score -> loss [style=dashed]
+}
