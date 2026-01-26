@@ -12,6 +12,11 @@ Tri-modal pretraining (2D images, 3D conformers, 1D fingerprints) followed by a 
 ### Similarity Regression (Frozen Encoders)
 ![Similarity Regression](diagram/diagram_similarity_boxed.png)
 
+The final prediction head is a lightweight MLP operating on cosine similarity outputs from the frozen encoders:
+
+- Inputs: cosine similarities computed from frozen 2D/3D/1D embeddings.
+- Architecture: `Linear(3 → 16) → ReLU → Linear(16 → 1)` (regression, no sigmoid).
+
 ## Highlights
 - Tri-tower contrastive pretraining (ResNet-18, SchNet, MLP)
 - Frozen-encoder downstream evaluation with cosine similarities
