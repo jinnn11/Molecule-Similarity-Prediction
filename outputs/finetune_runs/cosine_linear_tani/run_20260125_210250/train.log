@@ -1,7 +1,0 @@
-mode=linear folds=5 samples=200
-fold 1/5 rmse 0.1304 pearson 0.9279
-fold 2/5 rmse 0.1497 pearson 0.9029
-fold 3/5 rmse 0.1346 pearson 0.9408
-fold 4/5 rmse 0.1415 pearson 0.9132
-fold 5/5 rmse 0.1447 pearson 0.9054
-wrote results to outputs/finetune_runs/cosine_linear_tani/run_20260125_210250
