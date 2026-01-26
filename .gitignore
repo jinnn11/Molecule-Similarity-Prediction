@@ -17,10 +17,7 @@ pretraining_runs/
 *.npy
 *.npz
 
-# EDA outputs
-eda/raw/
-eda/*.png
-eda/summary.json
+## EDA outputs (tracked)
 
 # Diagram script (generated manually)
 diagram/diagram.py
