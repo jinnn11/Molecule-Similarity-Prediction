@@ -1,0 +1,13 @@
+{
+  "processed": 292035,
+  "skipped": 0,
+  "atoms_min": 3,
+  "atoms_mean": 44.2344581985036,
+  "atoms_max": 181,
+  "smiles_len_min": 1,
+  "smiles_len_mean": 42.78541955587515,
+  "smiles_len_max": 297,
+  "conformers_min": 1,
+  "conformers_mean": 106.91878713167942,
+  "conformers_max": 7461
+}
