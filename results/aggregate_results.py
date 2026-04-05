@@ -7,10 +7,6 @@ import math
 from pathlib import Path
 from typing import Dict, List
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -108,6 +104,11 @@ def _write_markdown(rows: List[Dict], out_path: Path) -> None:
 def _plot_bars(rows: List[Dict], out_path: Path) -> None:
     if not rows:
         return
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
     rows = [r for r in rows if math.isfinite(r["pearson_mean"])]
     rows.sort(key=lambda r: r["pearson_mean"], reverse=True)
     labels = [f"{r['experiment']}:{r['run_id']}" for r in rows]
@@ -134,6 +135,11 @@ def _plot_pearson_delta(rows: List[Dict], out_path: Path) -> None:
     rows = [r for r in rows if math.isfinite(r["pearson_mean"]) and math.isfinite(r["tanimoto_pearson"])]
     if not rows:
         return
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
     rows.sort(key=lambda r: r["pearson_mean"], reverse=True)
     labels = [f"{r['experiment']}:{r['run_id']}" for r in rows]
     model_p = np.array([r["pearson_mean"] for r in rows])

@@ -6,3 +6,4 @@ torch
 torchvision
 torch-geometric
 matplotlib
+pytest

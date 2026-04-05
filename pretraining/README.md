@@ -18,7 +18,18 @@ python pretraining/precompute_drugs.py --archive /path/to/drugs_crude.msgpack.ta
 python pretraining/train_pretrain.py --data-dir pretraining_data/drugs --epochs 5
 ```
 
-Outputs are saved to `pretraining_runs/` by default.
+By default, pretraining runs are written to `outputs/pretrain_runs/run_*/`.
+
+Optional: monitor downstream cosine signal during pretraining
+
+```
+python pretraining/train_pretrain.py \
+  --data-dir pretraining_data/drugs \
+  --epochs 5 \
+  --eval-csv dataset_Similarity_Prediction/original_training_set/original_training_set.csv \
+  --eval-csv dataset_Similarity_Prediction/new_dataset/new_dataset.csv \
+  --eval-every 5
+```
 
 ## Requirements
 

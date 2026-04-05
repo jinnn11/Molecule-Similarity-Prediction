@@ -10,7 +10,9 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import torch
+import torch.nn.functional as F
 
 try:
     import matplotlib
@@ -21,12 +23,21 @@ except ImportError:  # pragma: no cover - optional
 from torch.utils.data import DataLoader
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-if SCRIPT_DIR not in sys.path:
-    sys.path.insert(0, SCRIPT_DIR)
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+for _p in (SCRIPT_DIR, REPO_ROOT):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 from datasets import DatasetConfig, PrecomputedMultiModalDataset, multimodal_collate  # noqa: E402
 from losses import clip_loss  # noqa: E402
 from models import FingerprintMLP, GraphTower, ProjectionHead, build_resnet18  # noqa: E402
+from utils.chem import render_image, fingerprint, load_pdb, embed_3d, get_pdb_path  # noqa: E402
+from utils.metrics import pearson  # noqa: E402
+
+try:
+    from rdkit import Chem
+except ImportError:
+    Chem = None
 
 
 def _default_device() -> str:
@@ -62,7 +73,186 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Device for 3D graph tower (default: cpu on mps, else same as --device)",
     )
+    parser.add_argument(
+        "--eval-csv",
+        action="append",
+        help="CSV file(s) with molecule pairs for eval (repeatable).",
+    )
+    parser.add_argument("--eval-every", type=int, default=5, help="Epoch interval for eval.")
+    parser.add_argument("--eval-batch-size", type=int, default=16)
+    parser.add_argument("--eval-no-pdb", action="store_true", help="Do not use PDB; use RDKit 3D.")
     return parser.parse_args()
+
+
+def _load_eval_pairs(csv_paths: list[Path]) -> list[dict]:
+    import csv as _csv
+
+    rows = []
+    for csv_path in csv_paths:
+        with csv_path.open("r", newline="", encoding="utf-8") as handle:
+            reader = _csv.DictReader(handle)
+            for row in reader:
+                row["__csv_path"] = str(csv_path)
+                rows.append(row)
+    return rows
+
+
+class _EvalDataset(torch.utils.data.Dataset):
+    def __init__(self, rows: list[dict], image_size: int, no_pdb: bool):
+        self.rows = rows
+        self.image_size = image_size
+        self.no_pdb = no_pdb
+        self.image_cache = {}
+        self.fp_cache = {}
+        self.graph_cache = {}
+
+    def __len__(self) -> int:
+        return len(self.rows)
+
+    def _get_image(self, smiles: str) -> torch.Tensor:
+        cached = self.image_cache.get(smiles)
+        if cached is not None:
+            return cached
+        mol = Chem.MolFromSmiles(smiles)
+        img = render_image(mol, self.image_size)
+        self.image_cache[smiles] = img
+        return img
+
+    def _get_fp(self, smiles: str) -> torch.Tensor:
+        cached = self.fp_cache.get(smiles)
+        if cached is not None:
+            return cached
+        mol = Chem.MolFromSmiles(smiles)
+        fp = fingerprint(mol)
+        self.fp_cache[smiles] = fp
+        return fp
+
+    def _get_graph(self, row: dict, side: str):
+        csv_path = Path(row["__csv_path"])
+        id_pair = int(row.get("id_pair", "0"))
+        smiles = row[f"curated_smiles_molecule_{side}"]
+        key = None
+        if not self.no_pdb:
+            pdb_path = get_pdb_path(csv_path, id_pair, side)
+            key = str(pdb_path)
+            if key in self.graph_cache:
+                return self.graph_cache[key]
+            graph = load_pdb(pdb_path)
+            if graph is None:
+                graph = embed_3d(smiles)
+            if graph is None:
+                raise ValueError("missing 3d")
+            self.graph_cache[key] = graph
+            return graph
+        key = smiles
+        if key in self.graph_cache:
+            return self.graph_cache[key]
+        graph = embed_3d(smiles)
+        if graph is None:
+            raise ValueError("missing 3d")
+        self.graph_cache[key] = graph
+        return graph
+
+    def __getitem__(self, idx: int):
+        row = self.rows[idx]
+        smiles_a = row["curated_smiles_molecule_a"]
+        smiles_b = row["curated_smiles_molecule_b"]
+        img_a = self._get_image(smiles_a)
+        img_b = self._get_image(smiles_b)
+        fp_a = self._get_fp(smiles_a)
+        fp_b = self._get_fp(smiles_b)
+        graph_a = self._get_graph(row, "a")
+        graph_b = self._get_graph(row, "b")
+        label = float(row["frac_similar"])
+        tan = float(row.get("TanimotoCombo", "nan")) if "TanimotoCombo" in row else float("nan")
+        return img_a, graph_a, fp_a, img_b, graph_b, fp_b, label, tan
+
+
+def _eval_collate(batch):
+    from torch_geometric.data import Batch, Data
+
+    imgs_a, graphs_a, fps_a, imgs_b, graphs_b, fps_b, labels, tans = zip(*batch)
+    return (
+        torch.stack(imgs_a, dim=0),
+        Batch.from_data_list([g if isinstance(g, Data) else Data(z=g["z"], pos=g["pos"]) for g in graphs_a]),
+        torch.stack(fps_a, dim=0),
+        torch.stack(imgs_b, dim=0),
+        Batch.from_data_list([g if isinstance(g, Data) else Data(z=g["z"], pos=g["pos"]) for g in graphs_b]),
+        torch.stack(fps_b, dim=0),
+        torch.tensor(labels, dtype=torch.float32),
+        torch.tensor(tans, dtype=torch.float32),
+    )
+
+
+def _prepare_eval_loader(csv_paths, image_size: int, no_pdb: bool, batch_size: int):
+    rows = _load_eval_pairs(csv_paths)
+    dataset = _EvalDataset(rows, image_size=image_size, no_pdb=no_pdb)
+    loader = torch.utils.data.DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        collate_fn=_eval_collate,
+    )
+    return loader, len(dataset)
+
+
+def _run_eval(
+    img_encoder,
+    graph_encoder,
+    fp_encoder,
+    eval_loader,
+    device: torch.device,
+    graph_device: torch.device,
+):
+    img_encoder.eval()
+    graph_encoder.eval()
+    fp_encoder.eval()
+    cos2d = []
+    cos3d = []
+    cos1d = []
+    labels = []
+    tani = []
+    with torch.no_grad():
+        for batch in eval_loader:
+            img_a, graph_a, fp_a, img_b, graph_b, fp_b, label, tan = batch
+            img_a = img_a.to(device)
+            img_b = img_b.to(device)
+            fp_a = fp_a.to(device)
+            fp_b = fp_b.to(device)
+            graph_a = graph_a.to(graph_device)
+            graph_b = graph_b.to(graph_device)
+
+            emb_a2d = img_encoder(img_a)
+            emb_b2d = img_encoder(img_b)
+            emb_a1d = fp_encoder(fp_a)
+            emb_b1d = fp_encoder(fp_b)
+            emb_a3d = graph_encoder(graph_a.z, graph_a.pos, graph_a.batch)
+            emb_b3d = graph_encoder(graph_b.z, graph_b.pos, graph_b.batch)
+
+            cos2d.append(F.cosine_similarity(emb_a2d, emb_b2d).detach().cpu().numpy())
+            cos1d.append(F.cosine_similarity(emb_a1d, emb_b1d).detach().cpu().numpy())
+            if graph_device != device:
+                emb_a3d = emb_a3d.to(device)
+                emb_b3d = emb_b3d.to(device)
+            cos3d.append(F.cosine_similarity(emb_a3d, emb_b3d).detach().cpu().numpy())
+            labels.append(label.numpy())
+            tani.append(tan.numpy())
+
+    cos2d = np.concatenate(cos2d)
+    cos3d = np.concatenate(cos3d)
+    cos1d = np.concatenate(cos1d)
+    labels = np.concatenate(labels)
+    tani = np.concatenate(tani)
+    avg_cos = (cos2d + cos3d + cos1d) / 3.0
+    metrics = {
+        "cos2d_pearson": pearson(cos2d, labels),
+        "cos3d_pearson": pearson(cos3d, labels),
+        "cos1d_pearson": pearson(cos1d, labels),
+        "avg_cos_pearson": pearson(avg_cos, labels),
+    }
+    if np.isfinite(tani).any():
+        metrics["tanimoto_pearson"] = pearson(tani[np.isfinite(tani)], labels[np.isfinite(tani)])
+    return metrics
 
 
 def main() -> int:
@@ -88,6 +278,19 @@ def main() -> int:
 
     if hasattr(torch, "set_float32_matmul_precision"):
         torch.set_float32_matmul_precision("medium")
+
+    eval_loader = None
+    eval_size = 0
+    if args.eval_csv:
+        if Chem is None:
+            raise ImportError("RDKit is required for --eval-csv.")
+        eval_loader, eval_size = _prepare_eval_loader(
+            [Path(p) for p in args.eval_csv],
+            image_size=args.image_size,
+            no_pdb=args.eval_no_pdb,
+            batch_size=args.eval_batch_size,
+        )
+        log(f"Eval dataset: {eval_size} pairs")
 
     cfg = DatasetConfig(
         root=args.data_dir,
@@ -242,6 +445,23 @@ def main() -> int:
         metrics_history.append(metrics)
         with (run_dir / "metrics.jsonl").open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(metrics) + "\n")
+
+        if eval_loader and (epoch % args.eval_every == 0 or epoch == args.epochs):
+            eval_metrics = _run_eval(
+                img_encoder,
+                graph_encoder,
+                fp_encoder,
+                eval_loader,
+                device=device,
+                graph_device=graph_device,
+            )
+            eval_metrics["epoch"] = epoch
+            with (run_dir / "pretrain_eval.jsonl").open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(eval_metrics) + "\n")
+            log(
+                "eval "
+                + " ".join(f"{k}={v:.4f}" for k, v in eval_metrics.items() if k != "epoch")
+            )
 
         checkpoint = {
             "epoch": epoch,

@@ -4,7 +4,15 @@ channels:
   - defaults
 dependencies:
   - python=3.10
+  - numpy
   - matplotlib
+  - pillow
+  - msgpack-python
   - rdkit
   - cairo
-prefix: /opt/miniconda3/envs/simpred
+  - pip
+  - pip:
+      - torch
+      - torchvision
+      - torch-geometric
+      - pytest

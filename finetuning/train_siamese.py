@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import time
 from pathlib import Path
 from typing import List, Tuple
@@ -12,6 +13,13 @@ import numpy as np
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from utils.metrics import pearson, spearman, rmse, mae, r2, make_folds, split_train_val  # noqa: E402
 
 try:
     import matplotlib
@@ -135,76 +143,6 @@ class SiameseHead(nn.Module):
         return self.mlp(diff).squeeze(-1)
 
 
-def _pearson(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    x = x - x.mean()
-    y = y - y.mean()
-    denom = np.sqrt((x * x).sum() * (y * y).sum())
-    if denom == 0:
-        return float("nan")
-    return float((x * y).sum() / denom)
-
-
-def _rankdata(a: np.ndarray) -> np.ndarray:
-    order = np.argsort(a)
-    ranks = np.empty(len(a), dtype=np.float64)
-    sorted_a = a[order]
-    i = 0
-    while i < len(a):
-        j = i
-        while j + 1 < len(a) and sorted_a[j + 1] == sorted_a[i]:
-            j += 1
-        rank = 0.5 * (i + j) + 1.0
-        ranks[order[i : j + 1]] = rank
-        i = j + 1
-    return ranks
-
-
-def _spearman(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    return _pearson(_rankdata(x), _rankdata(y))
-
-
-def _rmse(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.sqrt(((x - y) ** 2).mean()))
-
-
-def _mae(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.mean(np.abs(x - y)))
-
-
-def _r2(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    ss_res = float(((y - x) ** 2).sum())
-    ss_tot = float(((y - y.mean()) ** 2).sum())
-    if ss_tot == 0:
-        return float("nan")
-    return 1.0 - ss_res / ss_tot
-
-
-def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
-    rng = np.random.default_rng(seed)
-    indices = np.arange(n)
-    rng.shuffle(indices)
-    return np.array_split(indices, k)
-
-def _split_train_val(indices: np.ndarray, val_split: float, seed: int) -> Tuple[np.ndarray, np.ndarray]:
-    if val_split <= 0 or val_split >= 1:
-        return indices, np.array([], dtype=int)
-    rng = np.random.default_rng(seed)
-    shuffled = indices.copy()
-    rng.shuffle(shuffled)
-    val_size = max(1, int(round(len(shuffled) * val_split)))
-    val_idx = shuffled[:val_size]
-    train_idx = shuffled[val_size:]
-    if train_idx.size == 0:
-        train_idx, val_idx = val_idx, train_idx
-    return train_idx, val_idx
-
-
 def main() -> int:
     args = parse_args()
     device = torch.device(args.device)
@@ -262,7 +200,7 @@ def main() -> int:
         )
         json.dump(run_config, handle, indent=2)
 
-    folds = _make_folds(len(y), args.folds, args.seed)
+    folds = make_folds(len(y), args.folds, args.seed)
     metrics = []
     all_preds = np.zeros_like(y)
     use_2d = not args.drop_2d
@@ -272,7 +210,7 @@ def main() -> int:
         log(f"starting fold {fold_idx + 1}/{args.folds}")
         test_idx = folds[fold_idx]
         train_idx = np.hstack([folds[i] for i in range(args.folds) if i != fold_idx])
-        train_idx, val_idx = _split_train_val(train_idx, args.val_split, args.seed + fold_idx + 1)
+        train_idx, val_idx = split_train_val(train_idx, args.val_split, args.seed + fold_idx + 1)
 
         model = SiameseHead(
             dim_2d=a_2d.shape[1],
@@ -352,11 +290,11 @@ def main() -> int:
                 if vpreds:
                     vpreds_np = np.concatenate(vpreds).astype(np.float32)
                     vtargets_np = np.concatenate(vtargets).astype(np.float32)
-                    val_rmse = _rmse(vpreds_np, vtargets_np)
-                    val_mae = _mae(vpreds_np, vtargets_np)
-                    val_pearson = _pearson(vpreds_np, vtargets_np)
-                    val_spearman = _spearman(vpreds_np, vtargets_np)
-                    val_r2 = _r2(vpreds_np, vtargets_np)
+                    val_rmse = rmse(vpreds_np, vtargets_np)
+                    val_mae = mae(vpreds_np, vtargets_np)
+                    val_pearson = pearson(vpreds_np, vtargets_np)
+                    val_spearman = spearman(vpreds_np, vtargets_np)
+                    val_r2 = r2(vpreds_np, vtargets_np)
                 if val_loss < best_val:
                     best_val = val_loss
                     best_epoch = epoch
@@ -415,11 +353,11 @@ def main() -> int:
                     torch.from_numpy(b_1d[val_idx]).to(device),
                 ).cpu().numpy()
             val_metrics = {
-                "rmse": _rmse(val_preds, y[val_idx]),
-                "mae": _mae(val_preds, y[val_idx]),
-                "pearson": _pearson(val_preds, y[val_idx]),
-                "spearman": _spearman(val_preds, y[val_idx]),
-                "r2": _r2(val_preds, y[val_idx]),
+                "rmse": rmse(val_preds, y[val_idx]),
+                "mae": mae(val_preds, y[val_idx]),
+                "pearson": pearson(val_preds, y[val_idx]),
+                "spearman": spearman(val_preds, y[val_idx]),
+                "r2": r2(val_preds, y[val_idx]),
             }
         with torch.no_grad():
             preds = model(
@@ -432,11 +370,11 @@ def main() -> int:
             ).cpu().numpy()
         all_preds[test_idx] = preds
 
-        fold_rmse = _rmse(preds, y[test_idx])
-        fold_mae = _mae(preds, y[test_idx])
-        fold_pearson = _pearson(preds, y[test_idx])
-        fold_spearman = _spearman(preds, y[test_idx])
-        fold_r2 = _r2(preds, y[test_idx])
+        fold_rmse = rmse(preds, y[test_idx])
+        fold_mae = mae(preds, y[test_idx])
+        fold_pearson = pearson(preds, y[test_idx])
+        fold_spearman = spearman(preds, y[test_idx])
+        fold_r2 = r2(preds, y[test_idx])
         metrics.append(
             {
                 "fold": fold_idx + 1,
@@ -477,18 +415,18 @@ def main() -> int:
         "spearman_std": float(np.std([m["spearman"] for m in metrics])),
         "r2_mean": float(np.mean([m["r2"] for m in metrics])),
         "r2_std": float(np.std([m["r2"] for m in metrics])),
-        "overall_rmse": _rmse(all_preds, y),
-        "overall_mae": _mae(all_preds, y),
-        "overall_pearson": _pearson(all_preds, y),
-        "overall_spearman": _spearman(all_preds, y),
-        "overall_r2": _r2(all_preds, y),
+        "overall_rmse": rmse(all_preds, y),
+        "overall_mae": mae(all_preds, y),
+        "overall_pearson": pearson(all_preds, y),
+        "overall_spearman": spearman(all_preds, y),
+        "overall_r2": r2(all_preds, y),
         "runtime_sec": round(time.time() - start_time, 2),
     }
     if tanimoto is not None:
         mask = np.isfinite(tanimoto)
         if mask.any():
-            summary["tanimoto_pearson"] = _pearson(tanimoto[mask], y[mask])
-            summary["tanimoto_spearman"] = _spearman(tanimoto[mask], y[mask])
+            summary["tanimoto_pearson"] = pearson(tanimoto[mask], y[mask])
+            summary["tanimoto_spearman"] = spearman(tanimoto[mask], y[mask])
 
     with (run_dir / "fold_metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2)

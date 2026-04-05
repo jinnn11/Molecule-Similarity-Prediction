@@ -1,7 +1,0 @@
-mode=mlp folds=5 samples=200
-fold 1/5 rmse 0.1565 pearson 0.9092
-fold 2/5 rmse 0.1317 pearson 0.9223
-fold 3/5 rmse 0.1435 pearson 0.9282
-fold 4/5 rmse 0.1479 pearson 0.9063
-fold 5/5 rmse 0.1310 pearson 0.9304
-wrote results to outputs/finetune_runs/cosine_mlp/run_20260125_210424

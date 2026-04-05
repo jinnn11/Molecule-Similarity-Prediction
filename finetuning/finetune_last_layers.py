@@ -7,37 +7,27 @@ import json
 import time
 import math
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List
+
+import sys
 
 import numpy as np
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from torch_geometric.data import Batch, Data
-from torchvision import transforms
 
-try:
-    from rdkit import Chem, DataStructs
-    from rdkit.Chem import AllChem, Draw
-    try:
-        from rdkit.Chem.Draw import rdMolDraw2D
-    except ImportError:
-        rdMolDraw2D = None
-    try:
-        from rdkit.Chem.rdFingerprintGenerator import GetMorganGenerator
-    except ImportError:  # pragma: no cover
-        GetMorganGenerator = None
-except ImportError as exc:  # pragma: no cover
-    raise ImportError("RDKit is required for finetuning.") from exc
-
+from rdkit import Chem
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
-import sys
-
 sys.path.insert(0, str(REPO_ROOT / "pretraining"))
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from models import FingerprintMLP, GraphTower, build_resnet18  # noqa: E402
+from utils.chem import render_image, fingerprint, load_pdb, embed_3d, get_pdb_path  # noqa: E402
+from utils.metrics import pearson, spearman, rmse, mae, r2, make_folds, split_train_val  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -60,82 +50,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--include-tanimoto", action="store_true")
     parser.add_argument("--experiment-name", default="light_finetune")
     return parser.parse_args()
-
-
-def _image_transform(image_size: int) -> transforms.Compose:
-    return transforms.Compose(
-        [
-            transforms.Resize((image_size, image_size)),
-            transforms.ToTensor(),
-            transforms.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225],
-            ),
-        ]
-    )
-
-
-def _render_image(mol: "Chem.Mol", image_size: int) -> torch.Tensor:
-    if rdMolDraw2D is not None and hasattr(rdMolDraw2D, "MolDraw2DCairo"):
-        drawer = rdMolDraw2D.MolDraw2DCairo(image_size, image_size)
-        rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol)
-        drawer.FinishDrawing()
-        png = drawer.GetDrawingText()
-        from PIL import Image
-        import io
-
-        img = Image.open(io.BytesIO(png)).convert("RGB")
-    else:
-        img = Draw.MolToImage(mol, size=(image_size, image_size))
-    return _image_transform(image_size)(img)
-
-
-_MORGAN_GEN = {}
-
-
-def _fingerprint(mol: "Chem.Mol", bits: int = 2048) -> torch.Tensor:
-    if GetMorganGenerator is not None:
-        gen = _MORGAN_GEN.get(bits)
-        if gen is None:
-            gen = GetMorganGenerator(radius=2, fpSize=bits)
-            _MORGAN_GEN[bits] = gen
-        fp = gen.GetFingerprint(mol)
-    else:
-        fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=bits)
-    arr = np.zeros((bits,), dtype=np.float32)
-    DataStructs.ConvertToNumpyArray(fp, arr)
-    return torch.from_numpy(arr)
-
-
-def _load_pdb(pdb_path: Path) -> Optional[Data]:
-    if not pdb_path.exists():
-        return None
-    mol = Chem.MolFromPDBFile(str(pdb_path), removeHs=False, sanitize=False)
-    if mol is None or mol.GetNumConformers() == 0:
-        return None
-    conf = mol.GetConformer()
-    pos = torch.tensor(conf.GetPositions(), dtype=torch.float32)
-    z = torch.tensor([a.GetAtomicNum() for a in mol.GetAtoms()], dtype=torch.long)
-    return Data(z=z, pos=pos)
-
-
-def _embed_3d(smiles: str) -> Optional[Data]:
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return None
-    mol = Chem.AddHs(mol)
-    if AllChem.EmbedMolecule(mol, randomSeed=0xC0FFEE) != 0:
-        return None
-    AllChem.UFFOptimizeMolecule(mol, maxIters=200)
-    conf = mol.GetConformer()
-    pos = torch.tensor(conf.GetPositions(), dtype=torch.float32)
-    z = torch.tensor([a.GetAtomicNum() for a in mol.GetAtoms()], dtype=torch.long)
-    return Data(z=z, pos=pos)
-
-
-def _get_pdb_path(csv_path: Path, id_pair: int, side: str) -> Path:
-    base = csv_path.parent / "conformers_3D"
-    return base / f"best_rocs_conformer_{id_pair:03d}{side}.pdb"
 
 
 def _load_pairs(csv_path: Path) -> List[dict]:
@@ -174,7 +88,7 @@ class PairDataset(Dataset):
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             raise ValueError("invalid smiles")
-        img = _render_image(mol, self.image_size)
+        img = render_image(mol, self.image_size)
         self.image_cache[smiles] = img
         return img
 
@@ -185,7 +99,7 @@ class PairDataset(Dataset):
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             raise ValueError("invalid smiles")
-        fp = _fingerprint(mol)
+        fp = fingerprint(mol)
         self.fp_cache[smiles] = fp
         return fp
 
@@ -195,13 +109,13 @@ class PairDataset(Dataset):
         smiles = row[f"curated_smiles_molecule_{side}"]
         key = None
         if not self.no_pdb:
-            pdb_path = _get_pdb_path(csv_path, id_pair, side)
+            pdb_path = get_pdb_path(csv_path, id_pair, side)
             key = str(pdb_path)
             if key in self.graph_cache:
                 return self.graph_cache[key]
-            graph = _load_pdb(pdb_path)
+            graph = load_pdb(pdb_path)
             if graph is None:
-                graph = _embed_3d(smiles)
+                graph = embed_3d(smiles)
             if graph is None:
                 raise ValueError("missing 3d")
             self.graph_cache[key] = graph
@@ -209,7 +123,7 @@ class PairDataset(Dataset):
         key = smiles
         if key in self.graph_cache:
             return self.graph_cache[key]
-        graph = _embed_3d(smiles)
+        graph = embed_3d(smiles)
         if graph is None:
             raise ValueError("missing 3d")
         self.graph_cache[key] = graph
@@ -276,71 +190,6 @@ def _unfreeze_graph_last(model: GraphTower) -> None:
             break
 
 
-def _pearson(x: np.ndarray, y: np.ndarray) -> float:
-    x = x - x.mean()
-    y = y - y.mean()
-    denom = np.sqrt((x * x).sum() * (y * y).sum())
-    if denom == 0:
-        return float("nan")
-    return float((x * y).sum() / denom)
-
-
-def _rankdata(a: np.ndarray) -> np.ndarray:
-    order = np.argsort(a)
-    ranks = np.empty(len(a), dtype=np.float64)
-    sorted_a = a[order]
-    i = 0
-    while i < len(a):
-        j = i
-        while j + 1 < len(a) and sorted_a[j + 1] == sorted_a[i]:
-            j += 1
-        rank = 0.5 * (i + j) + 1.0
-        ranks[order[i : j + 1]] = rank
-        i = j + 1
-    return ranks
-
-
-def _spearman(x: np.ndarray, y: np.ndarray) -> float:
-    return _pearson(_rankdata(x), _rankdata(y))
-
-
-def _rmse(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.sqrt(((x - y) ** 2).mean()))
-
-
-def _mae(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.mean(np.abs(x - y)))
-
-
-def _r2(x: np.ndarray, y: np.ndarray) -> float:
-    ss_res = float(((y - x) ** 2).sum())
-    ss_tot = float(((y - y.mean()) ** 2).sum())
-    if ss_tot == 0:
-        return float("nan")
-    return 1.0 - ss_res / ss_tot
-
-
-def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
-    rng = np.random.default_rng(seed)
-    indices = np.arange(n)
-    rng.shuffle(indices)
-    return np.array_split(indices, k)
-
-
-def _split_train_val(indices: np.ndarray, val_split: float, seed: int) -> Tuple[np.ndarray, np.ndarray]:
-    if val_split <= 0 or val_split >= 1:
-        return indices, np.array([], dtype=int)
-    rng = np.random.default_rng(seed)
-    shuffled = indices.copy()
-    rng.shuffle(shuffled)
-    val_size = max(1, int(round(len(shuffled) * val_split)))
-    val_idx = shuffled[:val_size]
-    train_idx = shuffled[val_size:]
-    if train_idx.size == 0:
-        train_idx, val_idx = val_idx, train_idx
-    return train_idx, val_idx
-
-
 class CosineHead(nn.Module):
     def __init__(self, in_dim: int):
         super().__init__()
@@ -405,7 +254,7 @@ def main() -> int:
     with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
         json.dump(vars(args), handle, indent=2)
 
-    folds = _make_folds(len(dataset), args.folds, args.seed)
+    folds = make_folds(len(dataset), args.folds, args.seed)
     metrics = []
     all_preds = np.zeros(len(dataset), dtype=np.float32)
     start_time = time.time()
@@ -415,7 +264,7 @@ def main() -> int:
         fold_start = time.time()
         test_idx = folds[fold_idx]
         train_idx = np.hstack([folds[i] for i in range(args.folds) if i != fold_idx])
-        train_idx, val_idx = _split_train_val(train_idx, args.val_split, args.seed + fold_idx + 1)
+        train_idx, val_idx = split_train_val(train_idx, args.val_split, args.seed + fold_idx + 1)
 
         img_encoder, graph_encoder, fp_encoder = _prepare_models(Path(args.weights_dir), device, graph_device)
         head_dim = 2 if args.drop_2d else 3
@@ -600,11 +449,11 @@ def main() -> int:
         preds_np = np.concatenate(preds_list)
         targets_np = np.concatenate(targets_list)
         all_preds[test_idx] = preds_np
-        fold_rmse = _rmse(preds_np, targets_np)
-        fold_mae = _mae(preds_np, targets_np)
-        fold_pearson = _pearson(preds_np, targets_np)
-        fold_spearman = _spearman(preds_np, targets_np)
-        fold_r2 = _r2(preds_np, targets_np)
+        fold_rmse = rmse(preds_np, targets_np)
+        fold_mae = mae(preds_np, targets_np)
+        fold_pearson = pearson(preds_np, targets_np)
+        fold_spearman = spearman(preds_np, targets_np)
+        fold_r2 = r2(preds_np, targets_np)
         metrics.append(
             {
                 "fold": fold_idx + 1,
@@ -629,8 +478,8 @@ def main() -> int:
         "spearman_std": float(np.std([m["spearman"] for m in metrics])),
         "r2_mean": float(np.mean([m["r2"] for m in metrics])),
         "r2_std": float(np.std([m["r2"] for m in metrics])),
-        "overall_rmse": _rmse(all_preds, labels_arr),
-        "overall_pearson": _pearson(all_preds, labels_arr),
+        "overall_rmse": rmse(all_preds, labels_arr),
+        "overall_pearson": pearson(all_preds, labels_arr),
         "runtime_sec": round(time.time() - start_time, 2),
     }
 

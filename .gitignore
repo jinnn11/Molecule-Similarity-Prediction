@@ -1,4 +1,15 @@
 .DS_Store
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
 
 # Generated 3D viewer outputs
 *.html
@@ -16,14 +27,15 @@ pretraining_data/
 pretraining_runs/
 *.npy
 *.npz
+outputs/*
+!outputs/.gitkeep
 
-## EDA outputs (tracked)
+# Raw local experiment archives
+drugs_crude.msgpack
 
 # Diagram script (generated manually)
 diagram/diagram.py
 
-# model weights
-outputs/pretrain_runs/**/*.pt
-
-# model weights
-outputs/pretrain_runs/**/*.pt
+# Model checkpoints and run logs
+*.pt
+*.ckpt

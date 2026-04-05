@@ -26,16 +26,41 @@ The final prediction head is a lightweight MLP operating on cosine similarity ou
 ## Data
 - Pretraining: GEOM-Drugs (drugs_crude.msgpack) with one conformer per molecule and atom-count filtering.
 - Downstream: 200 labeled similarity pairs in `dataset_Similarity_Prediction/`.
+- The raw datasets and generated run artifacts are intentionally not versioned in this portfolio snapshot.
 
 ## Setup
 
 Recommended Python: 3.10
 
 ```
-conda create -n simpred python=3.10
+conda env create -f environment.yml
 conda activate simpred
+```
+
+Alternative:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+## Quick Validation
+
+```bash
+python3 -m pytest
+python3 finetuning/cosine_baseline.py --help
+python3 results/aggregate_results.py --help
+```
+
+## Reproducing The Project
+
+You will need to supply the two local data sources below before running the full pipeline:
+
+- GEOM-Drugs archive for pretraining, passed to `pretraining/precompute_drugs.py --archive ...`
+- The expert-labeled downstream CSVs and associated 3D conformers under `dataset_Similarity_Prediction/`
+
+The repository keeps the source code, diagrams, and curated summary results in `results/`, but does not commit raw datasets, precomputed tensors, or fold-by-fold training artifacts.
 
 ## Precompute (Pretraining Inputs)
 
@@ -128,7 +153,8 @@ Produces:
 - `finetuning/`: feature extraction + similarity regression
 - `results/`: aggregated result tables and plots
 - `diagram/`: architecture diagrams
-- `outputs/`: training artifacts (plots, logs, metrics)
+- `tests/`: lightweight validation for utility code
+- `outputs/`: local run artifacts, ignored by git
 
 ## Reproducibility
 
@@ -139,6 +165,12 @@ Produces:
 
 - The downstream stage is best described as **feature extraction + similarity regression** because encoders are frozen.
 - If you unfreeze encoders, it becomes true finetuning.
+
+## Limitations
+
+- **Small evaluation set.** The downstream dataset contains only 200 expert-labeled pairs. With 5-fold CV each test fold has ~40 samples, so metric estimates carry high variance. No bootstrap confidence intervals or paired significance tests are reported.
+- **Molecule-level leakage not controlled.** CV splits are by pair, not by molecule. The same molecule can appear in both train and test folds (in different pairs), which may inflate correlation estimates.
+- **Tanimoto comparison is not fully calibrated.** TanimotoCombo is used as a raw score whereas the model's downstream heads are trained regressors. A fairer baseline would be a linear regression on Tanimoto alone; the raw-score comparison (`cosine_avg` 0.90 vs Tanimoto 0.85) is the most apples-to-apples.
 
 ## Conclusions
 

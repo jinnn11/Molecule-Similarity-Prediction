@@ -7,33 +7,21 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List
 
 import numpy as np
 import torch
-from torch_geometric.data import Data
-from torchvision import transforms
 
-try:
-    from rdkit import Chem, DataStructs
-    from rdkit.Chem import AllChem, Draw
-    try:
-        from rdkit.Chem.Draw import rdMolDraw2D
-    except ImportError:
-        rdMolDraw2D = None
-    try:
-        from rdkit.Chem.rdFingerprintGenerator import GetMorganGenerator
-    except ImportError:  # pragma: no cover
-        GetMorganGenerator = None
-except ImportError as exc:  # pragma: no cover
-    raise ImportError("RDKit is required for feature extraction.") from exc
-
+from rdkit import Chem
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 sys.path.insert(0, str(REPO_ROOT / "pretraining"))
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from models import FingerprintMLP, GraphTower, build_resnet18  # noqa: E402
+from utils.chem import render_image, fingerprint, load_pdb, embed_3d, get_pdb_path  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -57,82 +45,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--log-interval", type=int, default=25)
     return parser.parse_args()
-
-
-def _image_transform(image_size: int) -> transforms.Compose:
-    return transforms.Compose(
-        [
-            transforms.Resize((image_size, image_size)),
-            transforms.ToTensor(),
-            transforms.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225],
-            ),
-        ]
-    )
-
-
-def _render_image(mol: "Chem.Mol", image_size: int) -> torch.Tensor:
-    if rdMolDraw2D is not None and hasattr(rdMolDraw2D, "MolDraw2DCairo"):
-        drawer = rdMolDraw2D.MolDraw2DCairo(image_size, image_size)
-        rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol)
-        drawer.FinishDrawing()
-        png = drawer.GetDrawingText()
-        from PIL import Image
-        import io
-
-        img = Image.open(io.BytesIO(png)).convert("RGB")
-    else:
-        img = Draw.MolToImage(mol, size=(image_size, image_size))
-    return _image_transform(image_size)(img)
-
-
-_MORGAN_GEN = {}
-
-
-def _fingerprint(mol: "Chem.Mol", bits: int = 2048) -> torch.Tensor:
-    if GetMorganGenerator is not None:
-        gen = _MORGAN_GEN.get(bits)
-        if gen is None:
-            gen = GetMorganGenerator(radius=2, fpSize=bits)
-            _MORGAN_GEN[bits] = gen
-        fp = gen.GetFingerprint(mol)
-    else:
-        fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=bits)
-    arr = np.zeros((bits,), dtype=np.float32)
-    DataStructs.ConvertToNumpyArray(fp, arr)
-    return torch.from_numpy(arr)
-
-
-def _load_pdb(pdb_path: Path) -> Optional[Data]:
-    if not pdb_path.exists():
-        return None
-    mol = Chem.MolFromPDBFile(str(pdb_path), removeHs=False, sanitize=False)
-    if mol is None or mol.GetNumConformers() == 0:
-        return None
-    conf = mol.GetConformer()
-    pos = torch.tensor(conf.GetPositions(), dtype=torch.float32)
-    z = torch.tensor([a.GetAtomicNum() for a in mol.GetAtoms()], dtype=torch.long)
-    return Data(z=z, pos=pos)
-
-
-def _embed_3d(smiles: str) -> Optional[Data]:
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return None
-    mol = Chem.AddHs(mol)
-    if AllChem.EmbedMolecule(mol, randomSeed=0xC0FFEE) != 0:
-        return None
-    AllChem.UFFOptimizeMolecule(mol, maxIters=200)
-    conf = mol.GetConformer()
-    pos = torch.tensor(conf.GetPositions(), dtype=torch.float32)
-    z = torch.tensor([a.GetAtomicNum() for a in mol.GetAtoms()], dtype=torch.long)
-    return Data(z=z, pos=pos)
-
-
-def _get_pdb_path(csv_path: Path, id_pair: int, side: str) -> Path:
-    base = csv_path.parent / "conformers_3D"
-    return base / f"best_rocs_conformer_{id_pair:03d}{side}.pdb"
 
 
 def _load_pairs(csv_path: Path) -> List[dict]:
@@ -232,30 +144,30 @@ def main() -> int:
                         skipped.append({"pair_id": pair_key, "reason": "invalid_smiles"})
                         continue
 
-                    img_a = _render_image(mol_a, args.image_size).unsqueeze(0).to(device)
-                    img_b = _render_image(mol_b, args.image_size).unsqueeze(0).to(device)
+                    img_a = render_image(mol_a, args.image_size).unsqueeze(0).to(device)
+                    img_b = render_image(mol_b, args.image_size).unsqueeze(0).to(device)
 
-                    fp_a = _fingerprint(mol_a).unsqueeze(0).to(device)
-                    fp_b = _fingerprint(mol_b).unsqueeze(0).to(device)
+                    fp_a = fingerprint(mol_a).unsqueeze(0).to(device)
+                    fp_b = fingerprint(mol_b).unsqueeze(0).to(device)
 
                     graph_a = None
                     graph_b = None
                     if args.no_pdb:
-                        graph_a = _embed_3d(smiles_a)
-                        graph_b = _embed_3d(smiles_b)
+                        graph_a = embed_3d(smiles_a)
+                        graph_b = embed_3d(smiles_b)
                         if graph_a is not None and graph_b is not None:
                             stats["embed_used"] += 2
                     else:
-                        pdb_a = _get_pdb_path(csv_path, id_pair, "a")
-                        pdb_b = _get_pdb_path(csv_path, id_pair, "b")
-                        graph_a = _load_pdb(pdb_a)
-                        graph_b = _load_pdb(pdb_b)
+                        pdb_a = get_pdb_path(csv_path, id_pair, "a")
+                        pdb_b = get_pdb_path(csv_path, id_pair, "b")
+                        graph_a = load_pdb(pdb_a)
+                        graph_b = load_pdb(pdb_b)
                         if graph_a is None:
                             if pdb_a.exists():
                                 stats["pdb_failed"] += 1
                             else:
                                 stats["pdb_missing"] += 1
-                            graph_a = _embed_3d(smiles_a)
+                            graph_a = embed_3d(smiles_a)
                             if graph_a is not None:
                                 stats["embed_used"] += 1
                             else:
@@ -267,7 +179,7 @@ def main() -> int:
                                 stats["pdb_failed"] += 1
                             else:
                                 stats["pdb_missing"] += 1
-                            graph_b = _embed_3d(smiles_b)
+                            graph_b = embed_3d(smiles_b)
                             if graph_b is not None:
                                 stats["embed_used"] += 1
                             else:

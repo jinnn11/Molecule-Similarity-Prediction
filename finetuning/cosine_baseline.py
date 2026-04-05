@@ -3,11 +3,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from pathlib import Path
-from typing import List
 
 import numpy as np
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from utils.metrics import pearson, spearman, rmse, mae, r2, make_folds, cosine  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,69 +41,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--xgb-colsample-bytree", type=float, default=0.9)
     parser.add_argument("--experiment-name", default="cosine_baseline")
     return parser.parse_args()
-
-
-def _pearson(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    x = x - x.mean()
-    y = y - y.mean()
-    denom = np.sqrt((x * x).sum() * (y * y).sum())
-    if denom == 0:
-        return float("nan")
-    return float((x * y).sum() / denom)
-
-
-def _rankdata(a: np.ndarray) -> np.ndarray:
-    order = np.argsort(a)
-    ranks = np.empty(len(a), dtype=np.float64)
-    sorted_a = a[order]
-    i = 0
-    while i < len(a):
-        j = i
-        while j + 1 < len(a) and sorted_a[j + 1] == sorted_a[i]:
-            j += 1
-        rank = 0.5 * (i + j) + 1.0
-        ranks[order[i : j + 1]] = rank
-        i = j + 1
-    return ranks
-
-
-def _spearman(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    return _pearson(_rankdata(x), _rankdata(y))
-
-
-def _rmse(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.sqrt(((x - y) ** 2).mean()))
-
-
-def _mae(x: np.ndarray, y: np.ndarray) -> float:
-    return float(np.mean(np.abs(x - y)))
-
-
-def _r2(x: np.ndarray, y: np.ndarray) -> float:
-    if x.size == 0:
-        return float("nan")
-    ss_res = float(((y - x) ** 2).sum())
-    ss_tot = float(((y - y.mean()) ** 2).sum())
-    if ss_tot == 0:
-        return float("nan")
-    return 1.0 - ss_res / ss_tot
-
-
-def _make_folds(n: int, k: int, seed: int) -> List[np.ndarray]:
-    rng = np.random.default_rng(seed)
-    indices = np.arange(n)
-    rng.shuffle(indices)
-    return np.array_split(indices, k)
-
-
-def _cosine(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-    a = a / (np.linalg.norm(a, axis=1, keepdims=True) + 1e-12)
-    b = b / (np.linalg.norm(b, axis=1, keepdims=True) + 1e-12)
-    return (a * b).sum(axis=1)
 
 
 def _fit_linear(x: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -175,9 +119,9 @@ def main() -> int:
     tanimoto = data["tanimoto"] if "tanimoto" in data else None
     pair_ids = data["pair_ids"] if "pair_ids" in data else None
 
-    c2d = _cosine(data["a_2d"], data["b_2d"])
-    c3d = _cosine(data["a_3d"], data["b_3d"])
-    c1d = _cosine(data["a_1d"], data["b_1d"])
+    c2d = cosine(data["a_2d"], data["b_2d"])
+    c3d = cosine(data["a_3d"], data["b_3d"])
+    c1d = cosine(data["a_1d"], data["b_1d"])
     feats = np.stack([c2d, c3d, c1d], axis=1).astype(np.float32)
     if args.include_tanimoto:
         if tanimoto is None:
@@ -199,7 +143,7 @@ def main() -> int:
     with (run_dir / "run_config.json").open("w", encoding="utf-8") as handle:
         json.dump(vars(args), handle, indent=2)
 
-    folds = _make_folds(len(y), args.folds, args.seed)
+    folds = make_folds(len(y), args.folds, args.seed)
     metrics = []
     all_preds = np.zeros_like(y)
 
@@ -264,11 +208,11 @@ def main() -> int:
             preds = model.predict(test_x)
 
         all_preds[test_idx] = preds
-        fold_rmse = _rmse(preds, test_y)
-        fold_mae = _mae(preds, test_y)
-        fold_pearson = _pearson(preds, test_y)
-        fold_spearman = _spearman(preds, test_y)
-        fold_r2 = _r2(preds, test_y)
+        fold_rmse = rmse(preds, test_y)
+        fold_mae = mae(preds, test_y)
+        fold_pearson = pearson(preds, test_y)
+        fold_spearman = spearman(preds, test_y)
+        fold_r2 = r2(preds, test_y)
         metrics.append(
             {
                 "fold": fold_idx + 1,
@@ -297,18 +241,18 @@ def main() -> int:
         "spearman_std": float(np.std([m["spearman"] for m in metrics])),
         "r2_mean": float(np.mean([m["r2"] for m in metrics])),
         "r2_std": float(np.std([m["r2"] for m in metrics])),
-        "overall_rmse": _rmse(all_preds, y),
-        "overall_mae": _mae(all_preds, y),
-        "overall_pearson": _pearson(all_preds, y),
-        "overall_spearman": _spearman(all_preds, y),
-        "overall_r2": _r2(all_preds, y),
+        "overall_rmse": rmse(all_preds, y),
+        "overall_mae": mae(all_preds, y),
+        "overall_pearson": pearson(all_preds, y),
+        "overall_spearman": spearman(all_preds, y),
+        "overall_r2": r2(all_preds, y),
         "runtime_sec": round(time.time() - start_time, 2),
     }
     if tanimoto is not None:
         mask = np.isfinite(tanimoto)
         if mask.any():
-            summary["tanimoto_pearson"] = _pearson(tanimoto[mask], y[mask])
-            summary["tanimoto_spearman"] = _spearman(tanimoto[mask], y[mask])
+            summary["tanimoto_pearson"] = pearson(tanimoto[mask], y[mask])
+            summary["tanimoto_spearman"] = spearman(tanimoto[mask], y[mask])
 
     with (run_dir / "fold_metrics.json").open("w", encoding="utf-8") as handle:
         json.dump(metrics, handle, indent=2)
